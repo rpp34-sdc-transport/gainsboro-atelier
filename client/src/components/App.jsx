@@ -3,6 +3,7 @@ import axios from 'axios';
 import Overview from './Overview/Overview.jsx';
 import Reviews from './Reviews.jsx';
 import GlobalStyle from '../globalStyles.js'
+import QuestionAnswer from './questionAnswer.jsx';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -38,7 +39,8 @@ export default class App extends React.Component {
         <GlobalStyle />
         <Overview data={this.state.overview}/>
         <Reviews reviews={this.state.reviews} sort={this.state.sort}/>
+        <QuestionAnswer productId={this.state.product_id}/>
       </>
-    );
+      );
   }
 }
