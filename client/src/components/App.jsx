@@ -1,11 +1,14 @@
 import React from 'react';
 import axios from 'axios';
+import Overview from './Overview/Overview.jsx';
 import Reviews from './Reviews.jsx';
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state= {
+      overview: {},
+      overviewStyle: {},
       reviews: [],
       page: 1,
       sort: 'relevant',
@@ -14,6 +17,14 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
+    axios(`/overview/${this.state.product_id}`)
+    .then(({data})=>{
+      console.log(data);
+      this.setState({
+        overview: data
+      })
+    });
+
     fetch(`/reviews/${this.state.product_id}/${this.state.sort}`)
     .then(response => response.json())
     .then(data => this.setState({
@@ -23,7 +34,10 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <Reviews reviews={this.state.reviews} sort={this.state.sort}/>
+      <>
+        <Overview data={this.state.overview}/>
+        <Reviews reviews={this.state.reviews} sort={this.state.sort}/>
+      </>
     );
   }
 }
