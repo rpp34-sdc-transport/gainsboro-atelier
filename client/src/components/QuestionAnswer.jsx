@@ -34,7 +34,7 @@ export default class QuestionAnswer extends React.Component {
                 <h2>Questions and Answers</h2>
             {this.state.qas.map((qa, qaIndex) => 
                 <div style={{
-                        boxShadow: '10px 10px 5px lightblue',
+                        boxShadow: '10px 10px 5px grey',
                         margin: '20px',
                         padding: '20px',
                         }}
