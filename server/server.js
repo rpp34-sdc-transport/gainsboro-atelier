@@ -20,7 +20,6 @@ app.get('/overview/:product_id', (req, res) => {
 
   axios.get(`${apiHost}/products/${product_id}/styles/`, options)
   .then(async ({data: {results: styleData}}) => {
-    console.log(styleData);
     const {data: generalData} = await axios.get(`${apiHost}/products/${product_id}`, options);
     const data = { styleData, ...generalData};
     res.send(data)
