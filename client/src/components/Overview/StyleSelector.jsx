@@ -4,11 +4,14 @@ import {MdCheck} from "react-icons/md";
 
 const Styles = styled.div`
   display: flex;
-  flex-wrap: wrap
-  position:  relative
+  flex-wrap: wrap;
+  position:  relative;
+  width: 350px;
 `;
 
 const Style = styled.div`
+
+  width: 64px;
   margin: 8px;
   position: relative;
 `;
