@@ -64,7 +64,7 @@ app.get('/qa/questions', (req, res) => {
   var url = `${apiHost}/qa/questions?product_id=${product_id}`;
   axios.get(url, {
     headers: {
-      Authorization: token.token
+      Authorization: token
     }
   })
   .then(data => res.send(data.data))
