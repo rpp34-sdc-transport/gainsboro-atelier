@@ -55,24 +55,18 @@ app.post('/cart/:sku_id/:count', (req, res)=>{
 
 app.get('/reviews', (req, res) => {
   var {product_id, sort, page, count} = req.query;
-  console.log('req.query', req.query);
   var url = `${apiHost}/reviews?product_id=${product_id}&sort=${sort}&page=${page}&count=${count}`;
-  console.log('url', url);
   axios.get(url, options)
   .then(data => {
-    console.log('get reviews from api', data.data.count);
     res.send(data.data.results)
   })
   .catch(err => res.sendStatus(500))
 })
 
 app.put('/reviews/:review_id/helpful', (req, res) => {
-  console.log('review id', req.params["review_id"])
-  console.log('review helpfulness', req.body.helpfulness);
   var url = `${apiHost}/reviews/${req.params["review_id"]}/helpful`;
   axios.put(url, {}, options)
   .then(data => {
-    console.log('update helpfulness api,', data);
     res.sendStatus(data.status);
   })
   .catch(err => res.sendStatus(500))
@@ -91,9 +85,7 @@ app.get('/qa/questions', (req, res) => {
 })
 
 app.put('/reviews/:review_id/report', (req, res) => {
-  console.log('review id', req.params["review_id"])
   var url = `${apiHost}/reviews/${req.params["review_id"]}/report`;
-  console.log('report url', url);
   axios.put(url, {}, options)
   .then(data => {
     console.log('report api,', data.status);
