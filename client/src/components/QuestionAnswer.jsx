@@ -1,5 +1,23 @@
 import React from 'react';
 
+import styled from 'styled-components';
+
+const Container = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`
+
+const QABlock = styled.div`
+    width: 50%;
+    margin: 20px;
+    padding: 20px;
+`;
+
+const Question = styled.div`
+    font-weight: 600;
+`;
+
 export default class QuestionAnswer extends React.Component {
     constructor(props) {
         super(props);
@@ -30,18 +48,13 @@ export default class QuestionAnswer extends React.Component {
 
     render() {
         return (
-            <div style={{width: '50%'}}>
+            <Container>
                 <h2>Questions and Answers</h2>
             {this.state.qas.map((qa, qaIndex) => 
-                <div style={{
-                        boxShadow: '10px 10px 5px grey',
-                        margin: '20px',
-                        padding: '20px',
-                        }}
-                >
-                    <div className='question' style={{ fontWeight: 600 }}>
+                <QABlock key={qa.id}>
+                    <Question>
                         Q: {qa.question_body}
-                    </div>
+                    </Question>
                     <div>
                         {Object.values(qa.answers).sort((a, b) => {
                             if (a.answerer_name === 'Seller') {
@@ -53,7 +66,7 @@ export default class QuestionAnswer extends React.Component {
                             return 0;
                         })
                         .map(({ body, date, helpfulness, photos }, i) => (
-                            <div style={{ display: i < 2 || qa.expanded ? 'block' : 'none' }}>
+                            <div key={body} style={{ display: i < 2 || qa.expanded ? 'block' : 'none' }}>
                                 <span style={{ fontWeight: 600 }}>A:</span> {body}
                             </div>
                         ))}
@@ -64,10 +77,9 @@ export default class QuestionAnswer extends React.Component {
                     >
                         Load more answers
                     </button>
-                </div>
+                </QABlock>
             )}
-            </div>
-            
+            </Container>
         )
     }
 }
