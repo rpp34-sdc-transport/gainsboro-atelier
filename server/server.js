@@ -12,6 +12,12 @@ app.use(express.static(path.join(__dirname, "/../client/dist")));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
+var options = {
+  headers: {
+    Authorization: token
+  }
+};
+
 app.get('/overview/:product_id', (req, res) => {
   const {product_id} = req.params;
   const options = {
@@ -29,15 +35,22 @@ app.get('/overview/:product_id', (req, res) => {
 })
 
 
-app.get('/reviews/:product_id/:sort', (req, res) => {
-  var {product_id, sort} = req.params;
-  var url = `${apiHost}/reviews/?product_id=${product_id}&sort=${sort}&page=1&count=2`;
-  axios.get(url, {
-    headers: {
-      Authorization: token
-    }
+app.get('/reviews', (req, res) => {
+  var {product_id, sort, page, count} = req.query;
+  var url = `${apiHost}/reviews?product_id=${product_id}&sort=${sort}&page=${page}&count=${count}`;
+  axios.get(url, options)
+  .then(data => {
+    res.send(data.data.results)
   })
-  .then(data => res.send(data.data))
+  .catch(err => res.sendStatus(500))
+})
+
+app.put('/reviews/:review_id/helpful', (req, res) => {
+  var url = `${apiHost}/reviews/${req.params["review_id"]}/helpful`;
+  axios.put(url, {}, options)
+  .then(data => {
+    res.sendStatus(data.status);
+  })
   .catch(err => res.sendStatus(500))
 })
 
@@ -52,6 +65,18 @@ app.get('/qa/questions', (req, res) => {
   .then(data => res.send(data.data))
   .catch(err => res.sendStatus(500))
 })
+
+app.put('/reviews/:review_id/report', (req, res) => {
+  var url = `${apiHost}/reviews/${req.params["review_id"]}/report`;
+  axios.put(url, {}, options)
+  .then(data => {
+    console.log('report api,', data.status);
+    res.sendStatus(data.status);
+  })
+  .catch(err => console.log(err))
+})
+
+
 
 app.listen(PORT, () => {
   console.log(`connected to port ${PORT}`);
