@@ -1,7 +1,6 @@
 import React from 'react';
 import StarRating from './StarRating.jsx';
 import RatingFilter from './RatingFilter.jsx';
-import Characters from './Characters.jsx';
 
 export default function Rating({meta}) {
   const {characteristics, ratings, recommended} = meta;
