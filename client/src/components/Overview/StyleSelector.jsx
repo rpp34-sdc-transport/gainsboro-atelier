@@ -44,7 +44,7 @@ const Selected = styled.div`
 
 export default function StyleSelector ({changeStyle, currentStyle, styles}) {
 
-  console.log('styles: ', styles);
+  // console.log('styles: ', styles);
   const styleThumbnails = styles.map((style, index)=> {
     let styleSelect;
     let selected;
@@ -54,7 +54,7 @@ export default function StyleSelector ({changeStyle, currentStyle, styles}) {
       </Selected>;
     }
 
-    return <Style onClick={()=>{changeStyle(index)}}>
+    return <Style onClick={()=>{changeStyle(index)}} key={style.style_id}>
       <ThumbnailWrapper>
         <Img src={style['photos'][0]['thumbnail_url']}/>
         {selected}

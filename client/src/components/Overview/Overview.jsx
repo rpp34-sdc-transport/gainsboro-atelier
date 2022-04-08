@@ -14,15 +14,11 @@ export default class Overview extends React.Component {
   }
 
   changeStyle(index){
-    console.log(index);
+
     this.setState({
       currentStyle: index
     })
 
-    /*
-    change currentStyle in this.state
-    passed down to style selector
-    */
   }
 
 

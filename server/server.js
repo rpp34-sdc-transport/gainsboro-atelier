@@ -27,6 +27,25 @@ app.get('/overview/:product_id', (req, res) => {
   .catch(err => res.sendStatus(500))
 })
 
+app.post('/cart/:sku_id/:count', (req, res)=>{
+  console.log(req.params);
+  const {sku_id, count} = req.params;
+
+  var url = `${apiHost}/cart/?sku_id=${sku_id}`;
+  const options = {
+    headers: {Authorization: token}
+  };
+
+  axios.post(url, options)
+  .then((result)=>{
+    console.log('post result', result);
+
+  })
+  .catch((err)=>{
+    console.log('post cart err: ', err);
+  })
+})
+
 
 app.get('/reviews/:product_id/:sort', (req, res) => {
   var {product_id, sort} = req.params;
