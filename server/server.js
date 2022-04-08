@@ -26,12 +26,30 @@ app.get('/overview/:product_id', (req, res) => {
 
   axios.get(`${apiHost}/products/${product_id}/styles/`, options)
   .then(async ({data: {results: styleData}}) => {
-    console.log(styleData);
     const {data: generalData} = await axios.get(`${apiHost}/products/${product_id}`, options);
     const data = { styleData, ...generalData};
     res.send(data)
   })
   .catch(err => res.sendStatus(500))
+})
+
+app.post('/cart/:sku_id/:count', (req, res)=>{
+  console.log(req.params);
+  const {sku_id, count} = req.params;
+
+  var url = `${apiHost}/cart/?sku_id=${sku_id}`;
+  const options = {
+    headers: {Authorization: token}
+  };
+
+  axios.post(url, options)
+  .then((result)=>{
+    console.log('post result', result);
+
+  })
+  .catch((err)=>{
+    console.log('post cart err: ', err);
+  })
 })
 
 

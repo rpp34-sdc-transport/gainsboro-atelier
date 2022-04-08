@@ -10,28 +10,33 @@ export default class Overview extends React.Component {
     this.state = {
       currentStyle: 0
     }
+    this.changeStyle = this.changeStyle.bind(this);
   }
 
-  changeStyle(){
-    /*
-    change currentStyle in this.state
-    passed down to style selector
-    */
+  changeStyle(index){
+
+    this.setState({
+      currentStyle: index
+    })
+
   }
 
 
   render() {
     const {category, default_price, description, features, id, name, slogan, styleData = []} = this.props.data;
 
-    let imageGallery, addToCart;
+    let addToCart, imageGallery, styleSelector;
     if (styleData[this.state.currentStyle]) {
+      addToCart = <AddToCart skus={styleData[this.state.currentStyle]['skus']}/>;
       imageGallery = <ImageGallery currentStyle={this.state.currentStyle} photos={styleData[this.state.currentStyle]['photos']}/>;
-      addToCart = <AddToCart skus={styleData[this.state.currentStyle]['skus']}/>
+      styleSelector = <StyleSelector changeStyle={this.changeStyle} currentStyle={this.state.currentStyle} styles={styleData} />
+
     }
+
     return (
       <div>
         {imageGallery}
-        <StyleSelector changeStyle={this.changeStyle} styles={styleData} />
+        {styleSelector}
         {addToCart}
         <h5>{category}</h5>
         <p>{default_price}</p>
