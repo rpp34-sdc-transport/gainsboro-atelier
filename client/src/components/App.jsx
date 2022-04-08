@@ -3,8 +3,8 @@ import axios from 'axios';
 import Overview from './Overview/Overview.jsx';
 import ReviewAndRating from './ReviewAndRating/ReviewAndRating.jsx';
 import GlobalStyle from '../globalStyles.js'
-import QuestionAnswer from './questionAnswer.jsx';
 import RelatedProductsWidget from './related-products-widget.jsx';
+import QuestionAnswer from './QuestionsAndAnswers/questionAnswer.jsx';
 
 export default class App extends React.Component {
   constructor(props) {
