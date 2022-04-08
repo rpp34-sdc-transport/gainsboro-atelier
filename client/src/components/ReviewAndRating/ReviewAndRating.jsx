@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Reviews from './Reviews.jsx';
+import Rating from './Rating.jsx';
 
 const Container = styled.div`
   display: flex;
@@ -12,12 +13,12 @@ export default class ReviewAndRating extends React.Component{
   }
 
   render() {
-    const {reviews, sort, handleMoreReviewBtnClick, moreReviewBtn, handleSortOptionChange, voteForReview} = this.props;
+    const {meta, reviews, sort, handleMoreReviewBtnClick, moreReviewBtn, handleSortOptionChange, voteForReview} = this.props;
     return (
       <div>
         <h2>RATINGS & REVIEWS</h2>
         <Container>
-          <div>meta data</div>
+          {Object.keys(meta).length && <Rating meta={meta}/>}
           <Reviews
             reviews={reviews}
             sort={sort}
