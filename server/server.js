@@ -41,6 +41,18 @@ app.get('/reviews/:product_id/:sort', (req, res) => {
   .catch(err => res.sendStatus(500))
 })
 
+app.get('/qa/questions', (req, res) => {
+  var {product_id} = req.query;
+  var url = `${apiHost}/qa/questions?product_id=${product_id}`;
+  axios.get(url, {
+    headers: {
+      Authorization: token
+    }
+  })
+  .then(data => res.send(data.data))
+  .catch(err => res.sendStatus(500))
+})
+
 app.listen(PORT, () => {
   console.log(`connected to port ${PORT}`);
 });
