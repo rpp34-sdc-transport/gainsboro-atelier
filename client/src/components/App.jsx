@@ -15,6 +15,7 @@ export default class App extends React.Component {
       page: 1,
       sort: 'relevant',
       moreReviewBtn: false,
+      meta: {},
       product_id: 64620
     }
 
@@ -25,6 +26,10 @@ export default class App extends React.Component {
 
   fetchReviews(count) {
     return axios(`/reviews?product_id=${this.state.product_id}&sort=${this.state.sort}&page=${this.state.page}&count=${count}`);
+  }
+
+  fetchMeta() {
+    return axios(`/reviews/meta/${this.state.product_id}`)
   }
 
   componentDidMount() {
@@ -45,6 +50,12 @@ export default class App extends React.Component {
       moreReviewBtn: reviews.length <= 2 ? false : true
       }))
     });
+
+    this.fetchMeta()
+    .then(data => {
+      var meta = data.data;
+      this.setState({meta})
+    })
   }
 
   handleMoreReviewBtnClick() {
@@ -90,6 +101,7 @@ export default class App extends React.Component {
         <GlobalStyle />
         <Overview data={this.state.overview}/>
         <ReviewAndRating
+          meta={this.state.meta}
           reviews={this.state.reviews}
           sort={this.state.sort}
           handleMoreReviewBtnClick={this.handleMoreReviewBtnClick}
