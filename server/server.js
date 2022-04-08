@@ -72,6 +72,16 @@ app.put('/reviews/:review_id/helpful', (req, res) => {
   .catch(err => res.sendStatus(500))
 })
 
+app.get('/reviews/meta/:product_id', (req, res) => {
+  var url = `${apiHost}/reviews/meta?product_id=${req.params.product_id}`;
+  axios.get(url, options)
+  .then(data => {
+    console.log('get meta from api', data.data);
+    res.send(data.data)
+  })
+  .catch(err => res.sendStatus(500))
+})
+
 app.get('/qa/questions', (req, res) => {
   var {product_id} = req.query;
   var url = `${apiHost}/qa/questions?product_id=${product_id}`;
