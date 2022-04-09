@@ -13,14 +13,13 @@ export default class App extends React.Component {
       reviews: [],
       page: 1,
       sort: 'relevant',
-      product_id: 64620
+      product_id: 64625
     }
   }
 
   componentDidMount() {
     axios(`/overview/${this.state.product_id}`)
     .then(({data})=>{
-      console.log(data);
       this.setState({
         overview: data
       })

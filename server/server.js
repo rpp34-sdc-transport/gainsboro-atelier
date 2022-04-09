@@ -28,22 +28,22 @@ app.get('/overview/:product_id', (req, res) => {
 })
 
 app.post('/cart/:sku_id/:count', (req, res)=>{
-  console.log(req.params);
-  const {sku_id, count} = req.params;
+  // console.log(req.params);
+  // const {sku_id, count} = req.params;
 
-  var url = `${apiHost}/cart/?sku_id=${sku_id}`;
-  const options = {
-    headers: {Authorization: token}
-  };
+  // var url = `${apiHost}/cart/?sku_id=${sku_id}`;
+  // const options = {
+  //   headers: {Authorization: token}
+  // };
 
-  axios.post(url, options)
-  .then((result)=>{
-    console.log('post result', result);
+  // axios.post(url, options)
+  // .then((result)=>{
+  //   console.log('post result', result);
 
-  })
-  .catch((err)=>{
-    console.log('post cart err: ', err);
-  })
+  // })
+  // .catch((err)=>{
+  //   console.log('post cart err: ', err);
+  // })
 })
 
 
