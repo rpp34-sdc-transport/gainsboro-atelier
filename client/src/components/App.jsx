@@ -14,13 +14,9 @@ export default class App extends React.Component {
       reviews: [],
       page: 1,
       sort: 'relevant',
-<<<<<<< HEAD
-      product_id: 64625
-=======
       moreReviewBtn: false,
       meta: {},
       product_id: 64620
->>>>>>> 1fdb07f... restructured review and rating files
     }
 
     this.handleMoreReviewBtnClick = this.handleMoreReviewBtnClick.bind(this);
