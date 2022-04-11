@@ -26,10 +26,13 @@ export default class App extends React.Component {
 
   fetchReviews(count) {
     return axios(`/reviews?product_id=${this.state.product_id}&sort=${this.state.sort}&page=${this.state.page}&count=${count}`);
+<<<<<<< HEAD
   }
 
   fetchMeta() {
     return axios(`/reviews/meta/${this.state.product_id}`)
+=======
+>>>>>>> origin/main
   }
 
   componentDidMount() {
@@ -50,7 +53,7 @@ export default class App extends React.Component {
       }))
     });
 
-    this.fetchMeta()
+    axios(`/reviews/meta/${this.state.product_id}`)
     .then(data => {
       var meta = data.data;
       this.setState({meta})
