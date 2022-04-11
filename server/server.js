@@ -33,23 +33,31 @@ app.get('/overview/:product_id', (req, res) => {
   .catch(err => res.sendStatus(500))
 })
 
-app.post('/cart/:sku_id/:count', (req, res)=>{
-  // console.log(req.params);
-  // const {sku_id, count} = req.params;
+app.post('/cart', (req, res)=>{
+  const {sku_id} = req.body;
+  console.log(sku_id);
 
-  // var url = `${apiHost}/cart/?sku_id=${sku_id}`;
-  // const options = {
-  //   headers: {Authorization: token}
-  // };
+  const url = `${apiHost}/cart`;
+  const data = {
+    'sku_id': sku_id
+  }
+  const options = {
+    headers: {
+      Authorization: token,
+    }
+  };
 
-  // axios.post(url, options)
-  // .then((result)=>{
-  //   console.log('post result', result);
-
-  // })
-  // .catch((err)=>{
-  //   console.log('post cart err: ', err);
-  // })
+  axios.post(url, data, options)
+  .then(()=>{
+    return axios.get(url, options);
+  })
+  .then(({data})=>{
+    res.status(201).send(data);
+  })
+  .catch((err)=>{
+      console.log('post cart err: ');
+      res.sendStatus(500);
+  })
 })
 
 app.get('/reviews', (req, res) => {
