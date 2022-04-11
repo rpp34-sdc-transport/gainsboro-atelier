@@ -1,5 +1,6 @@
 import React from 'react';
 import StarRating from './StarRating.jsx';
+import Characters from './Characters.jsx';
 
 export default function Rating({meta}) {
   const {characteristics, ratings, recommended} = meta;
@@ -8,8 +9,8 @@ export default function Rating({meta}) {
   return (
     <div>
       <StarRating ratings={ratings} showAve={true}/>
-      <h4>{aveRePct}% of reviews recommend this product</h4>
-
+      <p>{aveRePct}% of reviews recommend this product</p>
+      <Characters characteristics={characteristics}/>
     </div>
   )
 }
