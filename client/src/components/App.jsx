@@ -1,12 +1,14 @@
 import React from 'react';
 import axios from 'axios';
 import Reviews from './Reviews.jsx';
+import RelatedProductsWidget from './related-products-widget.jsx'
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state= {
       reviews: [],
+      relatedProducts: [],
       page: 1,
       sort: 'relevant',
       product_id: 64620
@@ -23,7 +25,10 @@ export default class App extends React.Component {
 
   render() {
     return (
+      <div>
+      <RelatedProductsWidget products={this.state.relatedProducts}/>
       <Reviews reviews={this.state.reviews} sort={this.state.sort}/>
+      </div>
     );
   }
 }

@@ -4,13 +4,13 @@ export default class RelatedProductsCard extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            isHovered: false;
+            isHovered: false
         };
         this.revealData = this.revealData.bind(this)
     }
     revealData = (e) => {
         this.setState({
-            isHovered: !this.state.isHovered;
+            isHovered: !this.state.isHovered
         })
     }
     render() {

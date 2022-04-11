@@ -13,9 +13,9 @@ export default class RelatedProductsList extends React.Component {
         const productsList = products.map((product) => <RelatedProductsCard key={product.id} name={product.name}/>);
         return (
             <div class="carousel">
-                <button><</button>
+                <button>Left</button>
                     {productsList}
-                <button>></button>
+                <button>Righ</button>
             </div>
         );
     }
