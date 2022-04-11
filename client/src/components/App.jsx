@@ -18,6 +18,7 @@ export default class App extends React.Component {
       sort: 'relevant',
       moreReviewBtn: false,
       meta: {},
+      // product_id: 64621
       product_id: 64620
     }
 

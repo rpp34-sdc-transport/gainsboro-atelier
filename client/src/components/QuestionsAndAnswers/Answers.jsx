@@ -1,11 +1,23 @@
+import React from 'react';
 
+const Answer = (props) =>  {
+    const { body, date, helpfulness, photos } = props;
 
-class Answer extends React.Component {
+    return (
+        <div key={body} >
+            <span style={{ fontWeight: 600 }}>A:</span> {body}
+        </div>
+    );
+
+}
+
+export class AnswersGroup extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             expanded: false
         }
+        this.flipExpanded = this.flipExpanded.bind(this);
     }
 
     flipExpanded() {
@@ -15,19 +27,16 @@ class Answer extends React.Component {
     }
 
     render() {
-        const { body, date, helpfulness, photos } = this.props;
+        const answersToRender = this.state.expanded ? this.props.answers : this.props.answers.slice(0, 2);
 
         return (
-            <>
-                <div key={body} style={{ display: i < 2 || this.expanded ? 'block' : 'none' }}>
-                    <span style={{ fontWeight: 600 }}>A:</span> {body}
-                </div>
-                <button 
-                    onClick={() => this.flipExpanded}
-                >
-                    {this.state.expanded ? 'Show less answers' : 'Load more answers'}
-                </button>
-            </>
-        );
+        <>
+            {answersToRender.map((ans) => <Answer key={ans.body} {...ans} />)}
+            <button onClick={this.flipExpanded}>
+                {this.state.expanded ? 'Show less answers' : 'Load more answers'}
+            </button>
+        </>)
     }
 }
+
+
