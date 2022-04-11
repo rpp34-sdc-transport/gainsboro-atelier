@@ -2,9 +2,38 @@ import React, {useRef} from 'react';
 import styled from 'styled-components';
 import {MdChevronLeft, MdChevronRight, MdOutlineExpandLess, MdOutlineExpandMore} from "react-icons/md";
 
-const ThumbnailsSection = styled.div`
-  flex-direction: column;
-  margin-right: 12px;
+const Gallery = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+const Img = styled.img`
+  height: 600px;
+  width: auto;
+  overflow: hidden;
+
+  &:hover {
+    cursor: zoom-in
+  }
+`;
+
+const ImageButton = styled.button`
+  border-radius: 4px;
+  width: 32px;
+  height: 32px;
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.6);
+`;
+
+const ImgThumbnail = styled.img`
+  width: 64px;
+  height: auto;
+  overflow: hidden;
+`;
+
+const ImageWrapper = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
 const Thumbnails = styled.div`
@@ -13,9 +42,9 @@ const Thumbnails = styled.div`
   overflow: hidden;
 `;
 
-const Gallery = styled.div`
-  display: flex;
-  flex-direction: row;
+const ThumbnailsSection = styled.div`
+  flex-direction: column;
+  margin-right: 12px;
 `;
 
 const ThumbnailWrapper = styled.div`
@@ -37,38 +66,12 @@ const ThumbnailWrapperActive = styled.div`
   }
 `;
 
-const ImgThumbnail = styled.img`
-  width: 64px;
-  height: auto;
-  overflow: hidden;
-`;
-
-const Img = styled.img`
-  height: 600px;
-  width: auto;
-  overflow: hidden;
-`;
-
-const ImageButton = styled.button`
-  border-radius: 4px;
-  width: 32px;
-  height: 32px;
-  display: inline-block;
-  background: rgba(255, 255, 255, 0.6);
-`;
-
-const ImageWrapper = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
 export default class ImageGallery extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       currentImage: 0
     }
-
 
     this.changeImage = this.changeImage.bind(this);
     this.imageBack = this.imageBack.bind(this);
@@ -78,7 +81,7 @@ export default class ImageGallery extends React.Component {
   changeImage(e){
     console.log(e.target.getAttribute('value'));
     this.setState({
-      currentImage: e.target.getAttribute('value')
+      currentImage: parseInt(e.target.getAttribute('value'))
     })
   }
 
@@ -107,7 +110,7 @@ export default class ImageGallery extends React.Component {
       </ThumbnailWrapperActive>
       ) : (
       <ThumbnailWrapper key={index} onClick={this.changeImage} >
-       <ImgThumbnail src={photo.thumbnail_url} value={index}/>
+        <ImgThumbnail src={photo.thumbnail_url} value={index}/>
       </ThumbnailWrapper>
       )
     ));
@@ -120,12 +123,16 @@ export default class ImageGallery extends React.Component {
           <Thumbnails>
             {thumbnails}
           </Thumbnails>
-          {this.state.currentImage > 0 && <ImageButton onClick={this.imageBack}><MdOutlineExpandLess/></ImageButton>}
-          {this.state.currentImage < photos.length -1 && <ImageButton onClick={this.imageForward}><MdOutlineExpandMore/></ImageButton>}
+          {this.state.currentImage > 0 &&
+          <ImageButton onClick={this.imageBack}><MdOutlineExpandLess/></ImageButton>}
+          {this.state.currentImage < photos.length -1 &&
+          <ImageButton onClick={this.imageForward}><MdOutlineExpandMore/></ImageButton>}
         </ThumbnailsSection>
         <ImageWrapper>
-          {this.state.currentImage > 0 && <ImageButton onClick={this.imageBack}><MdChevronLeft/></ImageButton>}
-          {this.state.currentImage < photos.length -1 && <ImageButton onClick={this.imageForward}><MdChevronRight/></ImageButton>}
+          {this.state.currentImage > 0 &&
+          <ImageButton onClick={this.imageBack}><MdChevronLeft/></ImageButton>}
+          {this.state.currentImage < photos.length -1 &&
+          <ImageButton onClick={this.imageForward}><MdChevronRight/></ImageButton>}
           <Img src={photos[this.state.currentImage]['url']}/>
         </ImageWrapper>
       </Gallery>
