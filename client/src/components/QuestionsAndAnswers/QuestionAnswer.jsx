@@ -34,19 +34,24 @@ export default class QuestionAnswer extends React.Component {
         }
         this.openModal = this.openModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
+        this.getData = this.getData.bind(this);
     }
 
     componentDidMount() {
-        fetch(`/qa/questions?product_id=${this.props.productId}`)
-        .then(response => response.json())
-        .then(data => {
-            data.results.sort((a, b) => {
-                return b.question_helpfulness - a.question_helpfulness
-            });
-            this.setState({ qas: data.results })
-        });
-      }
+        this.getData();
+    }
 
+    getData() {
+        fetch(`/qa/questions?product_id=${this.props.productId}`)
+            .then(response => response.json())
+            .then(data => {
+                data.results.sort((a, b) => {
+                    return b.question_helpfulness - a.question_helpfulness
+                });
+                this.setState({ qas: data.results })
+            });
+    }
+ 
     expandQABlocks() {
         if (this.state.qas.length > this.state.showCount) {
             this.setState({ showCount: this.state.showCount + 2 })
@@ -60,14 +65,11 @@ export default class QuestionAnswer extends React.Component {
     }
 
     closeModal() {
+        this.getData();
         this.setState({
             modalOpen: false
         })
-    }
-
-    addQuestion() {
-        // create new question ID, store new info
-
+        // refetch data
     }
 
     render() {
@@ -104,8 +106,9 @@ export default class QuestionAnswer extends React.Component {
                 <Modal 
                     isOpen={this.state.modalOpen}
                     close={() => this.closeModal()}
+                    productId={this.props.productId}
                 >
-                    Hello World
+                    Placeholder
                 </Modal>
             </Container>
         )
@@ -114,7 +117,7 @@ export default class QuestionAnswer extends React.Component {
 
 /*
 
-                const answersToRender = qa.expandedAns ? answersPrioritizingSeller : answersPrioritizingSeller.slice(0 ,2);
+const answersToRender = qa.expandedAns ? answersPrioritizingSeller : answersPrioritizingSeller.slice(0 ,2);
 
 {/* <div>
     {answersToRender.map(({ body, date, helpfulness, photos }, i) => (

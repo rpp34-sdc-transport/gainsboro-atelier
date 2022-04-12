@@ -8,6 +8,8 @@ const app = express();
 const PORT = 3000;
 const apiHost = 'https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp';
 
+const jsonParser = bodyParser.json();
+
 app.use(express.static(path.join(__dirname, "/../client/dist")));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -112,6 +114,25 @@ app.put('/reviews/:review_id/report', (req, res) => {
 })
 
 
+
+app.post('/qa/questions', jsonParser, (req, res) => {
+  var body = req.body;
+  // console.log(body)
+  var url = `${apiHost}/qa/questions`;
+  axios.post(url, body,
+    {
+      'content-type': 'application/json',
+      headers: {
+      Authorization: token
+    }
+  })
+  .then(data => {
+    res.send(data.data)
+  })
+  .catch(err => {
+    res.sendStatus(500)
+  })
+})
 
 app.listen(PORT, () => {
   console.log(`connected to port ${PORT}`);
