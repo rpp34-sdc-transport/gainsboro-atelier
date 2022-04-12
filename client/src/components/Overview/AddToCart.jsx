@@ -1,40 +1,21 @@
-import React from 'react';
+import React, {createRef} from 'react';
 import axios from 'axios';
 
 export default class AddToCart extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      firstSku: 0,
+      maxQuantity: null,
       selectedSku: null,
       selectedSize: null,
-      maxQuantity: null,
-      selectedQuantity: 1,
-      firstSku: 0
+      selectedQuantity: 1
     }
     this.selectSize = this.selectSize.bind(this);
     this.selectQuantity = this.selectQuantity.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-
-  selectSize(event){
-    let selectedSku  = event.target.selectedOptions[0].getAttribute('sku');
-    let maxQuantity = Math.min(15, this.props.skus[selectedSku].quantity);
-
-    this.setState({
-      selectedSize: event.target.value,
-      selectedSku : selectedSku,
-      maxQuantity: maxQuantity,
-    })
-  }
-
-
-  selectQuantity(e){
-    console.log(e.target.value);
-    this.setState({
-      selectedQuantity: e.target.value
-    })
-  }
 
   componentDidUpdate(){
     //handle a style change by updating the sku to reflect the same size
@@ -59,17 +40,35 @@ export default class AddToCart extends React.Component {
   }
 
 
-
-
   handleSubmit(){
     event.preventDefault();
     console.log('submit');
-    axios.post(`/cart/${this.state.selectedSku}/${this.state.selectedQuantity}`)
-    .then(()=>{
-      console.log('posted to cart');
+    axios.post(`/cart`, {"sku_id": this.state.selectedSku})
+    .then((data)=>{
+      //receive cart data
     })
     .catch((err)=>{
-      console.log('unable to add to bag');
+      console.log('unable to add to bag', err);
+    })
+  }
+
+
+  selectSize(event){
+    let selectedSku  = event.target.selectedOptions[0].getAttribute('sku');
+    let maxQuantity = Math.min(15, this.props.skus[selectedSku].quantity);
+
+    this.setState({
+      selectedSize: event.target.value,
+      selectedSku : selectedSku,
+      maxQuantity: maxQuantity,
+    })
+  }
+
+
+  selectQuantity(e){
+    console.log(e.target.value);
+    this.setState({
+      selectedQuantity: e.target.value
     })
   }
 
@@ -105,7 +104,7 @@ export default class AddToCart extends React.Component {
 
     return (
       <form onSubmit={this.handleSubmit}>
-        <select name="size" onChange={this.selectSize} value={this.state.selectedSize ? this.state.selectedSize : 'Select a size'}>
+        <select name="size" onChange={this.selectSize} ref={this.sizeRef} value={this.state.selectedSize ? this.state.selectedSize : 'Select a size'}>
           {sizes}
         </select>
         {quantity}

@@ -21,7 +21,6 @@ const ThumbnailWrapper = styled.div`
   width: 64px;
   height: 64px;
   overflow: hidden;
-  border-radius: 50%;
   }
 `;
 
