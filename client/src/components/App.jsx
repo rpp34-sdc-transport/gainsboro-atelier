@@ -25,10 +25,21 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <div>
-      <RelatedProductsWidget products={this.state.relatedProducts}/>
-      <Reviews reviews={this.state.reviews} sort={this.state.sort}/>
-      </div>
+      <>
+        <GlobalStyle />
+        <Overview data={this.state.overview}/>
+        <RelatedProductsWidget products={this.state.relatedProducts}/>
+        <ReviewAndRating
+          meta={this.state.meta}
+          reviews={this.state.reviews}
+          sort={this.state.sort}
+          handleMoreReviewBtnClick={this.handleMoreReviewBtnClick}
+          moreReviewBtn={this.state.moreReviewBtn}
+          handleSortOptionChange={this.handleSortOptionChange}
+          voteForReview={this.voteForReview}
+        />
+      </>
+      
     );
   }
 }
