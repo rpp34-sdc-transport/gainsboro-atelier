@@ -2,6 +2,10 @@ import React from 'react';
 import axios from 'axios';
 import Reviews from './Reviews.jsx';
 import RelatedProductsWidget from './related-products-widget.jsx'
+import Overview from './Overview/Overview.jsx';
+import ReviewAndRating from './ReviewAndRating/ReviewAndRating.jsx';
+import GlobalStyle from '../globalStyles.js'
+import QuestionAnswer from './questionAnswer.jsx';
 
 export default class App extends React.Component {
   constructor(props) {
