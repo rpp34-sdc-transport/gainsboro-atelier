@@ -4,6 +4,7 @@ import Overview from './Overview/Overview.jsx';
 import ReviewAndRating from './ReviewAndRating/ReviewAndRating.jsx';
 import GlobalStyle from '../globalStyles.js'
 import QuestionAnswer from './questionAnswer.jsx';
+import RelatedProductsWidget from './related-products-widget.jsx';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -12,6 +13,7 @@ export default class App extends React.Component {
       overview: {},
       overviewStyle: {},
       reviews: [],
+      relatedProducts: [],
       page: 1,
       sort: 'relevant',
       moreReviewBtn: false,
@@ -96,6 +98,7 @@ export default class App extends React.Component {
       <>
         <GlobalStyle />
         <Overview data={this.state.overview}/>
+        <RelatedProductsWidget products={this.state.relatedProducts}/>
         <ReviewAndRating
           meta={this.state.meta}
           reviews={this.state.reviews}
@@ -106,6 +109,6 @@ export default class App extends React.Component {
           voteForReview={this.voteForReview}
         />
       </>
-      );
+    );
   }
 }
