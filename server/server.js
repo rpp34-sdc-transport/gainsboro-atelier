@@ -63,8 +63,8 @@ app.post('/cart', (req, res)=>{
 })
 
 app.get('/reviews', (req, res) => {
-  var {product_id, sort, page, count} = req.query;
-  var url = `${apiHost}/reviews?product_id=${product_id}&sort=${sort}&page=${page}&count=${count}`;
+  var {product_id, sort, count} = req.query;
+  var url = `${apiHost}/reviews?product_id=${product_id}&sort=${sort}&count=${count}`;
   axios.get(url, options)
   .then(data => {
     res.send(data.data.results)
