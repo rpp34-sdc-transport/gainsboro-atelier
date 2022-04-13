@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
+import StarRating from './StarRating.jsx';
 import {MdCheckCircle, MdOutlineClose} from 'react-icons/md'
 import {FcCheckmark} from "react-icons/fc";
 
@@ -178,7 +179,7 @@ export default class Review extends React.Component{
     return (
       <Container>
         <RatingAndName>
-          <span>{rating}</span>
+          <span><StarRating ratings={rating}/></span>
           <span>{reviewer_name}, {formatedDate}</span>
         </RatingAndName>
         <h3>{summary}</h3>
