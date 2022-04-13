@@ -16,19 +16,26 @@ const RatingAndName = styled.div`
 `;
 
 const Image = styled.img`
- & {
-   width: 200px;
-   border: 2px solid #b4b4b4;
-   posiiton: relative;
- }
+  & {
+    display: inline-block;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    width: 200px;
+    height: 120px;
+    background-image: url(${props => props.url});
+    background-size: cover;
+    background-position: center;
+    border: 1px solid #b4b4b4;
+  }
 
  &:hover {
-   opacity: 0.7
+   opacity: 0.8;
+   cursor: pointer;
  }
 `;
 
 const Modal = styled.div`
-  display: ${props => props.showModal};
+  display: block;
   position: fixed;
   z-index: 1;
   padding-top: 100px;
@@ -42,18 +49,18 @@ const Modal = styled.div`
 const ModelImg = styled.img`
   margin: auto;
   display: block;
-  width: 80%;
-  max-width: 800px;
+  max-width: 500px;
+  max-height: 700px;
 `;
 
 const CloseImage = styled(MdOutlineClose)`
   & {
     color: #ffffff;
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
     position: absolute;
-    top: 40px;
-    right: 350px;
+    top: 20px;
+    right: 150px;
   }
   &:hover {
     color: #bbb;
@@ -122,7 +129,7 @@ export default class Review extends React.Component{
       showMore: false,
       helpfulnessVote: true,
       report: true,
-      showModal: 'none'
+      showModal: false
     }
     this.handleShowMoreBtnClick = this.handleShowMoreBtnClick.bind(this);
     this.handleVoteBtnClick = this.handleVoteBtnClick.bind(this);
@@ -130,9 +137,9 @@ export default class Review extends React.Component{
     this.handleCloseImageBtnClick = this.handleCloseImageBtnClick.bind(this);
   }
 
-  handleImageClick() {
+  handleImageClick(url) {
     this.setState({
-      showModal: 'block'
+      showModal: url
     })
   }
 
@@ -162,7 +169,7 @@ export default class Review extends React.Component{
 
   handleCloseImageBtnClick() {
     this.setState({
-      showModal: 'none'
+      showModal: false
     })
   }
 
@@ -182,19 +189,17 @@ export default class Review extends React.Component{
           <span><StarRating ratings={rating}/></span>
           <span>{reviewer_name}, {formatedDate}</span>
         </RatingAndName>
-        <h3>{summary}</h3>
+        <h4>{summary}</h4>
         {body.length <= 250 ?
           <p>{body}</p> :
           !this.state.showMore ? <p>{body.slice(0, 250)}...<ShowMoreLink onClick={this.handleShowMoreBtnClick}>Show more</ShowMoreLink></p> : <p>{body}</p>
         }
-        {photos.length > 0 && photos.map(photo =>
-          <div key={photo.id}>
-            <Image src={photo.url} onClick={this.handleImageClick} />
-            <Modal showModal={this.state.showModal}>
-              <CloseImage onClick={this.handleCloseImageBtnClick}/>
-              <ModelImg src={photo.url} />
-            </Modal>
-          </div>)}
+        {photos.length > 0 && photos.map(photo => <Image key={photo.url} url={photo.url} onClick={() => this.handleImageClick(photo.url)} />)}
+        {this.state.showModal &&
+        <Modal>
+          <CloseImage onClick={this.handleCloseImageBtnClick}/>
+          <ModelImg src={this.state.showModal} />
+        </Modal>}
         {recommend? <p><FcCheckmark /> I recommend this product</p> : ''}
         {response ? <div><h4>Response</h4><p>{response}</p></div>: ''}
         <div>

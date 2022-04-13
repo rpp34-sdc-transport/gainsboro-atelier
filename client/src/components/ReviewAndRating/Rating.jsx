@@ -1,5 +1,6 @@
 import React from 'react';
 import StarRating from './StarRating.jsx';
+import RatingFilter from './RatingFilter.jsx';
 import Characters from './Characters.jsx';
 
 export default function Rating({meta}) {
@@ -10,6 +11,7 @@ export default function Rating({meta}) {
     <div>
       <StarRating ratings={ratings} showAve={true}/>
       <p>{aveRePct}% of reviews recommend this product</p>
+      <RatingFilter ratings={ratings}/>
       <Characters characteristics={characteristics}/>
     </div>
   )
