@@ -17,16 +17,12 @@ export default class RelatedProductsWidget extends React.Component {
     }
     
 
-    componentDidMount() {
-
-    }
-
     render() {
         return (
             <div className="relatedProductsWidget">
-                <h1>Related Products</h1>
+                <h2>Related Products</h2>
                 <RelatedProductsList products={this.state.relatedProducts}/>
-                <h1>Your Outfit</h1>
+                <h2>Your Outfit</h2>
                 <OutfitList products={this.state.outfit}/>
             </div>
         )

@@ -70,6 +70,7 @@ app.get('/reviews', (req, res) => {
   .catch(err => res.sendStatus(500))
 })
 
+
 app.put('/reviews/:review_id/helpful', (req, res) => {
   var url = `${apiHost}/reviews/${req.params["review_id"]}/helpful`;
   axios.put(url, {}, options)
@@ -111,6 +112,17 @@ app.put('/reviews/:review_id/report', (req, res) => {
   .catch(err => console.log(err))
 })
 
+app.get('/related', (req, res) => {
+  var url = `${apiHost}/products?product_id=${product_id}/related`;
+  var finalData = [];
+    //get product_id's of related products
+    axios.get(url)
+    //should return an array of product id's
+    //then we need to get the product info of each product in the array in the promise. 
+    .then(data => {
+      
+    })
+})
 
 
 app.listen(PORT, () => {
