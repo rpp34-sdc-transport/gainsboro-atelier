@@ -41,7 +41,7 @@ ${'' /* @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0
     font-weight: 400;
   }
 
-  caption {
+  small {
     font-size: .875rem;
     font-weight: 400;
   }

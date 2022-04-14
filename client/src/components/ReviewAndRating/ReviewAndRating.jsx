@@ -10,6 +10,16 @@ const Container = styled.div`
 export default class ReviewAndRating extends React.Component{
   constructor(props) {
     super(props);
+    this.state = {
+      ratingFilter: []
+    }
+    this.handleStarRatingClick = this.handleStarRatingClick.bind(this);
+  }
+
+  handleStarRatingClick(rating) {
+    this.setState(preState => ({
+      ratingFilter: [...preState.ratingFilter, rating]
+    }))
   }
 
   render() {
@@ -18,10 +28,11 @@ export default class ReviewAndRating extends React.Component{
       <div>
         <h2>RATINGS & REVIEWS</h2>
         <Container>
-          {Object.keys(meta).length && <Rating meta={meta}/>}
+          {Object.keys(meta).length && <Rating meta={meta} ratingFilterList={this.state.ratingFilter} handleStarRatingClick={this.handleStarRatingClick}/>}
           <Reviews
             reviews={reviews}
             sort={sort}
+            ratingFilter={this.state.ratingFilter}
             handleMoreReviewBtnClick={handleMoreReviewBtnClick}
             moreReviewBtn={moreReviewBtn}
             handleSortOptionChange={handleSortOptionChange}

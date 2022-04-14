@@ -15,13 +15,11 @@ export default class App extends React.Component {
       reviews: [],
       relatedProducts: [],
       sort: 'relevant',
-      moreReviewBtn: false,
       meta: {},
       // product_id: 64621
       product_id: 64620
     }
 
-    this.handleMoreReviewBtnClick = this.handleMoreReviewBtnClick.bind(this);
     this.handleSortOptionChange = this.handleSortOptionChange.bind(this);
     this.voteForReview = this.voteForReview.bind(this);
   }
@@ -34,7 +32,7 @@ export default class App extends React.Component {
       })
     });
 
-    axios(`/reviews?product_id=${this.state.product_id}&sort=${this.state.sort}&count=100`)
+    axios(`/reviews?product_id=${this.state.product_id}&sort=${this.state.sort}&count=500`)
     .then(data => {
       var reviews = data.data;
       this.setState(preState => ({
@@ -50,20 +48,10 @@ export default class App extends React.Component {
     })
   }
 
-  handleMoreReviewBtnClick() {
-    this.fetchReviews(2)
-    .then(data => {
-      var reviews = data.data;
-      this.setState(preState => ({
-        reviews,
-        moreReviewBtn: reviews.length >= 2 ? true : false
-      }))
-    });
-  }
 
   handleSortOptionChange(e) {
     this.setState({sort: e.target.value}, () => {
-      axios(`/reviews?product_id=${this.state.product_id}&sort=${this.state.sort}&count=100`)
+      axios(`/reviews?product_id=${this.state.product_id}&sort=${this.state.sort}&count=500`)
       .then(data => {
         var reviews = data.data;
         this.setState({reviews,})
@@ -92,8 +80,6 @@ export default class App extends React.Component {
           meta={this.state.meta}
           reviews={this.state.reviews}
           sort={this.state.sort}
-          handleMoreReviewBtnClick={this.handleMoreReviewBtnClick}
-          moreReviewBtn={this.state.moreReviewBtn}
           handleSortOptionChange={this.handleSortOptionChange}
           voteForReview={this.voteForReview}
         />
