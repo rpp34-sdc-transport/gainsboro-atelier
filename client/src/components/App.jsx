@@ -14,7 +14,6 @@ export default class App extends React.Component {
       overviewStyle: {},
       reviews: [],
       relatedProducts: [],
-      page: 1,
       sort: 'relevant',
       moreReviewBtn: false,
       meta: {},
@@ -27,10 +26,6 @@ export default class App extends React.Component {
     this.voteForReview = this.voteForReview.bind(this);
   }
 
-  fetchReviews(count) {
-    return axios(`/reviews?product_id=${this.state.product_id}&sort=${this.state.sort}&page=${this.state.page}&count=${count}`);
-  }
-
   componentDidMount() {
     axios(`/overview/${this.state.product_id}`)
     .then(({data})=>{
@@ -39,12 +34,11 @@ export default class App extends React.Component {
       })
     });
 
-    this.fetchReviews(3)
+    axios(`/reviews?product_id=${this.state.product_id}&sort=${this.state.sort}&count=100`)
     .then(data => {
       var reviews = data.data;
       this.setState(preState => ({
-      reviews: reviews.filter((review, index) => index !== 2),
-      page: preState.page + 1,
+      reviews,
       moreReviewBtn: reviews.length <= 2 ? false : true
       }))
     });
@@ -61,23 +55,18 @@ export default class App extends React.Component {
     .then(data => {
       var reviews = data.data;
       this.setState(preState => ({
-        reviews: [...preState.reviews, ...reviews],
-        page: preState.page + 1,
+        reviews,
         moreReviewBtn: reviews.length >= 2 ? true : false
       }))
     });
   }
 
   handleSortOptionChange(e) {
-    this.setState({sort: e.target.value, page: 1}, () => {
-      this.fetchReviews(2)
+    this.setState({sort: e.target.value}, () => {
+      axios(`/reviews?product_id=${this.state.product_id}&sort=${this.state.sort}&count=100`)
       .then(data => {
-        console.log('first two review after changing sorting', data.data);
         var reviews = data.data;
-        this.setState({
-          reviews,
-          moreReviewBtn: reviews.length === 2 ? true : false
-        })
+        this.setState({reviews,})
       })
     })
   }
