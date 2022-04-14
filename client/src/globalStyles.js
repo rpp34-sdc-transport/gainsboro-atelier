@@ -41,9 +41,9 @@ ${'' /* @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0
     font-weight: 400;
   }
 
-  caption {
-    font-size: 4rem;
-    font-weight: 700;
+  small {
+    font-size: .875rem;
+    font-weight: 400;
   }
 
   .bold {
