@@ -35,7 +35,7 @@ app.get('/overview/:product_id', (req, res) => {
 
 app.post('/cart', (req, res)=>{
   const {sku_id} = req.body;
-  console.log(sku_id);
+  // console.log(sku_id);
 
   const url = `${apiHost}/cart`;
   const data = {
@@ -83,7 +83,7 @@ app.get('/reviews/meta/:product_id', (req, res) => {
   var url = `${apiHost}/reviews/meta?product_id=${req.params.product_id}`;
   axios.get(url, options)
   .then(data => {
-    console.log('get meta from api', data.data);
+    // console.log('get meta from api', data.data);
     res.send(data.data)
   })
   .catch(err => res.sendStatus(500))
