@@ -15,6 +15,7 @@ export default class ReviewAndRating extends React.Component{
     }
     this.handleStarRatingClick = this.handleStarRatingClick.bind(this);
     this.handleRemoveStarRatingClick = this.handleRemoveStarRatingClick.bind(this);
+    this.handleRemoveAllFiltersClick = this.handleRemoveAllFiltersClick.bind(this);
   }
 
   handleStarRatingClick(rating) {
@@ -24,10 +25,13 @@ export default class ReviewAndRating extends React.Component{
   }
 
   handleRemoveStarRatingClick(rating) {
-    console.log('hi', rating);
     this.setState(preState => ({
       ratingFilter: preState.ratingFilter.filter(filter => filter !== rating)
     }))
+  }
+
+  handleRemoveAllFiltersClick() {
+    this.setState({ratingFilter: []})
   }
 
   render() {
@@ -42,6 +46,7 @@ export default class ReviewAndRating extends React.Component{
               ratingFilterList={this.state.ratingFilter}
               handleStarRatingClick={this.handleStarRatingClick}
               handleRemoveStarRatingClick={this.handleRemoveStarRatingClick}
+              handleRemoveAllFiltersClick={this.handleRemoveAllFiltersClick}
             />}
           <Reviews
             reviews={reviews}

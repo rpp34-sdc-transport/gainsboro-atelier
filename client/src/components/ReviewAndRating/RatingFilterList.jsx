@@ -17,7 +17,7 @@ const RatingBtn = styled(Button)`
   align-items: center;
 `
 
-export default function RatingFilterList({ratingFilterList, handleRemoveStarRatingClick}) {
+export default function RatingFilterList({ratingFilterList, handleRemoveStarRatingClick, handleRemoveAllFiltersClick}) {
   return(
     <div>
       <p>Filter reviews by ratings</p>
@@ -28,6 +28,10 @@ export default function RatingFilterList({ratingFilterList, handleRemoveStarRati
           <GrFormClose onClick={() => handleRemoveStarRatingClick(rating)}/>
         </RatingBtn>
       )}
+      <RatingBtn type="button">
+          <small>Remove all filters</small>
+          <GrFormClose onClick={handleRemoveAllFiltersClick}/>
+      </RatingBtn>
       </FilterContainer>
     </div>
   )
