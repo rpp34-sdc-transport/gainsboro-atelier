@@ -79,7 +79,6 @@ export default class App extends React.Component {
         <ReviewAndRating
           meta={this.state.meta}
           reviews={this.state.reviews}
-          sort={this.state.sort}
           handleSortOptionChange={this.handleSortOptionChange}
           voteForReview={this.voteForReview}
         />

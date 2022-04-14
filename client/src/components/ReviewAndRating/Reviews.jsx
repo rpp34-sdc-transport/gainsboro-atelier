@@ -39,17 +39,16 @@ export default class Reviews extends React.Component {
   }
 
   render() {
-    const {reviews, sort, ratingFilter, handleSortOptionChange, voteForReview} = this.props;
+    const {reviews, ratingFilter, handleSortOptionChange, voteForReview} = this.props;
 
     var filteredReivew = !ratingFilter.length ? reviews : reviews.filter(review => ratingFilter.includes(Number(review.rating)))
-    console.log('filteredReivew', filteredReivew);
 
     var renderList = filteredReivew.slice(0, this.state.currReviewIndex);
     var restList = filteredReivew.slice(this.state.currReviewIndex);
 
     return (
       <Container>
-        <h3>{reviews.length} reviews, sorted by {reviews.length ? <SortMenu sort={sort} handleSortOptionChange={handleSortOptionChange}/> : '.'}</h3>
+        <h3>{reviews.length} reviews, sorted by {reviews.length ? <SortMenu handleSortOptionChange={handleSortOptionChange}/> : '.'}</h3>
         <ReviewList>
           {filteredReivew.length ?
             renderList.map((review, index) => <Review review={review} key={index} voteForReview={voteForReview}/> ) :

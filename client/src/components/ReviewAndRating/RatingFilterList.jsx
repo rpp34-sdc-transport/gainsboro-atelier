@@ -17,12 +17,17 @@ const RatingBtn = styled(Button)`
   align-items: center;
 `
 
-export default function RatingFilterList({ratingFilterList}) {
+export default function RatingFilterList({ratingFilterList, handleRemoveStarRatingClick}) {
   return(
     <div>
       <p>Filter reviews by ratings</p>
       <FilterContainer>
-      {ratingFilterList.map(rating => <RatingBtn type="button" key={rating}><small>{rating} stars</small><GrFormClose /></RatingBtn>)}
+      {ratingFilterList.map(rating =>
+        <RatingBtn type="button" key={rating}>
+          <small>{rating} stars</small>
+          <GrFormClose onClick={() => handleRemoveStarRatingClick(rating)}/>
+        </RatingBtn>
+      )}
       </FilterContainer>
     </div>
   )

@@ -4,7 +4,7 @@ import RatingFilter from './RatingFilter.jsx';
 import RatingFilterList from './RatingFilterList.jsx';
 import Characters from './Characters.jsx';
 
-export default function Rating({meta, ratingFilterList, handleStarRatingClick}) {
+export default function Rating({meta, ratingFilterList, handleStarRatingClick, handleRemoveStarRatingClick}) {
   const {characteristics, ratings, recommended} = meta;
   const aveRecommend = Number(recommended.true) / (Number(recommended.true) + Number(recommended.false));
   const aveRePct = Math.round(aveRecommend * 100);
@@ -13,7 +13,7 @@ export default function Rating({meta, ratingFilterList, handleStarRatingClick}) 
       <StarRating ratings={ratings} showAve={true}/>
       <p>{aveRePct}% of reviews recommend this product</p>
       <RatingFilter ratings={ratings} handleStarRatingClick={handleStarRatingClick}/>
-      {!ratingFilterList.length ? '' : <RatingFilterList ratingFilterList={ratingFilterList}/>}
+      {!ratingFilterList.length ? '' : <RatingFilterList ratingFilterList={ratingFilterList} handleRemoveStarRatingClick={handleRemoveStarRatingClick}/>}
       <Characters characteristics={characteristics}/>
     </div>
   )
