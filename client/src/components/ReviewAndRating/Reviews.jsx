@@ -8,7 +8,7 @@ const Container = styled.div`
   padding-left:60px;
 `;
 
-const Button = styled.button`
+export const Button = styled.button`
   background: transparent;
   border: 2px solid #d4d4d4;
   color: #525252;
@@ -28,17 +28,34 @@ const ReviewList = styled.div`
 export default class Reviews extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      currReviewIndex: 2,
+    }
+    this.handleMoreReviewBtnClick = this.handleMoreReviewBtnClick.bind(this);
+  }
+
+  handleMoreReviewBtnClick() {
+    this.setState(preState => ({currReviewIndex: preState.currReviewIndex + 2}))
   }
 
   render() {
-    const {reviews, sort, moreReviewBtn, handleMoreReviewBtnClick, handleSortOptionChange, voteForReview} = this.props;
+    const {reviews, ratingFilter, handleSortOptionChange, voteForReview} = this.props;
+
+    var filteredReivew = !ratingFilter.length ? reviews : reviews.filter(review => ratingFilter.includes(Number(review.rating)))
+
+    var renderList = filteredReivew.slice(0, this.state.currReviewIndex);
+    var restList = filteredReivew.slice(this.state.currReviewIndex);
+
     return (
       <Container>
-        <h3>{reviews.length} reviews, sorted by {reviews.length ? <SortMenu sort={sort} handleSortOptionChange={handleSortOptionChange}/> : '.'}</h3>
+        <h3>{reviews.length} reviews, sorted by {reviews.length ? <SortMenu handleSortOptionChange={handleSortOptionChange}/> : '.'}</h3>
         <ReviewList>
-          {reviews.length && reviews.map((review, index) => <Review review={review} key={index} voteForReview={voteForReview}/> )}
+          {filteredReivew.length ?
+            renderList.map((review, index) => <Review review={review} key={index} voteForReview={voteForReview}/> ) :
+            <p>There is no review under current filters!</p>
+          }
         </ReviewList>
-        {moreReviewBtn && <Button type="button" onClick={handleMoreReviewBtnClick}>MORE REVIEWS</Button>}
+        {restList.length > 0 && <Button type="button" onClick={this.handleMoreReviewBtnClick}>MORE REVIEWS</Button>}
         <Button type="button">ADD A REVIEW <FaPlus /></Button>
       </Container>
     );
