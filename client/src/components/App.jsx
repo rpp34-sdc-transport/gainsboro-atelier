@@ -16,7 +16,6 @@ export default class App extends React.Component {
       relatedProducts: [],
       sort: 'relevant',
       meta: {},
-      // product_id: 64621
       product_id: 64620
     }
 
@@ -27,7 +26,6 @@ export default class App extends React.Component {
   componentDidMount() {
     axios(`/overview/${this.state.product_id}`)
     .then(({data})=>{
-      console.log(data);
       this.setState({
         overview: data
       })
@@ -75,7 +73,6 @@ export default class App extends React.Component {
     return (
       <>
         <GlobalStyle />
-        {JSON.stringify(this.state.overview)}
         <Overview data={this.state.overview}/>
         <RelatedProductsWidget products={this.state.relatedProducts}/>
         <ReviewAndRating
