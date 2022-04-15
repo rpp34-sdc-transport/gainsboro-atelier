@@ -16,7 +16,6 @@ export default class App extends React.Component {
       relatedProducts: [],
       sort: 'relevant',
       meta: {},
-      // product_id: 64621
       product_id: 64620
     }
 
