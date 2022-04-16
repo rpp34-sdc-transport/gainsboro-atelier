@@ -57,7 +57,7 @@ app.post('/cart', (req, res)=>{
     res.status(201).send(data);
   })
   .catch((err)=>{
-      console.log('post cart err: ');
+      // console.log('post cart err: ');
       res.sendStatus(500);
   })
 })
@@ -103,21 +103,41 @@ app.get('/qa/questions', (req, res) => {
   .catch(err => res.sendStatus(500))
 })
 
+app.post('/qa/questions/:question_id/answers', (req, res) => {
+  var body = req.body;
+  var {question_id} = req.params;
+  var url = `${apiHost}/qa/questions/${question_id}/answers`;
+  axios.post(url, body,
+    {
+      'content-type': 'application/json',
+      headers: {
+      Authorization: token
+    }
+  })
+  .then(data => {
+    res.send(data.data)
+  })
+  .catch(err => {
+    console.log(err)
+    res.sendStatus(500)
+  })
+})
+
 app.put('/reviews/:review_id/report', (req, res) => {
   var url = `${apiHost}/reviews/${req.params["review_id"]}/report`;
   axios.put(url, {}, options)
   .then(data => {
-    console.log('report api,', data.status);
+    // console.log('report api,', data.status);
     res.sendStatus(data.status);
   })
-  .catch(err => console.log(err))
+  // .catch(err => console.log(err))
 })
 
 
 
 app.post('/qa/questions', jsonParser, (req, res) => {
   var body = req.body;
-  // console.log(body)
+
   var url = `${apiHost}/qa/questions`;
   axios.post(url, body,
     {

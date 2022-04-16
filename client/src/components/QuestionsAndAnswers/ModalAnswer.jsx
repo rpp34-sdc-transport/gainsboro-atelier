@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { UploadPhotos } from './UploadPhotos.jsx';
+
 
 // https://www.w3schools.com/howto/howto_css_modals.asp
 const ModalBody = styled.div`
@@ -25,7 +27,6 @@ const Content = styled.div`
     display: flex;
     flex-direction: column;
     width: 40%;
-    height: 60%;
     justify-content: space-between;
 `;
 
@@ -45,14 +46,15 @@ const initState = {
     body: '',
     name: '',
     email: '',
+    photos: [],
 }
 
-export class Modal extends React.Component {
+export class ModalAnswer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {...initState};
         this.saveQuestion = this.saveQuestion.bind(this);
-        this.updateQuestion = this.updateField.bind(this);
+        this.updateField = this.updateField.bind(this);
     }
 
     updateField(value, field) {
@@ -62,7 +64,7 @@ export class Modal extends React.Component {
     }
 
     saveQuestion() {
-        fetch('/qa/questions', {
+        fetch(`/qa/questions/${this.props.questionId}/answers`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -83,17 +85,28 @@ export class Modal extends React.Component {
             <ModalBody style={{ display: this.props.isOpen ? 'block' : 'none' }}>
                 <Content >
                     <Close onClick={this.props.close}>&times;</Close>
-                    <label>Question</label>
+                    <h5>Submit your Answer</h5>
+                    <h7>{this.props.overview.name}: {this.props.question}</h7>
+                    <label>Your Answer *</label>
                     <input value={this.state.body} onChange={(e) => this.updateField(e.target.value, 'body')} />
-                    <label>Email</label>
+                    <label>What is your nickname *</label>
+                    <input value={this.state.name} onChange={(e) => this.updateField(e.target.value, 'name')} 
+                    placeholder='Example: jack543!'/>
+                    <label>For privacy reasons, do not use your full name or email address</label>
+                    <label>Your email *</label>
                     <input 
                         type='email'
                         value={this.state.email} 
-                        onChange={(e) => this.updateField(e.target.value, 'email')} 
+                        onChange={(e) => this.updateField(e.target.value, 'email')}
+                        placeholder='Example: jack@email.com'
                     />
-                    <label>Name</label>
-                    <input value={this.state.name} onChange={(e) => this.updateField(e.target.value, 'name')} />
-                    <button onClick={this.saveQuestion}>Add a question</button>
+                    <label>For authentication reasons, you will not be emailed</label>
+                    <UploadPhotos 
+                        limit={5}
+                        photos={this.state.photos}
+                        updatePhotos={(photos) => this.updateField(photos, 'photos')} 
+                    />
+                    <button onClick={this.saveQuestion}>Submit answer</button>
                 </Content>
 
             </ModalBody>

@@ -75,6 +75,10 @@ export default class App extends React.Component {
         <GlobalStyle />
         <Overview data={this.state.overview}/>
         <RelatedProductsWidget products={this.state.relatedProducts}/>
+        <QuestionAnswer 
+          productId={this.state.product_id}
+          overview={this.state.overview}
+        />
         <ReviewAndRating
           meta={this.state.meta}
           reviews={this.state.reviews}

@@ -25,7 +25,8 @@ export class AnswersGroup extends React.Component {
             expanded: !this.state.expanded
         })
     }
-
+    
+    // Up to two answers should display for each question.
     render() {
         const answersToRender = this.state.expanded ? this.props.answers : this.props.answers.slice(0, 2);
 
