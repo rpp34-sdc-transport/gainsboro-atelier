@@ -45,6 +45,7 @@ export default class App extends React.Component {
       var meta = data.data;
       this.setState({meta})
     })
+    
   }
 
 
