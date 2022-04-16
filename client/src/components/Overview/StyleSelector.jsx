@@ -45,7 +45,6 @@ export default function StyleSelector ({changeStyle, currentStyle, styles}) {
 
   // console.log('styles: ', styles);
   const styleThumbnails = styles.map((style, index)=> {
-    let styleSelect;
     let selected;
     if (index === currentStyle) {
       selected = <Selected>
@@ -59,8 +58,6 @@ export default function StyleSelector ({changeStyle, currentStyle, styles}) {
         {selected}
       </ThumbnailWrapper>
     </Style>
-
-    return styleSelect;
   });
 
   return (

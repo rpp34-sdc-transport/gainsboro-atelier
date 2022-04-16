@@ -1,10 +1,12 @@
 import React from 'react';
+import { BrowserRouter as Router, Route, useParams} from 'react-router-dom';
 import axios from 'axios';
-import Overview from './Overview/Overview.jsx';
-import ReviewAndRating from './ReviewAndRating/ReviewAndRating.jsx';
+
 import GlobalStyle from '../globalStyles.js'
-import RelatedProductsWidget from './related-products-widget.jsx';
+import Overview from './Overview/Overview.jsx';
 import QuestionAnswer from './QuestionsAndAnswers/questionAnswer.jsx';
+import RelatedProductsWidget from './related-products-widget.jsx';
+import ReviewAndRating from './ReviewAndRating/ReviewAndRating.jsx';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -24,8 +26,15 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
+    const {product_id} = userParams();
+    console.log('product id', product_id);
+    this.setState({
+      product_id: id
+    })
+
     axios(`/overview/${this.state.product_id}`)
     .then(({data})=>{
+      console.log(data);
       this.setState({
         overview: data
       })
@@ -71,17 +80,19 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <>
-        <GlobalStyle />
-        <Overview data={this.state.overview}/>
-        <RelatedProductsWidget products={this.state.relatedProducts}/>
-        <ReviewAndRating
-          meta={this.state.meta}
-          reviews={this.state.reviews}
-          handleSortOptionChange={this.handleSortOptionChange}
-          voteForReview={this.voteForReview}
-        />
-      </>
+      <Router>
+        <Route path="/products/:product_id">
+          <GlobalStyle />
+          {Object.keys(this.state.overview).length > 0 && <Overview data={this.state.overview} ratings={this.state.meta.ratings}/>}
+          <RelatedProductsWidget products={this.state.relatedProducts}/>
+          <ReviewAndRating
+            meta={this.state.meta}
+            reviews={this.state.reviews}
+            handleSortOptionChange={this.handleSortOptionChange}
+            voteForReview={this.voteForReview}
+          />
+        </Route>
+      </Router>
     );
   }
 }
