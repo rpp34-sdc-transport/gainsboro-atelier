@@ -42,13 +42,12 @@ export default class AddToCart extends React.Component {
 
   handleSubmit(){
     event.preventDefault();
-    console.log('submit');
     axios.post(`/cart`, {"sku_id": this.state.selectedSku})
     .then((data)=>{
       //receive cart data
     })
     .catch((err)=>{
-      console.log('unable to add to bag', err);
+      // console.log('unable to add to bag', err);
     })
   }
 
@@ -66,7 +65,7 @@ export default class AddToCart extends React.Component {
 
 
   selectQuantity(e){
-    console.log(e.target.value);
+    // console.log(e.target.value);
     this.setState({
       selectedQuantity: e.target.value
     })
