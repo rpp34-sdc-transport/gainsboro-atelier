@@ -14,7 +14,7 @@ const NextCard = styled.div`
 `
 
 
-export default class RelatedProductsCard extends React.Component {
+export default class YourOutfitCard extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
