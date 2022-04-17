@@ -73,7 +73,7 @@ const ShowMoreLink = styled.a`
   text-decoration: underline;
   color: #B20000;
 `
-const VoteLink = styled.a`
+const VoteLink = styled.small`
   & {
     display: inline-block;
     width: 25px;
@@ -88,7 +88,7 @@ const VoteLink = styled.a`
   }
 `;
 
-const Count = styled.span`
+const Count = styled.small`
   margin: 0 6px;
 `;
 
@@ -97,7 +97,7 @@ const CheckCircle = styled(MdCheckCircle)`
 `
 
 
-const Message = styled.span`
+const Message = styled.small`
   color: #378f1e;
   margin-left: 5px;
 `;
@@ -108,7 +108,7 @@ const Segment = styled.span`
   margin: 0 20px;
 `;
 
-const ReportLink = styled.a`
+const ReportLink = styled.small`
   & {
     text-decoration: underline;
   }
@@ -117,7 +117,7 @@ const ReportLink = styled.a`
     font-weight: 900
   }
 `
-const Reported = styled.span`
+const Reported = styled.small`
   color: #FF0000;
 `;
 
@@ -187,7 +187,7 @@ export default class Review extends React.Component{
       <Container>
         <RatingAndName>
           <span><StarRating ratings={rating}/></span>
-          <span>{reviewer_name}, {formatedDate}</span>
+          <small>{reviewer_name}, {formatedDate}</small>
         </RatingAndName>
         <h4>{summary}</h4>
         {body.length <= 250 ?
@@ -203,7 +203,7 @@ export default class Review extends React.Component{
         {recommend? <p><FcCheckmark /> I recommend this product</p> : ''}
         {response ? <div><h4>Response</h4><p>{response}</p></div>: ''}
         <div>
-          <span>Helpful? </span>
+          <small>Helpful? </small>
           {this.state.helpfulnessVote ?
             <>
               <VoteLink onClick={() => this.handleVoteBtnClick(review_id, helpfulness)}>Yes</VoteLink>

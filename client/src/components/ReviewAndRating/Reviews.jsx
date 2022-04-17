@@ -48,7 +48,7 @@ export default class Reviews extends React.Component {
 
     return (
       <Container>
-        <h3>{reviews.length} reviews, sorted by {reviews.length ? <SortMenu handleSortOptionChange={handleSortOptionChange}/> : '.'}</h3>
+        <h4>{reviews.length} reviews, sorted by {reviews.length ? <SortMenu handleSortOptionChange={handleSortOptionChange}/> : '.'}</h4>
         <ReviewList>
           {filteredReivew.length ?
             renderList.map((review, index) => <Review review={review} key={index} voteForReview={voteForReview}/> ) :
