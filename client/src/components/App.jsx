@@ -77,6 +77,8 @@ export default class App extends React.Component {
         <Overview data={this.state.overview}/>
         <RelatedProductsWidget products={this.state.relatedProducts}/>
         <ReviewAndRating
+          product_id={this.state.product_id}
+          productName={this.state.overview.name}
           meta={this.state.meta}
           reviews={this.state.reviews}
           handleSortOptionChange={this.handleSortOptionChange}

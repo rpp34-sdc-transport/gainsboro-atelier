@@ -35,6 +35,7 @@ export default class Reviews extends React.Component {
     }
     this.handleMoreReviewBtnClick = this.handleMoreReviewBtnClick.bind(this);
     this.handleAddRviewBtn = this.handleAddRviewBtn.bind(this);
+    this.handleCloseModalClick = this.handleCloseModalClick.bind(this);
   }
 
 
@@ -46,8 +47,13 @@ export default class Reviews extends React.Component {
     this.setState({addReviewModal: true})
   }
 
+  handleCloseModalClick() {
+    this.setState({addReviewModal: false})
+  }
+
+
   render() {
-    const {reviews, ratingFilter, handleSortOptionChange, voteForReview} = this.props;
+    const {product_id, productName, reviews, characteristics, ratingFilter, handleSortOptionChange, voteForReview} = this.props;
 
     var filteredReivew = !ratingFilter.length ? reviews : reviews.filter(review => ratingFilter.includes(Number(review.rating)))
 
@@ -65,7 +71,13 @@ export default class Reviews extends React.Component {
         </ReviewList>
         {restList.length > 0 && <Button type="button" onClick={this.handleMoreReviewBtnClick}>MORE REVIEWS</Button>}
         <Button type="button" onClick={this.handleAddRviewBtn}>ADD A REVIEW <FaPlus /></Button>
-        {this.state.addReviewModal && <AddReview product_id={product_id} characteristics={characteristics} handleCloseModalClick={this.handleCloseModalClick}/>}
+        {this.state.addReviewModal &&
+          <AddReview
+            product_id={product_id}
+            productName={productName}
+            characteristics={characteristics}
+            handleCloseModalClick={this.handleCloseModalClick}
+          />}
       </Container>
     );
   }
