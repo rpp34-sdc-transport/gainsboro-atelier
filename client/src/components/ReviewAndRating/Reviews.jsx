@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Review from './Review.jsx';
 import SortMenu from './SortMenu.jsx';
+import AddReview from './AddReview.jsx';
 import {FaPlus} from "react-icons/fa";
 
 const Container = styled.div`
@@ -30,12 +31,19 @@ export default class Reviews extends React.Component {
     super(props);
     this.state = {
       currReviewIndex: 2,
+      addReviewModal: false
     }
     this.handleMoreReviewBtnClick = this.handleMoreReviewBtnClick.bind(this);
+    this.handleAddRviewBtn = this.handleAddRviewBtn.bind(this);
   }
+
 
   handleMoreReviewBtnClick() {
     this.setState(preState => ({currReviewIndex: preState.currReviewIndex + 2}))
+  }
+
+  handleAddRviewBtn() {
+    this.setState({addReviewModal: true})
   }
 
   render() {
@@ -56,7 +64,8 @@ export default class Reviews extends React.Component {
           }
         </ReviewList>
         {restList.length > 0 && <Button type="button" onClick={this.handleMoreReviewBtnClick}>MORE REVIEWS</Button>}
-        <Button type="button">ADD A REVIEW <FaPlus /></Button>
+        <Button type="button" onClick={this.handleAddRviewBtn}>ADD A REVIEW <FaPlus /></Button>
+        {this.state.addReviewModal && <AddReview product_id={product_id} characteristics={characteristics} handleCloseModalClick={this.handleCloseModalClick}/>}
       </Container>
     );
   }

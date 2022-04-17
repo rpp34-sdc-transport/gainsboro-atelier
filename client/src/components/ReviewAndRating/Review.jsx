@@ -53,7 +53,7 @@ const ModelImg = styled.img`
   max-height: 700px;
 `;
 
-const CloseImage = styled(MdOutlineClose)`
+export const CloseImage = styled(MdOutlineClose)`
   & {
     color: #ffffff;
     width: 50px;
