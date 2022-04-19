@@ -15,13 +15,13 @@ const RatingAndName = styled.div`
   justify-content: space-between;
 `;
 
-export const Image = styled.img`
+export const Image = styled.div`
   & {
     display: inline-block;
     margin-right: 20px;
     margin-bottom: 20px;
-    width: 200px;
-    height: 120px;
+    width: 130px;
+    height: 100px;
     background-image: url(${props => props.url});
     background-size: cover;
     background-position: center;

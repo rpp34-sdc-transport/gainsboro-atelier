@@ -13,7 +13,6 @@ const Photo = styled(Image)`
   width: 100px;
   height: 70px;
   position: relative;
-
 `
 
 const CloseCircle = styled(AiOutlineCloseCircle)`
