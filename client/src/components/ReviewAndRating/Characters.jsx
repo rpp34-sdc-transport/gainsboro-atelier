@@ -1,12 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
 
+const Container = styled.div`
+  margin: 40px 5px;
+`;
+
+const Title = styled.p`
+  margin: 10px 0;
+`;
+
 const Bar = styled.div`
   width: ${props => props.barWidth}px;
   height: 10px;
   position: relative;
   background-color: #ebebeb;
-  margin-bottom: 50px;
+  margin-bottom: 60px;
 `;
 
 const Segment = styled.span`
@@ -41,6 +49,8 @@ const Label = styled.div`
   width: ${props => props.labelWidth}px;
   display: flex;
   justify-content: space-between;
+  position: absolute;
+  top: 20px;
 `;
 
 export default function characters({characteristics}) {
@@ -54,10 +64,10 @@ export default function characters({characteristics}) {
     Length: ['Runs Short', 'Runs long'],
     Fit: ['Runs tight', 'Runs long']}
   return(
-    <div>
+    <Container>
       {Object.keys(characteristics).map(charactersName =>
         <div key={charactersName}>
-          <h4>{charactersName}</h4>
+          <Title>{charactersName}</Title>
           <Bar barWidth={barWidth}>
             {[1, 2].map(num => <Segment
               key={num}
@@ -66,12 +76,12 @@ export default function characters({characteristics}) {
             </Segment>)}
             <Pointer pointerLeft={Math.round(Number(characteristics[charactersName].value) / 5 * barWidth)}></Pointer>
             <Label labelWidth={barWidth}>
-              <p>{labels[charactersName][0]}</p>
-              <p>{labels[charactersName][1]}</p>
+              <small>{labels[charactersName][0]}</small>
+              <small>{labels[charactersName][1]}</small>
             </Label>
           </Bar>
         </div>
       )}
-    </div>
+    </Container>
   )
 }

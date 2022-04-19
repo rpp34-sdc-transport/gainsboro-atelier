@@ -81,6 +81,8 @@ export default class App extends React.Component {
           overview={this.state.overview}
         />
         <ReviewAndRating
+          product_id={this.state.product_id}
+          productName={this.state.overview.name}
           meta={this.state.meta}
           reviews={this.state.reviews}
           handleSortOptionChange={this.handleSortOptionChange}
