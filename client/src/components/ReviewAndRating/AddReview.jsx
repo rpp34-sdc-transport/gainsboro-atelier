@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import {CloseImage} from './Review.jsx';
+import CharactersRating from './CharactersRating.jsx';
 import styled from 'styled-components';
 import {MdStar} from 'react-icons/md';
 import {FcCheckmark} from "react-icons/fc";
@@ -260,6 +261,9 @@ export default class AddReview extends React.Component{
                     </label>
                   )}
                 </div>
+              </Section>
+              <Section>
+                <CharactersRating characteristics={this.props.characteristics} handleCharacterChange={this.handleCharacterChange}/>
               </Section>
               <Section>
                 <Title>Review summary</Title>
