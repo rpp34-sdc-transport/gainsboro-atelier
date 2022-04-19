@@ -1,12 +1,15 @@
 import React from 'react';
 
 const Answer = (props) =>  {
-    const { body, date, helpfulness, photos } = props;
+    const { body, date, helpfulness, photos, answerer_name } = props;
 
     return (
+        <>
         <div key={body} >
             <span style={{ fontWeight: 600 }}>A:</span> {body}
         </div>
+        <div><span> by </span>{answerer_name}, {date} | Helpful? Yes({helpfulness})</div>
+        </>
     );
 
 }
