@@ -15,7 +15,7 @@ const RatingAndName = styled.div`
   justify-content: space-between;
 `;
 
-const Image = styled.img`
+export const Image = styled.img`
   & {
     display: inline-block;
     margin-right: 20px;

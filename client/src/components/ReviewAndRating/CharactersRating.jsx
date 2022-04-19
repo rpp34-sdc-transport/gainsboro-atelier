@@ -10,7 +10,6 @@ const Character = styled.div`
 const CharacterTitle = styled.span`
   display: inline-block;
   width: 110px;
-  // border: 1px solid red;
 `;
 
 const RadiosAndSelection = styled.div`
@@ -24,7 +23,7 @@ const RadiosAndSelection = styled.div`
 const Selections = styled.div`
   display: flex;
   justify-content: space-between;
-  font-size: 14px;
+  font-size: 12px;
   color: #378f1e;
 `;
 
@@ -41,7 +40,7 @@ const Radios = styled.div`
 const HighLowSelection = styled.div`
   display: flex;
   justify-content: space-between;
-  font-size: 14px;
+  font-size: 12px;
   color: #5f5f5f;
 `;
 
@@ -84,7 +83,6 @@ export default class CharactersRating extends React.Component{
                     <Selection
                       key={index}
                       show={this.state.selectedCharacters[character] === index ? 'visible' : 'hidden'}
-                      data-testid={`${character}-${selection}`}
                     >
                       {selection}
                     </Selection>
@@ -99,7 +97,6 @@ export default class CharactersRating extends React.Component{
                       value={index + 1}
                       onChange={(e) => this.selectedCharacter(e, character, index)}
                       required
-                      data-testid={`${character}-${index+1}`}
                     />
                   )}
                 </Radios>
