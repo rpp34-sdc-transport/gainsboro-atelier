@@ -70,29 +70,37 @@ app.get('/products/:product_id/related', (req, res) => {
   var url = `${apiHost}/products/${req.params.product_id}/related`;
   axios.get(url, options)
   .then(({data}) => {
-    var relatedProducts = data;
-    console.log('relatedProducts', relatedProducts);
-    var stylesAPICalls = relatedProducts.map(productId => {
-      var styleURL = `${apiHost}/products/${productId}/styles`;
-      console.log('productid', productId);
-      return axios.get(styleURL, options)
+    console.log('related product list', data);
+    var productInfo = data.map(productId => {
+      var infoURL = `${apiHost}/products/${productId}`;
+      return axios.get(infoURL, options)
+      .then(({data}) => {
+        const {id, name, category, features} = data;
+        var productInfo = {id, name, category, features};
+        return productInfo;
+      })
     })
-    return stylesAPICalls;
+    return Promise.all(productInfo);
   })
-  .then(stylesAPICalls => Promise.all(stylesAPICalls))
-  .then(response => {
-    var defaultStyles = response.map(({data}) => {
-      var styles = data.results;
-      var defaultStyle = styles.reduce((defaultStyle, style) => defaultStyle = style['default?'] ? {...defaultStyle, ...style} : {...defaultStyle}, {});
-      data.results = defaultStyle;
-      return data;
+  .then(productInfo => {
+    console.log('productInfo', productInfo)
+    var defaultStyles = productInfo.map(info => {
+      console.log('info', info);
+      var styleURL = `${apiHost}/products/${info.id}/styles`;
+      return axios.get(styleURL, options)
+      .then(({data}) => {
+        var styles = data.results;
+        var defaultStyle = styles.reduce((defaultStyle, style) => defaultStyle = style['default?'] ? {...defaultStyle, ...style} : {...defaultStyle}, {});
+        info.defaultStyle = defaultStyle;
+        return info;
+      })
     })
-    console.log('defaultStyles', defaultStyles);
-    return defaultStyles;
+    return Promise.all(defaultStyles);
   })
   .then(defaultStyles => {
+    console.log('defaultStyles', defaultStyles)
     var relatedProducts = defaultStyles.map(defaultStyle => {
-      var metaURL = `${apiHost}/reviews/meta?product_id=${defaultStyle.product_id}`;
+      var metaURL = `${apiHost}/reviews/meta?product_id=${defaultStyle.id}`;
       return axios.get(metaURL, options)
       .then(({data}) => {
         var ratings = data.ratings;
