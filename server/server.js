@@ -90,7 +90,12 @@ app.get('/products/:product_id/related', (req, res) => {
       return axios.get(styleURL, options)
       .then(({data}) => {
         var styles = data.results;
+        console.log('styles', styles);
         var defaultStyle = styles.reduce((defaultStyle, style) => defaultStyle = style['default?'] ? {...defaultStyle, ...style} : {...defaultStyle}, {});
+        console.log('defaultStyle', defaultStyle);
+        if (!Object.keys(defaultStyle).length) {
+          defaultStyle = styles[0];
+        }
         info.defaultStyle = defaultStyle;
         return info;
       })

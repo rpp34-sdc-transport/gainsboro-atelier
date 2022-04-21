@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import RelatedProducts from './RelatedProducts.jsx';
+import YourOutfit from './YourOutfit.jsx';
 
 export default class RelatedAndOutfits extends React.Component {
 
@@ -10,6 +11,8 @@ export default class RelatedAndOutfits extends React.Component {
     <div>
       <p>RELATED PRODUCTS</p>
       <RelatedProducts relatedProducts={relatedProducts} currFeature={currFeature} currName={currName}/>
+      <p>YOUR OUTFIT</p>
+      <YourOutfit />
     </div>
     )
   }

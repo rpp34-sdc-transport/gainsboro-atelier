@@ -54,9 +54,10 @@ export default class FeatureModal extends React.Component{
 
   render() {
     const {selectedProduct, currFeature, currName, handleCloseModalClick} = this.props;
-    const allFeatures = [...selectedProduct.features, ...currFeature].map(obj => obj.feature);
+    console.log('selectedProduct', selectedProduct);
     console.log('selectedFeatures', selectedProduct.features);
     console.log('currFeature', currFeature);
+    const allFeatures = [...selectedProduct.features, ...currFeature].map(obj => obj.feature);
     console.log('allFeatures', allFeatures);
     const uniqueFeatures = [...new Set(allFeatures)];
     console.log('uniqueFeatures', uniqueFeatures);

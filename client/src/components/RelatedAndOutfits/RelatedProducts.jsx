@@ -30,7 +30,6 @@ const BackArrowIcon = styled(MdOutlineArrowBackIosNew)`
 `
 
 const ForwardArrow = styled.div`
-  font-size: 30px;
   width: 50px;
   padding-top: 160px;
 `;
@@ -48,7 +47,7 @@ const ForwardArrowIcon = styled(MdArrowForwardIos)`
   }
 `
 
-const Card = styled.div`
+export const Card = styled.div`
   &{
     border: 1px solid #b4b4b4;
     border-radius: 3px;
@@ -64,6 +63,11 @@ const NoImage = styled.div`
   width: 250px;
   height: 300px;
   background-color: #ebebeb;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 50px;
+  color:
 `;
 
 const Image = styled.div`
@@ -110,6 +114,7 @@ export default class RelatedProducts extends React.Component {
       clickedStar: false,
       showModal: false,
       selectedProduct: '',
+      selectedProductImageIndex: false,
       firstProductIndex: 0,
       showThumbnailCarousel: false
     }
@@ -118,7 +123,8 @@ export default class RelatedProducts extends React.Component {
     this.handleForwardArrowClick = this.handleForwardArrowClick.bind(this);
     this.handleBackArrowClick = this.handleBackArrowClick.bind(this);
     this.handleMouseEnterImageClick = this.handleMouseEnterImageClick.bind(this);
-
+    this.handleMouseLeaveImageClick = this.handleMouseLeaveImageClick.bind(this);
+    this.handleChangePreviewImageClick = this.handleChangePreviewImageClick.bind(this);
   }
 
   handleCompareStarClick(num) {
@@ -146,6 +152,14 @@ export default class RelatedProducts extends React.Component {
     this.setState({showThumbnailCarousel: true, selectedProduct: num})
   }
 
+  handleMouseLeaveImageClick() {
+    this.setState({showThumbnailCarousel: false, selectedProduct: '', selectedProductImageIndex: false})
+  }
+
+  handleChangePreviewImageClick(num) {
+    this.setState({selectedProductImageIndex: num})
+  }
+
   render() {
     const {relatedProducts, currFeature, currName} = this.props;
     return(
@@ -165,8 +179,12 @@ export default class RelatedProducts extends React.Component {
                 <NoImage>
                   <MdOutlineHideImage/>
                 </NoImage> :
-                <Image url={photos[0].thumbnail_url} onMouseEnter={this.handleMouseEnterImageClick}>
-                  {this.state.selectedProduct === index && this.state.showThumbnailCarousel && <ThumbnailCarousel thumbnails={product.defaultStyle.photos}/>}
+                <Image
+                  url={this.state.selectedProduct === index && this.state.selectedProductImageIndex !== false ? photos[this.state.selectedProductImageIndex].thumbnail_url : photos[0].thumbnail_url}
+                  onMouseEnter={() => this.handleMouseEnterImageClick(index)}
+                  onMouseLeave={this.handleMouseLeaveImageClick}
+                >
+                  {this.state.selectedProduct === index && this.state.showThumbnailCarousel && <ThumbnailCarousel photos={product.defaultStyle.photos} handleChangePreviewImageClick={this.handleChangePreviewImageClick}/>}
                 </Image>
               }
               <Star opacity={this.state.selectedProduct === index && this.state.clickedStar? 1 : 0.5} onClick={() => this.handleCompareStarClick(index)}/>
