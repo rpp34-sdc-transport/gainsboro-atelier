@@ -1,6 +1,8 @@
 import React from 'react';
 import axios from 'axios';
 import {CloseImage} from './Review.jsx';
+import CharactersRating from './CharactersRating.jsx';
+import ImageUpload from './ImageUpload.jsx';
 import styled from 'styled-components';
 import {MdStar} from 'react-icons/md';
 import {FcCheckmark} from "react-icons/fc";
@@ -140,6 +142,9 @@ export default class AddReview extends React.Component{
     this.handleHoverStarRating = this.handleHoverStarRating.bind(this);
     this.handleRecommendChange = this.handleRecommendChange.bind(this);
     this.handleFormChange = this.handleFormChange.bind(this);
+    this.handleCharacterChange = this.handleCharacterChange.bind(this);
+    this.handlePhotosChange = this.handlePhotosChange.bind(this);
+    this.handlePhotoDeleteClick = this.handlePhotoDeleteClick.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.closeModal = this.closeModal.bind(this);
   }
@@ -162,6 +167,24 @@ export default class AddReview extends React.Component{
 
   handleFormChange(e) {
     this.setState({[e.target.name]: e.target.value})
+  }
+
+  handleCharacterChange(e) {
+    this.setState(preState => ({
+      characteristics: {...preState.characteristics, [e.target.name]: Number(e.target.value)}
+    }))
+  }
+
+  handlePhotosChange(e) {
+    this.setState(preState => {
+      console.log('e.target.files', e.target.files);
+      console.log('e.target.files[0]', e.target.files[0]);
+      return ({photos: [...preState.photos, e.target.files[0]]})
+    })
+  }
+
+  handlePhotoDeleteClick(deletedIndex) {
+    this.setState(preState => ({photos: preState.photos.filter((photo, index) => index !== deletedIndex)}))
   }
 
   handleFormSubmit(e) {
@@ -262,6 +285,12 @@ export default class AddReview extends React.Component{
                 </div>
               </Section>
               <Section>
+                <CharactersRating
+                  characteristics={this.props.characteristics}
+                  handleCharacterChange={this.handleCharacterChange}
+                />
+              </Section>
+              <Section>
                 <Title>Review summary</Title>
                 <div>
                   <TextArea
@@ -296,6 +325,13 @@ export default class AddReview extends React.Component{
                   }
                   {this.state.body.length === 1000 && <ErrMessage><MdErrorOutline />Maximum reached</ErrMessage>}
                 </div>
+              </Section>
+              <Section>
+                <ImageUpload
+                  photos={this.state.photos}
+                  handlePhotosChange={this.handlePhotosChange}
+                  handlePhotoDeleteClick={this.handlePhotoDeleteClick}
+                />
               </Section>
               <Section>
                 <Title>Nickname<Asterisk/></Title>

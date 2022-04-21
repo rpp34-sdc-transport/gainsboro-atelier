@@ -1,9 +1,12 @@
 const path = require("path")
 const express = require("express");
+const multer = require("multer");
 const axios = require("axios");
 const bodyParser = require("body-parser");
 const {token} = require("../config.js");
+const uploadImages = require("../imageAPI/imageAPI.js");
 
+const upload = multer({storage: multer.diskStorage({})});
 const app = express();
 const PORT = 3000;
 const apiHost = 'https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp';
@@ -92,6 +95,43 @@ app.get('/reviews/meta/:product_id', (req, res) => {
   .catch(err => res.sendStatus(500))
 })
 
+app.post('/reviews', upload.array("images"), (req, res) => {
+  const {product_id, rating, summary, body, recommend, name, email, characteristics} = req.body;
+  uploadImages(req.files)
+  .then(data => {
+    console.log('get url from cloudinary', data)
+    var photos = data;
+    var formData = {
+      product_id: JSON.parse(product_id),
+      rating: JSON.parse(rating),
+      summary,
+      body,
+      recommend: JSON.parse(recommend),
+      name,
+      email,
+      characteristics: JSON.parse(characteristics),
+      photos
+    }
+    console.log('formData', formData);
+    var config = {
+      headers: {
+        Authorization: token,
+        'content-type': 'application/json'
+      }
+    }
+    return axios.post(`${apiHost}/reviews`, formData, config)
+  })
+  .then(data => {
+    console.log('upload successfully', data.data);
+    res.send(data.data)
+  })
+  .catch(err => {
+    console.log('err', err);
+    res.sendStatus(500);
+  })
+})
+
+
 app.get('/qa/questions', (req, res) => {
   var {product_id} = req.query;
   var url = `${apiHost}/qa/questions?product_id=${product_id}`;
@@ -140,9 +180,9 @@ app.get('/related', (req, res) => {
     //get product_id's of related products
     axios.get(url)
     //should return an array of product id's
-    //then we need to get the product info of each product in the array in the promise. 
+    //then we need to get the product info of each product in the array in the promise.
     .then(data => {
-      
+
     })
 })
 
@@ -165,6 +205,8 @@ app.post('/qa/questions', jsonParser, (req, res) => {
     res.sendStatus(500)
   })
 })
+
+
 
 app.listen(PORT, () => {
   console.log(`connected to port ${PORT}`);
