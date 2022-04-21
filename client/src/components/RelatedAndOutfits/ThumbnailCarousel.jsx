@@ -80,7 +80,7 @@ export default class ThumbnailCarousel extends React.Component{
   }
 
   render() {
-    const {photos, handleChangePreviewImageClick} = this.props;
+    const {id, photos, handleChangePreviewImageClick} = this.props;
     console.log('photos', photos);
     return(
       <Modal>
@@ -90,7 +90,7 @@ export default class ThumbnailCarousel extends React.Component{
           </BackArrow>
         }
         {photos.slice(this.state.firstImageIndex, this.state.firstImageIndex+4).map((photo, index) =>
-          <Thumbnail key={index} url={photo.thumbnail_url} onClick={() => handleChangePreviewImageClick(index)}></Thumbnail>
+          <Thumbnail key={index} url={photo.thumbnail_url} onClick={() => handleChangePreviewImageClick(id, this.state.firstImageIndex + index)}></Thumbnail>
         )}
         {photos[this.state.firstImageIndex + 4] &&
           <ForwardArrow>

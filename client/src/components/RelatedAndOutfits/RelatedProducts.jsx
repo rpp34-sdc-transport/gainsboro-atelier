@@ -89,8 +89,7 @@ const Heading5 = styled.h5`
 
 const Star = styled(MdOutlineStar)`
   &{
-    color: #ffc107;
-    opacity: ${props => props.opacitys};
+    color: ${props => props.color};
     width: 25px;
     height: 25px;
     position: absolute;
@@ -112,11 +111,10 @@ export default class RelatedProducts extends React.Component {
     super(props);
     this.state = {
       clickedStar: false,
-      showModal: false,
-      selectedProduct: '',
-      selectedProductImageIndex: false,
+      showModal: '',
+      previewImages: {},
       firstProductIndex: 0,
-      showThumbnailCarousel: false
+      showThumbnailCarousel: ''
     }
     this.handleCompareStarClick = this.handleCompareStarClick.bind(this);
     this.handleCloseModalClick = this.handleCloseModalClick.bind(this);
@@ -127,17 +125,17 @@ export default class RelatedProducts extends React.Component {
     this.handleChangePreviewImageClick = this.handleChangePreviewImageClick.bind(this);
   }
 
-  handleCompareStarClick(num) {
-    console.log('num', num);
+  handleCompareStarClick(modal, star) {
+    console.log('modal', modal);
+    console.log('star', star);
     this.setState({
-      showModal: true,
-      selectedProduct: num,
-      clickedStar: true
+      showModal: modal,
+      clickedStar: star
     })
   }
 
   handleCloseModalClick() {
-    this.setState({showModal: false, selectedProduct: '', clickedStar: false})
+    this.setState({showModal: '', clickedStar: false})
   }
 
   handleForwardArrowClick() {
@@ -148,16 +146,16 @@ export default class RelatedProducts extends React.Component {
     this.setState(preState => ({firstProductIndex: preState.firstProductIndex - 1}))
   }
 
-  handleMouseEnterImageClick(num) {
-    this.setState({showThumbnailCarousel: true, selectedProduct: num})
+  handleMouseEnterImageClick(str) {
+    this.setState({showThumbnailCarousel: str})
   }
 
   handleMouseLeaveImageClick() {
-    this.setState({showThumbnailCarousel: false, selectedProduct: '', selectedProductImageIndex: false})
+    this.setState({showThumbnailCarousel: ''})
   }
 
-  handleChangePreviewImageClick(num) {
-    this.setState({selectedProductImageIndex: num})
+  handleChangePreviewImageClick(id, index) {
+    this.setState(preState => ({previewImages: {...preState.previewImages, [id]: index}}))
   }
 
   render() {
@@ -169,10 +167,9 @@ export default class RelatedProducts extends React.Component {
             <BackArrowIcon onClick={this.handleBackArrowClick}/>
           </BackArrow>
         }
-        {relatedProducts.slice(this.state.firstProductIndex, this.state.firstProductIndex + 4).map((product, index) => {
+        {relatedProducts.slice(this.state.firstProductIndex, this.state.firstProductIndex + 4).map(product => {
           const {id, ratings, name, features, defaultStyle, category} = product;
           const {original_price, sale_price, photos} = defaultStyle;
-          console.log('photos', photos);
           return (
             <Card key={id}>
               {!photos || !photos[0].thumbnail_url ?
@@ -180,14 +177,29 @@ export default class RelatedProducts extends React.Component {
                   <MdOutlineHideImage/>
                 </NoImage> :
                 <Image
-                  url={this.state.selectedProduct === index && this.state.selectedProductImageIndex !== false ? photos[this.state.selectedProductImageIndex].thumbnail_url : photos[0].thumbnail_url}
-                  onMouseEnter={() => this.handleMouseEnterImageClick(index)}
+                  url={this.state.previewImages[id] !== undefined ? photos[this.state.previewImages[id]].thumbnail_url : photos[0].thumbnail_url}
+                  onMouseEnter={() => this.handleMouseEnterImageClick(`${id}thumbnailCarousel`)}
                   onMouseLeave={this.handleMouseLeaveImageClick}
                 >
-                  {this.state.selectedProduct === index && this.state.showThumbnailCarousel && <ThumbnailCarousel photos={product.defaultStyle.photos} handleChangePreviewImageClick={this.handleChangePreviewImageClick}/>}
+                  {this.state.showThumbnailCarousel === `${id}thumbnailCarousel` &&
+                    <ThumbnailCarousel
+                      id={id}
+                      photos={photos}
+                      handleChangePreviewImageClick={this.handleChangePreviewImageClick}
+                    />
+                  }
+                  {this.state.showModal === `${id}featureModal` &&
+                    <FeatureModal
+                      selectedName={name}
+                      selectedFeature={features}
+                      currFeature={currFeature}
+                      currName={currName}
+                      handleCloseModalClick={this.handleCloseModalClick}
+                    />
+                  }
                 </Image>
               }
-              <Star opacity={this.state.selectedProduct === index && this.state.clickedStar? 1 : 0.5} onClick={() => this.handleCompareStarClick(index)}/>
+              <Star color={this.state.clickedStar === `${id}star`? '#378f1e' : '#ffc107'} onClick={() => this.handleCompareStarClick(`${id}featureModal`, `${id}star`)}/>
               <TextBox>
                 <small>{category}</small>
                 <Heading5>{name}</Heading5>
@@ -201,14 +213,6 @@ export default class RelatedProducts extends React.Component {
           <ForwardArrow>
             <ForwardArrowIcon onClick={this.handleForwardArrowClick}/>
           </ForwardArrow>
-        }
-        {this.state.showModal &&
-          <FeatureModal
-            selectedProduct={relatedProducts[this.state.selectedProduct]}
-            currFeature={currFeature}
-            currName={currName}
-            handleCloseModalClick={this.handleCloseModalClick}
-          />
         }
       </Container>
     )

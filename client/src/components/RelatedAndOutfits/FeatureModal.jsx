@@ -4,14 +4,16 @@ import styled from 'styled-components';
 
 const Modal = styled.div`
   position: absolute;
-  top: 100px;
-  left: 400px;
+  z-index: 1;
+  top: 200px;
+  left: -40px;
   width: 450px;
   max-height: 400px;
   border: 1px solid #b4b4b4;
   background-color: #FAFAFA;
   margin: auto;
   padding: 20px;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 15px 25px, rgba(0, 0, 0, 0.05) 0px 5px 10px;
 `;
 
 const Names = styled.div`
@@ -53,11 +55,11 @@ export default class FeatureModal extends React.Component{
   }
 
   render() {
-    const {selectedProduct, currFeature, currName, handleCloseModalClick} = this.props;
-    console.log('selectedProduct', selectedProduct);
-    console.log('selectedFeatures', selectedProduct.features);
+    const {selectedName, selectedFeature, currFeature, currName, handleCloseModalClick} = this.props;
+    console.log('selectedName', selectedName);
+    console.log('selectedFeature', selectedFeature);
     console.log('currFeature', currFeature);
-    const allFeatures = [...selectedProduct.features, ...currFeature].map(obj => obj.feature);
+    const allFeatures = [...selectedFeature, ...currFeature].map(obj => obj.feature);
     console.log('allFeatures', allFeatures);
     const uniqueFeatures = [...new Set(allFeatures)];
     console.log('uniqueFeatures', uniqueFeatures);
@@ -66,7 +68,7 @@ export default class FeatureModal extends React.Component{
         <small>COMPARING</small>
         <Names>
           <h5>{currName}</h5>
-          <h5>{selectedProduct.name}</h5>
+          <h5>{selectedName}</h5>
         </Names>
         {uniqueFeatures.map(targetFeature =>
           <Item key={targetFeature}>
@@ -75,7 +77,7 @@ export default class FeatureModal extends React.Component{
             </CurrValue>
             <FeatureName>{targetFeature}</FeatureName>
             <SelectedValue>
-              {this.getFeatureValue(targetFeature, selectedProduct.features)}
+              {this.getFeatureValue(targetFeature, selectedFeature)}
             </SelectedValue>
           </Item>
         )}
