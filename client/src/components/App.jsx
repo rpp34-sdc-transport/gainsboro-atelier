@@ -1,9 +1,9 @@
 import React from 'react';
 import axios from 'axios';
 import Overview from './Overview/Overview.jsx';
+import RelatedAndOutfits from './RelatedAndOutfits/RelatedAndOutfits.jsx';
 import ReviewAndRating from './ReviewAndRating/ReviewAndRating.jsx';
 import GlobalStyle from '../globalStyles.js'
-import RelatedProductsWidget from './related-products-widget.jsx';
 import QuestionAnswer from './QuestionsAndAnswers/questionAnswer.jsx';
 
 export default class App extends React.Component {
@@ -26,12 +26,15 @@ export default class App extends React.Component {
   componentDidMount() {
     axios(`/overview/${this.state.product_id}`)
     .then(({data})=>{
-      this.setState({
-        overview: data
-      })
+      this.setState({overview: data})
     });
 
-    axios(`/reviews?product_id=${this.state.product_id}&sort=${this.state.sort}&count=500`)
+    axios.get(`/products/${this.state.product_id}/related`)
+    .then(({data}) => {
+      this.setState({relatedProducts: data})
+    })
+
+    axios.get(`/reviews?product_id=${this.state.product_id}&sort=${this.state.sort}&count=500`)
     .then(data => {
       var reviews = data.data;
       this.setState(preState => ({
@@ -40,12 +43,12 @@ export default class App extends React.Component {
       }))
     });
 
-    axios(`/reviews/meta/${this.state.product_id}`)
+    axios.get(`/reviews/meta/${this.state.product_id}`)
     .then(data => {
       var meta = data.data;
       this.setState({meta})
     })
-    
+
   }
 
 
@@ -75,8 +78,8 @@ export default class App extends React.Component {
       <>
         <GlobalStyle />
         <Overview data={this.state.overview}/>
-        <RelatedProductsWidget products={this.state.relatedProducts}/>
-        <QuestionAnswer 
+        <RelatedAndOutfits />
+        <QuestionAnswer
           productId={this.state.product_id}
           overview={this.state.overview}
         />
