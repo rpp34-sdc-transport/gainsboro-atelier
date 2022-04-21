@@ -5,7 +5,8 @@ import {MdChevronLeft, MdChevronRight, MdOutlineExpandLess, MdOutlineExpandMore}
 
 const thumbnailHeight = 48;
 const thumbnailBottom = 4;
-const thumbnailsHeight = 5 * (thumbnailHeight + thumbnailBottom);
+const countVisibleThumbnails = 7
+const thumbnailsHeight = countVisibleThumbnails * (thumbnailHeight + thumbnailBottom);
 
 const Gallery = styled.div`
   display: flex;
@@ -27,8 +28,8 @@ const ImageButton = styled.button`
 `;
 
 const ImgThumbnail = styled.img`
-  width: 64px;
-  height: auto;
+  width: ${props => (props.landscapeOrientation ? 'auto': '64px')};
+  height: ${props => (props.landscapeOrientation ? '64px' : 'auto')};
   overflow: hidden;
 `;
 
@@ -73,22 +74,30 @@ export default class ImageGallery extends React.Component {
     super(props);
     this.state = {
       currentIndex: 0,
+      landscapeOrientations: [],
       modalIsOpen: false
     }
 
     this.changeImage = this.changeImage.bind(this);
     this.imageBack = this.imageBack.bind(this);
     this.imageForward = this.imageForward.bind(this);
+    this.loadLandscapeOrientation = this.loadLandscapeOrientation.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
   }
 
   changeImage(e){
-    console.log(e.currentTarget);
-    console.log(e.target.getAttribute('value'));
     const currentIndex = parseInt(e.target.getAttribute('value')) || parseInt(e.currentTarget.getAttribute('value'));
-    // console.log(e.target.getAttribute('value'));
     this.setState({
       currentIndex: currentIndex
+    })
+  }
+
+  loadLandscapeOrientation(e, index){
+    let landscape = e.target.offsetWidth > e.target.offsetHeight ? true : false;
+    let orientations = this.state.landscapeOrientations;
+    orientations[index] = landscape;
+    this.setState({
+      landscapeOrientations: orientations
     })
   }
 
@@ -116,21 +125,33 @@ export default class ImageGallery extends React.Component {
 
   render() {
     const {currentStyle, photos} = this.props;
-    const thumbnails = photos.map((photo, index) => (
+    const thumbnails = photos.map((photo, index) => {
+      return (
       index === this.state.currentIndex ? (
-      <ThumbnailWrapperActive key={index} onClick={this.changeImage} >
-        <ImgThumbnail src={photo.thumbnail_url} value={index}/>
+      <ThumbnailWrapperActive key={index}>
+        <ImgThumbnail
+          landscapeOrientation={this.state.landscapeOrientations[index] || false}
+          onLoad={(e)=>{
+            this.loadLandscapeOrientation(e, index);}}
+          src={photo.thumbnail_url}
+          value={index}
+        />
       </ThumbnailWrapperActive>
       ) : (
       <ThumbnailWrapper key={index} onClick={this.changeImage} >
-        <ImgThumbnail src={photo.thumbnail_url} value={index}/>
+        <ImgThumbnail
+          landscapeOrientation={this.state.landscapeOrientations[index] || false}
+          onLoad={(e)=>{
+            this.loadLandscapeOrientation(e, index);}}
+          src={photo.thumbnail_url}
+          value={index}
+        />
       </ThumbnailWrapper>
       )
-    ));
+    )});
 
-    const thumbnailsOffset = this.state.currentIndex > 4 ? -(this.state.currentIndex - 4) * (thumbnailHeight + thumbnailBottom) : 0;
+    const thumbnailsOffset = this.state.currentIndex >= countVisibleThumbnails ? -(this.state.currentIndex - countVisibleThumbnails -1) * (thumbnailHeight + thumbnailBottom) : 0;
 
-    console.log ('offset', thumbnailsOffset);
     let nextImage, previousImage, nextThumbnail, previousThumbnail;
 
     return (

@@ -39,16 +39,26 @@ export default class Overview extends React.Component {
     })
   }
 
+  loadLandscapeOrientation(landscapeOrientation){
+    if (landscapeOrientation) {
+
+    } else {
+
+    }
+  }
   render() {
     const {category, default_price, description, features, id, name, slogan, styleData = []} = this.props.data;
 
     let addToCart, imageGallery, styleSelector;
+
+
     if (styleData[this.state.currentStyle]) {
       addToCart = <AddToCart skus={styleData[this.state.currentStyle]['skus']}/>;
       imageGallery = <ImageGallery currentStyle={this.state.currentStyle} photos={styleData[this.state.currentStyle]['photos']}/>;
       styleSelector = <StyleSelector changeStyle={this.changeStyle} currentStyle={this.state.currentStyle} styles={styleData} />
     }
 
+    //Add discounted price if available
     let price = this.state.salePrice === null ?
     <p>${this.state.originalPrice}</p> :
     (<div>

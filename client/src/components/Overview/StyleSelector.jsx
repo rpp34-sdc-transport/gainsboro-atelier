@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
+
 import styled from 'styled-components';
-import {MdCheck} from "react-icons/md";
+import { MdCheck } from "react-icons/md";
 
 const Styles = styled.div`
   display: flex;
@@ -24,8 +25,8 @@ const ThumbnailWrapper = styled.div`
 `;
 
 const Img = styled.img`
-  width: ${props => (props.landscapeOrientation ? '64px' : 'auto')};
-  height: ${props => (props.landscapeOrientation ? 'auto': '64px')};
+  width: ${props => (props.landscapeOrientation ? 'auto': '64px')};
+  height: ${props => (props.landscapeOrientation ? '64px' : 'auto')};
   overflow: hidden;
 `;
 
@@ -41,42 +42,14 @@ const Selected = styled.div`
 `;
 
 export default function StyleSelector ({changeStyle, currentStyle, styles}) {
-
-  // console.log('styles: ', styles);
-
+  const [landscapeOrientations, setLandscapeOrientation] = useState([]);
 
   const styleThumbnails = styles.map((style, index)=> {
     let selected;
     let imageUrl = style['photos'][0]['thumbnail_url'];
     if (index === currentStyle) {
-      selected = <Selected>
-        <MdCheck/>
-      </Selected>;
+      selected = <Selected><MdCheck/></Selected>;
     }
-
-    // let getImageDimensions = ()=>{
-    //   return new Promise ((resolve, reject)=>{
-    //         let img = new Image();
-    //         img.src = imageUrl;
-    //         img.onload = () => resolve([img.height, img.width]);
-    //         img.onerror = reject;
-    //   });
-    // };
-
-    // const dimensions = await getImageDimensions();
-    // console.log('dimensions', dimensions);
-
-    let landscapeOrientation = true;
-
-
-    // const load = await img.onload = () => {
-    //   console.log('image height', img.height);
-    //   console.log('image width', img.width);
-    //   if (img.height > img.width) {
-    //     landscapeOrientation = false;
-    //   }
-    //   console.log('landscape orientation: ', landscapeOrientation);
-    // };
 
     return (
       <Style
@@ -86,11 +59,12 @@ export default function StyleSelector ({changeStyle, currentStyle, styles}) {
         <ThumbnailWrapper>
           <Img
             src={imageUrl}
-            landscapeOrientation={landscapeOrientation}
+            landscapeOrientation={landscapeOrientations[index] || false}
             onLoad={(e)=>{
-              // console.log('event: ', e);
-              // let landscape = e.target.offsetWidth > e.target.offsetHeight ? true : false;
-              // console.log('landscape orientation', landscape);
+              let landscape = e.target.offsetWidth > e.target.offsetHeight ? true : false;
+              let orientations = [...landscapeOrientations];
+              orientations[index] = landscape;
+              setLandscapeOrientation(orientations);
             }}
           />
           {selected}

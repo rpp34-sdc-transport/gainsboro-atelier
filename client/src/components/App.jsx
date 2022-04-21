@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import {useParams} from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import GlobalStyle from '../globalStyles.js'
 import Overview from './Overview/Overview.jsx';
 import QuestionAnswer from './QuestionsAndAnswers/questionAnswer.jsx';
@@ -30,8 +30,9 @@ class App extends React.Component {
   }
 
   componentDidMount() {
+    const id = this.props.params.productId || this.state['product_id'];
     this.setState({
-      product_id: this.props.params.productId
+      product_id: id
     }, ()=>{
 
       axios(`/overview/${this.state.product_id}`)
