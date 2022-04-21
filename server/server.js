@@ -65,6 +65,61 @@ app.post('/cart', (req, res)=>{
   })
 })
 
+app.get('/products/:product_id/related', (req, res) => {
+  console.log('realted request');
+  var url = `${apiHost}/products/${req.params.product_id}/related`;
+  axios.get(url, options)
+  .then(({data}) => {
+    console.log('related product list', data);
+    var productInfo = data.map(productId => {
+      var infoURL = `${apiHost}/products/${productId}`;
+      return axios.get(infoURL, options)
+      .then(({data}) => {
+        const {id, name, category, features} = data;
+        var productInfo = {id, name, category, features};
+        return productInfo;
+      })
+    })
+    return Promise.all(productInfo);
+  })
+  .then(productInfo => {
+    console.log('productInfo', productInfo)
+    var defaultStyles = productInfo.map(info => {
+      console.log('info', info);
+      var styleURL = `${apiHost}/products/${info.id}/styles`;
+      return axios.get(styleURL, options)
+      .then(({data}) => {
+        var styles = data.results;
+        console.log('styles', styles);
+        var defaultStyle = styles.reduce((defaultStyle, style) => defaultStyle = style['default?'] ? {...defaultStyle, ...style} : {...defaultStyle}, {});
+        console.log('defaultStyle', defaultStyle);
+        if (!Object.keys(defaultStyle).length) {
+          defaultStyle = styles[0];
+        }
+        info.defaultStyle = defaultStyle;
+        return info;
+      })
+    })
+    return Promise.all(defaultStyles);
+  })
+  .then(defaultStyles => {
+    console.log('defaultStyles', defaultStyles)
+    var relatedProducts = defaultStyles.map(defaultStyle => {
+      var metaURL = `${apiHost}/reviews/meta?product_id=${defaultStyle.id}`;
+      return axios.get(metaURL, options)
+      .then(({data}) => {
+        var ratings = data.ratings;
+        defaultStyle.ratings = ratings;
+        console.log('defaultStyle', defaultStyle);
+        return defaultStyle;
+      });
+    })
+    return Promise.all(relatedProducts)
+  })
+  .then(relatedProducts => res.send(relatedProducts))
+  .catch(err => res.sendStatus(500))
+})
+
 app.get('/reviews', (req, res) => {
   var {product_id, sort, count} = req.query;
   var url = `${apiHost}/reviews?product_id=${product_id}&sort=${sort}&count=${count}`;
@@ -131,7 +186,6 @@ app.post('/reviews', upload.array("images"), (req, res) => {
   })
 })
 
-
 app.get('/qa/questions', (req, res) => {
   var {product_id} = req.query;
   var url = `${apiHost}/qa/questions?product_id=${product_id}`;
@@ -152,11 +206,11 @@ app.post('/qa/questions/:question_id/answers', (req, res) => {
     {
       'content-type': 'application/json',
       headers: {
-      Authorization: token
-    }
-  })
-  .then(data => {
-    res.send(data.data)
+        Authorization: token
+      }
+    })
+    .then(data => {
+      res.send(data.data)
   })
   .catch(err => {
     console.log(err)
@@ -173,19 +227,6 @@ app.put('/reviews/:review_id/report', (req, res) => {
   })
   // .catch(err => console.log(err))
 })
-
-app.get('/related', (req, res) => {
-  var url = `${apiHost}/products?product_id=${product_id}/related`;
-  var finalData = [];
-    //get product_id's of related products
-    axios.get(url)
-    //should return an array of product id's
-    //then we need to get the product info of each product in the array in the promise.
-    .then(data => {
-
-    })
-})
-
 
 app.post('/qa/questions', jsonParser, (req, res) => {
   var body = req.body;

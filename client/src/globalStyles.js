@@ -8,7 +8,8 @@ ${'' /* @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0
   }
 
   body {
-    color: #262626
+    color: #535353
+    // #262626
   }
 
   h1 {
