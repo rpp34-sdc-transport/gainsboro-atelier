@@ -1,14 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
 
+
 const Modal = styled.div`
+  position: absolute;
+  top: 100px;
+  left: 400px;
   width: 450px;
   max-height: 400px;
   border: 1px solid #b4b4b4;
   background-color: #FAFAFA;
-  position: absolute;
-  top: 100px;
-  left: 200px;
+  margin: auto;
   padding: 20px;
 `;
 
@@ -26,6 +28,7 @@ const Item = styled.div`
 const CurrValue = styled.small`
   flex-grow: 1;
   flex-basis: 0;
+  text-align: left;
 `;
 
 const FeatureName = styled.p`
@@ -42,8 +45,15 @@ const SelectedValue = styled.small`
 `;
 
 export default class FeatureModal extends React.Component{
+
+  getFeatureValue(targetFeature, featureArr) {
+    var value = featureArr.reduce((value, obj) => value = obj.feature === targetFeature ? value + obj.value : value, '');
+    console.log(value);
+    return value;
+  }
+
   render() {
-    const {selectedProduct, currFeature, currName} = this.props;
+    const {selectedProduct, currFeature, currName, handleCloseModalClick} = this.props;
     const allFeatures = [...selectedProduct.features, ...currFeature].map(obj => obj.feature);
     console.log('selectedFeatures', selectedProduct.features);
     console.log('currFeature', currFeature);
@@ -51,30 +61,20 @@ export default class FeatureModal extends React.Component{
     const uniqueFeatures = [...new Set(allFeatures)];
     console.log('uniqueFeatures', uniqueFeatures);
     return(
-      <Modal>
+      <Modal onClick={handleCloseModalClick}>
         <small>COMPARING</small>
         <Names>
           <h5>{currName}</h5>
           <h5>{selectedProduct.name}</h5>
         </Names>
         {uniqueFeatures.map(targetFeature =>
-          <Item>
+          <Item key={targetFeature}>
             <CurrValue>
-              {currFeature.reduce((value, obj) => {
-                if (obj.feature === targetFeature) {
-                  return value = value + obj.value
-                }
-                return value;
-              }, '')}
+              {this.getFeatureValue(targetFeature, currFeature)}
             </CurrValue>
             <FeatureName>{targetFeature}</FeatureName>
             <SelectedValue>
-              {selectedProduct.features.reduce((value, obj) => {
-                if (obj.feature === targetFeature) {
-                  return value = value + obj.value
-                }
-                return value;
-              }, '')}
+              {this.getFeatureValue(targetFeature, selectedProduct.features)}
             </SelectedValue>
           </Item>
         )}
