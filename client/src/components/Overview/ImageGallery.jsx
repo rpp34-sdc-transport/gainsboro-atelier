@@ -3,6 +3,10 @@ import ExpandedView from './ExpandedView.jsx';
 import styled from 'styled-components';
 import {MdChevronLeft, MdChevronRight, MdOutlineExpandLess, MdOutlineExpandMore} from "react-icons/md";
 
+const thumbnailHeight = 48;
+const thumbnailBottom = 4;
+const thumbnailsHeight = 5 * (thumbnailHeight + thumbnailBottom);
+
 const Gallery = styled.div`
   display: flex;
   flex-direction: row;
@@ -33,10 +37,13 @@ const ImageWrapper = styled.div`
   align-items: center;
 `;
 
-const Thumbnails = styled.div`
-  flex-direction: column;
-  height: 250px;
+const ThumbnailsView = styled.div`
+  height: ${`${thumbnailsHeight}px`};
   overflow: hidden;
+`;
+
+const ThumbnailsWrapper = styled.div`
+  margin-top: ${props => props.offset}px;
 `;
 
 const ThumbnailsSection = styled.div`
@@ -50,7 +57,6 @@ const ThumbnailWrapper = styled.div`
   height: 48px;
   overflow: hidden;
   margin-bottom: 4px;
-  }
 `;
 
 const ThumbnailWrapperActive = styled.div`
@@ -60,7 +66,6 @@ const ThumbnailWrapperActive = styled.div`
   height: 48px;
   overflow: hidden;
   margin-bottom: 4px;
-  }
 `;
 
 export default class ImageGallery extends React.Component {
@@ -122,14 +127,19 @@ export default class ImageGallery extends React.Component {
       )
     ));
 
+    const thumbnailsOffset = this.state.currentIndex > 4 ? -(this.state.currentIndex - 4) * (thumbnailHeight + thumbnailBottom) : 0;
+
+    console.log ('offset', thumbnailsOffset);
     let nextImage, previousImage, nextThumbnail, previousThumbnail;
 
     return (
       <Gallery>
         <ThumbnailsSection>
-          <Thumbnails>
-            {thumbnails}
-          </Thumbnails>
+          <ThumbnailsView>
+            <ThumbnailsWrapper offset={thumbnailsOffset}>
+              {thumbnails}
+            </ThumbnailsWrapper>
+          </ThumbnailsView>
           {this.state.currentIndex > 0 &&
           <ImageButton onClick={this.imageBack}><MdOutlineExpandLess/></ImageButton>}
           {this.state.currentIndex < photos.length -1 &&

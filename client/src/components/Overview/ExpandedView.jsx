@@ -19,7 +19,7 @@ const CarouselIndicatorsWrapper = styled.div`
   flex-direction: row;
 `;
 
-const closeButton = styled.div`
+const CloseButton = styled.div`
   width: 40px;
   height: 40px;
 `;
@@ -198,7 +198,7 @@ export default class ExpandedView extends React.Component {
     </CarouselIndicatorsWrapper>,
     <ImageButton onClick={imageBack}><MdChevronLeft/></ImageButton>,
     <ImageButton onClick={imageForward}><MdChevronRight/></ImageButton>,
-    <closeButton onClick={toggleModal}><MdOutlineClose/></closeButton>,
+    <CloseButton onClick={toggleModal}><MdOutlineClose/></CloseButton>,
     <ImgWrapper onClick={this.toggleZoom} url={url}>
       <Img onLoad={this.onImageLoad} src={url}></Img>
     </ImgWrapper>

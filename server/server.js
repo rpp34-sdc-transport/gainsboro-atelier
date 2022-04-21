@@ -134,6 +134,10 @@ app.post('/qa/questions', jsonParser, (req, res) => {
   })
 })
 
+app.get('*', function (request, response) {
+  response.sendFile(path.resolve(__dirname, "../client/dist", 'index.html'));
+});
+
 app.listen(PORT, () => {
   console.log(`connected to port ${PORT}`);
 });
