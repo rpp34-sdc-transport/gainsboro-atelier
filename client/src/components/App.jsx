@@ -3,8 +3,8 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import GlobalStyle from '../globalStyles.js'
 import Overview from './Overview/Overview.jsx';
+import RelatedAndOutfits from './RelatedAndOutfits/RelatedAndOutfits.jsx';
 import QuestionAnswer from './QuestionsAndAnswers/questionAnswer.jsx';
-import RelatedProductsWidget from './related-products-widget.jsx';
 import ReviewAndRating from './ReviewAndRating/ReviewAndRating.jsx';
 
 //HOC to pass down router params
@@ -22,7 +22,7 @@ class App extends React.Component {
       relatedProducts: [],
       sort: 'relevant',
       meta: {},
-      product_id: 64620
+      product_id: 64623 //64620
     }
 
     this.handleSortOptionChange = this.handleSortOptionChange.bind(this);
@@ -37,13 +37,17 @@ class App extends React.Component {
 
       axios(`/overview/${this.state.product_id}`)
       .then(({data})=>{
-        console.log(data);
         this.setState({
           overview: data
         })
       });
 
-      axios(`/reviews?product_id=${this.state.product_id}&sort=${this.state.sort}&count=500`)
+      axios.get(`/products/${this.state.product_id}/related`)
+      .then(({data}) => {
+        this.setState({relatedProducts: data})
+      });
+
+      axios.get(`/reviews?product_id=${this.state.product_id}&sort=${this.state.sort}&count=500`)
       .then(data => {
         var reviews = data.data;
         this.setState(preState => ({
@@ -52,13 +56,12 @@ class App extends React.Component {
         }))
       });
 
-      axios(`/reviews/meta/${this.state.product_id}`)
+      axios.get(`/reviews/meta/${this.state.product_id}`)
       .then(data => {
         var meta = data.data;
         this.setState({meta})
-      })
-    })
-
+     });
+    });
   }
 
 
@@ -88,7 +91,11 @@ class App extends React.Component {
       <>
         <GlobalStyle />
         {Object.keys(this.state.overview).length > 0 && <Overview data={this.state.overview} ratings={this.state.meta.ratings}/>}
-        <RelatedProductsWidget products={this.state.relatedProducts}/>
+        <RelatedAndOutfits
+          relatedProducts={this.state.relatedProducts}
+          currFeature={this.state.overview.features}
+          currName={this.state.overview.name}
+        />
         <QuestionAnswer
           productId={this.state.product_id}
           overview={this.state.overview}

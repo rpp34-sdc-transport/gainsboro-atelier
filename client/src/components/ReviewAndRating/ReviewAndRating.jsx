@@ -38,7 +38,7 @@ export default class ReviewAndRating extends React.Component{
     const {product_id, productName, meta, reviews, handleMoreReviewBtnClick, moreReviewBtn, handleSortOptionChange, voteForReview} = this.props;
     return (
       <div>
-        <h2>RATINGS & REVIEWS</h2>
+        <p>RATINGS & REVIEWS</p>
         <Container>
           {Object.keys(meta).length &&
             <Rating
