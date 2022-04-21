@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Review from './Review.jsx';
 import SortMenu from './SortMenu.jsx';
+import AddReview from './AddReview.jsx';
 import {FaPlus} from "react-icons/fa";
 
 const Container = styled.div`
@@ -30,16 +31,29 @@ export default class Reviews extends React.Component {
     super(props);
     this.state = {
       currReviewIndex: 2,
+      addReviewModal: false
     }
     this.handleMoreReviewBtnClick = this.handleMoreReviewBtnClick.bind(this);
+    this.handleAddRviewBtn = this.handleAddRviewBtn.bind(this);
+    this.handleCloseModalClick = this.handleCloseModalClick.bind(this);
   }
+
 
   handleMoreReviewBtnClick() {
     this.setState(preState => ({currReviewIndex: preState.currReviewIndex + 2}))
   }
 
+  handleAddRviewBtn() {
+    this.setState({addReviewModal: true})
+  }
+
+  handleCloseModalClick() {
+    this.setState({addReviewModal: false})
+  }
+
+
   render() {
-    const {reviews, ratingFilter, handleSortOptionChange, voteForReview} = this.props;
+    const {product_id, productName, reviews, characteristics, ratingFilter, handleSortOptionChange, voteForReview} = this.props;
 
     var filteredReivew = !ratingFilter.length ? reviews : reviews.filter(review => ratingFilter.includes(Number(review.rating)))
 
@@ -48,7 +62,7 @@ export default class Reviews extends React.Component {
 
     return (
       <Container>
-        <h3>{reviews.length} reviews, sorted by {reviews.length ? <SortMenu handleSortOptionChange={handleSortOptionChange}/> : '.'}</h3>
+        <h4>{reviews.length} reviews, sorted by {reviews.length ? <SortMenu handleSortOptionChange={handleSortOptionChange}/> : '.'}</h4>
         <ReviewList>
           {filteredReivew.length ?
             renderList.map((review, index) => <Review review={review} key={index} voteForReview={voteForReview}/> ) :
@@ -56,7 +70,14 @@ export default class Reviews extends React.Component {
           }
         </ReviewList>
         {restList.length > 0 && <Button type="button" onClick={this.handleMoreReviewBtnClick}>MORE REVIEWS</Button>}
-        <Button type="button">ADD A REVIEW <FaPlus /></Button>
+        <Button type="button" onClick={this.handleAddRviewBtn}>ADD A REVIEW <FaPlus /></Button>
+        {this.state.addReviewModal &&
+          <AddReview
+            product_id={product_id}
+            productName={productName}
+            characteristics={characteristics}
+            handleCloseModalClick={this.handleCloseModalClick}
+          />}
       </Container>
     );
   }

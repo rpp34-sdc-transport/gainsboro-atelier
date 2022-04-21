@@ -86,6 +86,7 @@ export default class ImageGallery extends React.Component {
     console.log(e.currentTarget);
     console.log(e.target.getAttribute('value'));
     const currentIndex = parseInt(e.target.getAttribute('value')) || parseInt(e.currentTarget.getAttribute('value'));
+    // console.log(e.target.getAttribute('value'));
     this.setState({
       currentIndex: currentIndex
     })

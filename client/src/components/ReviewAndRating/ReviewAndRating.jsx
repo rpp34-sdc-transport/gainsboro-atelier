@@ -35,7 +35,7 @@ export default class ReviewAndRating extends React.Component{
   }
 
   render() {
-    const {meta, reviews, handleMoreReviewBtnClick, moreReviewBtn, handleSortOptionChange, voteForReview} = this.props;
+    const {product_id, productName, meta, reviews, handleMoreReviewBtnClick, moreReviewBtn, handleSortOptionChange, voteForReview} = this.props;
     return (
       <div>
         <h2>RATINGS & REVIEWS</h2>
@@ -49,7 +49,10 @@ export default class ReviewAndRating extends React.Component{
               handleRemoveAllFiltersClick={this.handleRemoveAllFiltersClick}
             />}
           <Reviews
+            product_id={product_id}
+            productName={productName}
             reviews={reviews}
+            characteristics={meta.characteristics}
             ratingFilter={this.state.ratingFilter}
             handleMoreReviewBtnClick={handleMoreReviewBtnClick}
             moreReviewBtn={moreReviewBtn}

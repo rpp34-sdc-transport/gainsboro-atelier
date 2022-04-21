@@ -57,6 +57,7 @@ class App extends React.Component {
         this.setState({meta})
       })
     })
+
   }
 
 
@@ -84,15 +85,21 @@ class App extends React.Component {
   render() {
     return (
       <>
-          <GlobalStyle />
-          {Object.keys(this.state.overview).length > 0 && <Overview data={this.state.overview} ratings={this.state.meta.ratings}/>}
-          <RelatedProductsWidget products={this.state.relatedProducts}/>
-          <ReviewAndRating
-            meta={this.state.meta}
-            reviews={this.state.reviews}
-            handleSortOptionChange={this.handleSortOptionChange}
-            voteForReview={this.voteForReview}
-          />
+        <GlobalStyle />
+        {Object.keys(this.state.overview).length > 0 && <Overview data={this.state.overview} ratings={this.state.meta.ratings}/>}
+        <RelatedProductsWidget products={this.state.relatedProducts}/>
+        <QuestionAnswer
+          productId={this.state.product_id}
+          overview={this.state.overview}
+        />
+        <ReviewAndRating
+          product_id={this.state.product_id}
+          productName={this.state.overview.name}
+          meta={this.state.meta}
+          reviews={this.state.reviews}
+          handleSortOptionChange={this.handleSortOptionChange}
+          voteForReview={this.voteForReview}
+        />
       </>
     );
   }
