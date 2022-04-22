@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import { AnswersGroup } from './Answers.jsx';
 import { ModalQuestion } from './ModalQuestion.jsx';
 import { ModalAnswer } from './ModalAnswer.jsx';
+import { withAnalytics } from '../HOCs/withAnalytics.js';
+import { Question } from './Question.jsx';
 
 const Container = styled.div`
     display: flex;
@@ -17,23 +19,9 @@ const QABlock = styled.div`
     padding: 20px;
 `;
 
-const BoldSpan = styled.span`
-    font-weight: 600;
-`;
-
-const Question = styled.div`
-    display: flex;
-    justify-content: space-between;
-    font-weight: 600;
-`;
-
-const QuestionAction = styled.span`
-    text-decoration: underline;
-    cursor: pointer;
-`
 
 // By default, on page load up to two questions should be displayed. Therefore, initial showCount is 2
-export default class QuestionAnswer extends React.Component {
+class QuestionAnswer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -42,6 +30,7 @@ export default class QuestionAnswer extends React.Component {
             modalQuestionOpen: false,
             modalAnswerOpen: false,
             selectedQuestion: null,
+            helpfulVoted: false
         }
         this.openQuestionModal = this.openQuestionModal.bind(this);
         this.closeQuestionModal = this.closeQuestionModal.bind(this);
@@ -65,7 +54,7 @@ export default class QuestionAnswer extends React.Component {
             this.setState({ qas: data.results })
         });
     }
-    
+
     // The remaining questions/answers should be hidden until the user loads them using the “More Answered Questions” button
     expandQABlocks() {
         if (this.state.qas.length > this.state.showCount) {
@@ -118,10 +107,7 @@ export default class QuestionAnswer extends React.Component {
 
                     return (
                     <QABlock key={qa.question_id}>
-                        <Question>
-                            Q: {qa.question_body}
-                            <QuestionAction onClick={() => this.openAnswerModal(qa.question_id)}>Add answer</QuestionAction>
-                        </Question>
+                        <Question qa={qa} productId={this.props.productId}/>
                         <AnswersGroup answers={answersPrioritizingSeller} />
                     </QABlock>);
                 })}
@@ -158,4 +144,4 @@ export default class QuestionAnswer extends React.Component {
     }
 }
 
- 
+export default withAnalytics(QuestionAnswer, 'questionAnswer');
