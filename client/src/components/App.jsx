@@ -16,7 +16,7 @@ export default class App extends React.Component {
       relatedProducts: [],
       sort: 'relevant',
       meta: {},
-      product_id: 64623 //64620
+      product_id: 64626 //64620
     }
 
     this.handleSortOptionChange = this.handleSortOptionChange.bind(this);
