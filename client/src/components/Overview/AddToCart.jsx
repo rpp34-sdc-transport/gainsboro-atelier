@@ -65,7 +65,6 @@ export default class AddToCart extends React.Component {
 
 
   selectQuantity(e){
-    // console.log(e.target.value);
     this.setState({
       selectedQuantity: e.target.value
     })
@@ -86,12 +85,28 @@ export default class AddToCart extends React.Component {
         Select a size
       </option>)
 
-    let quantity;
+    let addToCart, size, quantity;
+
+    if (Object.keys(skus).length === 0){
+      size= <select name="sizes" disabled>
+      <option>OUT OF STOCK</option>
+    </select>;
+    } else {
+      size = <select
+      name="size"
+      onChange={this.selectSize}
+      ref={this.sizeRef}
+      value={this.state.selectedSize ? this.state.selectedSize : 'Select a size'}>
+      {sizes}
+    </select>
+    }
+
     if (this.state.selectedSku === null) {
       quantity = <select name="quantity" onChange={this.selectQuantity} disabled>
         <option value='—'>—</option>
       </select>;
     } else {
+      addToCart = <input type="submit" value="ADD TO BAG" />;
       let options = [];
       for (var i = 1; i <= this.state.maxQuantity; i++) {
         options.push(<option value={i} key={i}>{i}</option>)
@@ -103,11 +118,9 @@ export default class AddToCart extends React.Component {
 
     return (
       <form onSubmit={this.handleSubmit}>
-        <select name="size" onChange={this.selectSize} ref={this.sizeRef} value={this.state.selectedSize ? this.state.selectedSize : 'Select a size'}>
-          {sizes}
-        </select>
+        {size}
         {quantity}
-        <input type="submit" value="ADD TO BAG" />
+        {addToCart}
         <button>Add to outfit</button>
       </form>
     );

@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
+
 import styled from 'styled-components';
-import {MdCheck} from "react-icons/md";
+import { MdCheck } from "react-icons/md";
 
 const Styles = styled.div`
   display: flex;
@@ -10,7 +11,6 @@ const Styles = styled.div`
 `;
 
 const Style = styled.div`
-
   width: 64px;
   margin: 8px;
   position: relative;
@@ -25,8 +25,8 @@ const ThumbnailWrapper = styled.div`
 `;
 
 const Img = styled.img`
-  width: 64px;
-  height: auto;
+  width: ${props => (props.landscapeOrientation ? 'auto': '64px')};
+  height: ${props => (props.landscapeOrientation ? '64px' : 'auto')};
   overflow: hidden;
 `;
 
@@ -42,34 +42,43 @@ const Selected = styled.div`
 `;
 
 export default function StyleSelector ({changeStyle, currentStyle, styles}) {
+  const [landscapeOrientations, setLandscapeOrientation] = useState([]);
 
-  // console.log('styles: ', styles);
   const styleThumbnails = styles.map((style, index)=> {
-    let styleSelect;
     let selected;
+    let imageUrl = style['photos'][0]['thumbnail_url'];
     if (index === currentStyle) {
-      selected = <Selected>
-        <MdCheck/>
-      </Selected>;
+      selected = <Selected><MdCheck/></Selected>;
     }
 
-    return <Style onClick={()=>{changeStyle(index)}} key={style.style_id}>
-      <ThumbnailWrapper>
-        <Img src={style['photos'][0]['thumbnail_url']}/>
-        {selected}
-      </ThumbnailWrapper>
-    </Style>
-
-    return styleSelect;
+    return (
+      <Style
+        onClick={()=>{changeStyle(index)}}
+        key={style.style_id}
+      >
+        <ThumbnailWrapper>
+          <Img
+            src={imageUrl}
+            landscapeOrientation={landscapeOrientations[index] || false}
+            onLoad={(e)=>{
+              let landscape = e.target.offsetWidth > e.target.offsetHeight ? true : false;
+              let orientations = [...landscapeOrientations];
+              orientations[index] = landscape;
+              setLandscapeOrientation(orientations);
+            }}
+          />
+          {selected}
+        </ThumbnailWrapper>
+      </Style>
+    )
   });
 
   return (
     <div>
       <p>Current style: {styles[currentStyle]['name']}</p>
       <Styles>
-      {styleThumbnails}
+        {styleThumbnails}
       </Styles>
-
     </div>
   )
 }

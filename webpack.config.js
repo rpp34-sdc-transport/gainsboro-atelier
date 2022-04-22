@@ -11,6 +11,9 @@ module.exports = {
     ]
   },
   devtool : 'inline-source-map',
+  devServer: {
+    historyApiFallback: true,
+  },
   output: {
     path: path.join(__dirname, 'client/dist'),
     filename: 'bundle.js'

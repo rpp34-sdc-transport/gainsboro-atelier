@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --coverage",
     "server-dev": "nodemon server/server.js",
     "react-dev": "webpack  --watch --mode development"
   },
@@ -27,7 +27,7 @@
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
     "react-icons": "^4.3.1",
-    "react-router-dom": "^4.3.1",
+    "react-router-dom": "^6.3.0",
     "styled-components": "^5.3.5"
   },
   "devDependencies": {

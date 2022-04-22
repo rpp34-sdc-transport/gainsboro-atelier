@@ -3,6 +3,11 @@ import ExpandedView from './ExpandedView.jsx';
 import styled from 'styled-components';
 import {MdChevronLeft, MdChevronRight, MdOutlineExpandLess, MdOutlineExpandMore} from "react-icons/md";
 
+const thumbnailHeight = 48;
+const thumbnailBottom = 4;
+const countVisibleThumbnails = 7
+const thumbnailsHeight = countVisibleThumbnails * (thumbnailHeight + thumbnailBottom);
+
 const Gallery = styled.div`
   display: flex;
   flex-direction: row;
@@ -23,8 +28,8 @@ const ImageButton = styled.button`
 `;
 
 const ImgThumbnail = styled.img`
-  width: 64px;
-  height: auto;
+  width: ${props => (props.landscapeOrientation ? 'auto': '64px')};
+  height: ${props => (props.landscapeOrientation ? '64px' : 'auto')};
   overflow: hidden;
 `;
 
@@ -33,10 +38,13 @@ const ImageWrapper = styled.div`
   align-items: center;
 `;
 
-const Thumbnails = styled.div`
-  flex-direction: column;
-  height: 250px;
+const ThumbnailsView = styled.div`
+  height: ${`${thumbnailsHeight}px`};
   overflow: hidden;
+`;
+
+const ThumbnailsWrapper = styled.div`
+  margin-top: ${props => props.offset}px;
 `;
 
 const ThumbnailsSection = styled.div`
@@ -50,7 +58,6 @@ const ThumbnailWrapper = styled.div`
   height: 48px;
   overflow: hidden;
   margin-bottom: 4px;
-  }
 `;
 
 const ThumbnailWrapperActive = styled.div`
@@ -60,7 +67,6 @@ const ThumbnailWrapperActive = styled.div`
   height: 48px;
   overflow: hidden;
   margin-bottom: 4px;
-  }
 `;
 
 export default class ImageGallery extends React.Component {
@@ -68,22 +74,30 @@ export default class ImageGallery extends React.Component {
     super(props);
     this.state = {
       currentIndex: 0,
+      landscapeOrientations: [],
       modalIsOpen: false
     }
 
     this.changeImage = this.changeImage.bind(this);
     this.imageBack = this.imageBack.bind(this);
     this.imageForward = this.imageForward.bind(this);
+    this.loadLandscapeOrientation = this.loadLandscapeOrientation.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
   }
 
   changeImage(e){
-    console.log(e.currentTarget);
-    console.log(e.target.getAttribute('value'));
     const currentIndex = parseInt(e.target.getAttribute('value')) || parseInt(e.currentTarget.getAttribute('value'));
-    // console.log(e.target.getAttribute('value'));
     this.setState({
       currentIndex: currentIndex
+    })
+  }
+
+  loadLandscapeOrientation(e, index){
+    let landscape = e.target.offsetWidth > e.target.offsetHeight ? true : false;
+    let orientations = this.state.landscapeOrientations;
+    orientations[index] = landscape;
+    this.setState({
+      landscapeOrientations: orientations
     })
   }
 
@@ -111,26 +125,43 @@ export default class ImageGallery extends React.Component {
 
   render() {
     const {currentStyle, photos} = this.props;
-    const thumbnails = photos.map((photo, index) => (
+    const thumbnails = photos.map((photo, index) => {
+      return (
       index === this.state.currentIndex ? (
-      <ThumbnailWrapperActive key={index} onClick={this.changeImage} >
-        <ImgThumbnail src={photo.thumbnail_url} value={index}/>
+      <ThumbnailWrapperActive key={index}>
+        <ImgThumbnail
+          landscapeOrientation={this.state.landscapeOrientations[index] || false}
+          onLoad={(e)=>{
+            this.loadLandscapeOrientation(e, index);}}
+          src={photo.thumbnail_url}
+          value={index}
+        />
       </ThumbnailWrapperActive>
       ) : (
       <ThumbnailWrapper key={index} onClick={this.changeImage} >
-        <ImgThumbnail src={photo.thumbnail_url} value={index}/>
+        <ImgThumbnail
+          landscapeOrientation={this.state.landscapeOrientations[index] || false}
+          onLoad={(e)=>{
+            this.loadLandscapeOrientation(e, index);}}
+          src={photo.thumbnail_url}
+          value={index}
+        />
       </ThumbnailWrapper>
       )
-    ));
+    )});
+
+    const thumbnailsOffset = this.state.currentIndex >= countVisibleThumbnails ? -(this.state.currentIndex - countVisibleThumbnails -1) * (thumbnailHeight + thumbnailBottom) : 0;
 
     let nextImage, previousImage, nextThumbnail, previousThumbnail;
 
     return (
       <Gallery>
         <ThumbnailsSection>
-          <Thumbnails>
-            {thumbnails}
-          </Thumbnails>
+          <ThumbnailsView>
+            <ThumbnailsWrapper offset={thumbnailsOffset}>
+              {thumbnails}
+            </ThumbnailsWrapper>
+          </ThumbnailsView>
           {this.state.currentIndex > 0 &&
           <ImageButton onClick={this.imageBack}><MdOutlineExpandLess/></ImageButton>}
           {this.state.currentIndex < photos.length -1 &&
