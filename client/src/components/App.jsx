@@ -73,6 +73,13 @@ export default class App extends React.Component {
     })
   }
 
+  // handleAddToOutfitClick() {
+  //   var outfitList = JSON.parse(localStorage.getItem("outfit"));
+  //   console.log('get outfit list'), outfitList;
+  //   var newOutfit = {[this.state.overview.id]: }
+  //   var updatedOutfitList = {...outfitList, }
+  // }
+
   render() {
     return (
       <>
@@ -80,8 +87,7 @@ export default class App extends React.Component {
         <Overview data={this.state.overview}/>
         <RelatedAndOutfits
           relatedProducts={this.state.relatedProducts}
-          currFeature={this.state.overview.features}
-          currName={this.state.overview.name}
+          currProduct={this.state.overview}
         />
         <QuestionAnswer
           productId={this.state.product_id}

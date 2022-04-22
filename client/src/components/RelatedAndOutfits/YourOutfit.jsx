@@ -9,7 +9,6 @@ const Container = styled.div`
 
 const AddCard = styled(Card)`
   height: 300px;
-  font-size: 30px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -18,17 +17,28 @@ const AddCard = styled(Card)`
 `;
 
 const AddIcon = styled(VscAdd)`
+  & {
+    width: 30px;
+    height: 30px;
+    transition: all 0.5s ease;
+  }
+  &:hover {
+    width: 50px;
+    height: 50px;
+  }
 `;
 
 export default class YourOutfit extends React.Component{
+
 
   render() {
     return(
       <Container>
         <AddCard>
-          <VscAdd />
+          <AddIcon />
           <small>Add to Outfit</small>
         </AddCard>
+
       </Container>
     )
   }
