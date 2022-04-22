@@ -5,6 +5,14 @@ import ImageGallery from './ImageGallery.jsx';
 import StyleSelector from './StyleSelector.jsx';
 import StarRating from '../ReviewAndRating/StarRating.jsx'
 
+const Flexcontainer = styled.div`
+  display: flex;
+`;
+
+const FlexColumn = styled.div`
+  display: flex;
+  flex-direction: column
+`;
 const SalePrice = styled.p`
   color: red;
 `;
@@ -68,14 +76,18 @@ export default class Overview extends React.Component {
 
     return (
       <div>
-        {imageGallery}
-        {styleSelector}
-        {addToCart}
-        <StarRating ratings={this.props.ratings} showAve={false}/>
-        <SmallLink>Read all reviews</SmallLink>
-        <h5>{category}</h5>
-        {price}
-        <h1>{name}</h1>
+        <Flexcontainer>
+          {imageGallery}
+          <FlexColumn>
+            {addToCart}
+            <StarRating ratings={this.props.ratings} showAve={false}/>
+            <SmallLink>Read all reviews</SmallLink>
+            <h5>{category}</h5>
+            <h2>{name}</h2>
+            {price}
+            {styleSelector}
+          </FlexColumn>
+        </Flexcontainer>
         <p>{slogan}</p>
         <p>{description}</p>
       </div>

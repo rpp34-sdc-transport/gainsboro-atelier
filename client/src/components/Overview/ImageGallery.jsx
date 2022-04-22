@@ -11,12 +11,21 @@ const thumbnailsHeight = countVisibleThumbnails * (thumbnailHeight + thumbnailBo
 const Gallery = styled.div`
   display: flex;
   flex-direction: row;
+  margin-right: 24px;
 `;
 
 const Img = styled.img`
   height: 600px;
   width: auto;
   overflow: hidden;
+`;
+
+const ImageWrapper = styled.div`
+
+  justify-content: center;
+  max-height: 50vw;
+  max-width: 50vw;
+  overflow: hidden
 `;
 
 const ImageButton = styled.button`
@@ -31,11 +40,6 @@ const ImgThumbnail = styled.img`
   width: ${props => (props.landscapeOrientation ? 'auto': '64px')};
   height: ${props => (props.landscapeOrientation ? '64px' : 'auto')};
   overflow: hidden;
-`;
-
-const ImageWrapper = styled.div`
-  display: flex;
-  align-items: center;
 `;
 
 const ThumbnailsView = styled.div`
