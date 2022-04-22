@@ -41,7 +41,7 @@ const Selected = styled.div`
   right: 0px
 `;
 
-export default function StyleSelector ({changeStyle, currentStyle, styles}) {
+export default function StyleSelector ({changeStyle, changeStylePrice, currentStyle, styles}) {
   const [landscapeOrientations, setLandscapeOrientation] = useState([]);
 
   const styleThumbnails = styles.map((style, index)=> {
@@ -53,7 +53,7 @@ export default function StyleSelector ({changeStyle, currentStyle, styles}) {
 
     return (
       <Style
-        onClick={()=>{changeStyle(index)}}
+        onClick={()=>{changeStyle(index); changeStylePrice(index);}}
         key={style.style_id}
       >
         <ThumbnailWrapper>

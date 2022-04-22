@@ -16,6 +16,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state= {
+      currentStyle: 0,
       overview: {},
       overviewStyle: {},
       reviews: [],
@@ -25,6 +26,7 @@ class App extends React.Component {
       product_id: 64623 //64620
     }
 
+    this.changeStyle = this.changeStyle.bind(this);
     this.handleSortOptionChange = this.handleSortOptionChange.bind(this);
     this.voteForReview = this.voteForReview.bind(this);
   }
@@ -37,7 +39,17 @@ class App extends React.Component {
 
       axios(`/overview/${this.state.product_id}`)
       .then(({data})=>{
+
+        let defaultIndex;
+        for (var i = 0; i < data.styleData.length; i++){
+          if (data.styleData[i]['default?']){
+            defaultIndex = i;
+            break;
+          }
+        }
+        defaultIndex = defaultIndex || 0;
         this.setState({
+          currentStyle: defaultIndex,
           overview: data
         })
       });
@@ -64,6 +76,11 @@ class App extends React.Component {
     });
   }
 
+  changeStyle(index){
+    this.setState({
+      currentStyle: index,
+    })
+  }
 
   handleSortOptionChange(e) {
     this.setState({sort: e.target.value}, () => {
@@ -90,7 +107,14 @@ class App extends React.Component {
     return (
       <>
         <GlobalStyle />
-        {Object.keys(this.state.overview).length > 0 && <Overview data={this.state.overview} ratings={this.state.meta.ratings}/>}
+        {Object.keys(this.state.overview).length > 0 &&
+          <Overview
+          changeStyle={this.changeStyle}
+          currentStyle={this.state.currentStyle}
+          data={this.state.overview}
+          ratings={this.state.meta.ratings}
+          />
+        }
         <RelatedAndOutfits
           relatedProducts={this.state.relatedProducts}
           currFeature={this.state.overview.features}
