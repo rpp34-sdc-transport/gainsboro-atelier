@@ -23,7 +23,7 @@ class App extends React.Component {
       relatedProducts: [],
       sort: 'relevant',
       meta: {},
-      product_id: 64623 //64620
+      product_id: 64626 //64620
     }
 
     this.changeStyle = this.changeStyle.bind(this);
@@ -103,6 +103,13 @@ class App extends React.Component {
     })
   }
 
+  // handleAddToOutfitClick() {
+  //   var outfitList = JSON.parse(localStorage.getItem("outfit"));
+  //   console.log('get outfit list'), outfitList;
+  //   var newOutfit = {[this.state.overview.id]: }
+  //   var updatedOutfitList = {...outfitList, }
+  // }
+
   render() {
     return (
       <>
@@ -117,8 +124,7 @@ class App extends React.Component {
         }
         <RelatedAndOutfits
           relatedProducts={this.state.relatedProducts}
-          currFeature={this.state.overview.features}
-          currName={this.state.overview.name}
+          currProduct={this.state.overview}
         />
         <QuestionAnswer
           productId={this.state.product_id}
