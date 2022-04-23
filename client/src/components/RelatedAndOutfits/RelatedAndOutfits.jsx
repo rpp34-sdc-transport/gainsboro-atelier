@@ -3,6 +3,11 @@ import styled from 'styled-components';
 import RelatedProducts from './RelatedProducts.jsx';
 import YourOutfit from './YourOutfit.jsx';
 
+const Title = styled.p`
+  padding-left: 50px;
+`;
+
+
 export default class RelatedAndOutfits extends React.Component {
 
   render() {
@@ -10,9 +15,9 @@ export default class RelatedAndOutfits extends React.Component {
 
     return(
     <div>
-      <p>RELATED PRODUCTS</p>
+      <Title>RELATED PRODUCTS</Title>
       <RelatedProducts relatedProducts={relatedProducts} currFeature={currProduct.features} currName={currProduct.name}/>
-      <p>YOUR OUTFIT</p>
+      <Title>YOUR OUTFIT</Title>
       <YourOutfit />
     </div>
     )

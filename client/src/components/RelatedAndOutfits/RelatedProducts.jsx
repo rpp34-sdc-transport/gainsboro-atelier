@@ -7,12 +7,12 @@ import {MdOutlineHideImage, MdOutlineStar, MdArrowForwardIos, MdOutlineArrowBack
 
 const Container = styled.div`
   display: flex;
-  gap: 20px;
+  position: relative;
 `;
 
 const Carousel = styled.div`
-  width: 1150px;
-  height: 425px;
+  width: 1160px;
+  height: 460px;
   overflow: hidden;
   position: relative;
 `
@@ -34,13 +34,13 @@ export const Card = styled.div`
     position: relative;
   }
   &:hover{
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
   }
 `;
 
 const BackArrow = styled.div`
   width: 50px;
-  padding-top: 160px;
+  padding-top: 180px;
 `;
 
 const BackArrowIcon = styled(MdOutlineArrowBackIosNew)`
@@ -48,6 +48,7 @@ const BackArrowIcon = styled(MdOutlineArrowBackIosNew)`
     width: 30px;
     height: 30px;
     transition: all 0.5s ease;
+    visibility: ${props => props.visibility}
   }
   &:hover {
     cursor: pointer;
@@ -58,7 +59,7 @@ const BackArrowIcon = styled(MdOutlineArrowBackIosNew)`
 
 const ForwardArrow = styled.div`
   width: 50px;
-  padding-top: 160px;
+  padding-top: 180px;
 `;
 
 const ForwardArrowIcon = styled(MdArrowForwardIos)`
@@ -66,6 +67,7 @@ const ForwardArrowIcon = styled(MdArrowForwardIos)`
     width: 30px;
     height: 30px;
     transition: all 0.5s ease;
+    visibility: ${props => props.visibility}
   }
   &:hover {
     cursor: pointer;
@@ -74,20 +76,18 @@ const ForwardArrowIcon = styled(MdArrowForwardIos)`
   }
 `
 
-
 const NoImage = styled.div`
-  width: 250px;
+  width: 100%;
   height: 300px;
   background-color: #ebebeb;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 50px;
-  color:
 `;
 
 const Image = styled.div`
-  width: 250px;
+  width: 100%;
   height: 300px;
   background-image: url(${props => props.url});
   background-repeat: no-repeat;
@@ -127,7 +127,7 @@ export default class RelatedProducts extends React.Component {
     super(props);
     this.state = {
       clickedStar: false,
-      showModal: '',
+      showModal: false,
       previewImages: {},
       firstProductIndex: 0,
       absoluteLeft: 0,
@@ -142,17 +142,17 @@ export default class RelatedProducts extends React.Component {
     this.handleChangePreviewImageClick = this.handleChangePreviewImageClick.bind(this);
   }
 
-  handleCompareStarClick(modal, star) {
-    console.log('modal', modal);
+  handleCompareStarClick(obj, star) {
+    console.log('obj', obj);
     console.log('star', star);
     this.setState({
-      showModal: modal,
+      showModal: obj,
       clickedStar: star
     })
   }
 
   handleCloseModalClick() {
-    this.setState({showModal: '', clickedStar: false})
+    this.setState({showModal: false, clickedStar: false})
   }
 
   handleForwardArrowClick() {
@@ -185,11 +185,9 @@ export default class RelatedProducts extends React.Component {
     const {relatedProducts, currFeature, currName} = this.props;
     return(
       <Container>
-        {this.state.firstProductIndex > 0 &&
-          <BackArrow>
-            <BackArrowIcon onClick={this.handleBackArrowClick}/>
-          </BackArrow>
-        }
+        <BackArrow>
+          <BackArrowIcon visibility={this.state.firstProductIndex > 0 ? 'visible' : 'hidden'} onClick={this.handleBackArrowClick}/>
+        </BackArrow>
         <Carousel>
           <Content absoluteLeft={this.state.absoluteLeft}>
             {relatedProducts.map(product => {
@@ -213,18 +211,9 @@ export default class RelatedProducts extends React.Component {
                           handleChangePreviewImageClick={this.handleChangePreviewImageClick}
                         />
                       }
-                      {this.state.showModal === `${id}featureModal` &&
-                        <FeatureModal
-                          selectedName={name}
-                          selectedFeature={features}
-                          currFeature={currFeature}
-                          currName={currName}
-                          handleCloseModalClick={this.handleCloseModalClick}
-                        />
-                      }
                     </Image>
                   }
-                  <Star color={this.state.clickedStar === `${id}star`? '#378f1e' : '#ffc107'} onClick={() => this.handleCompareStarClick(`${id}featureModal`, `${id}star`)}/>
+                  <Star color={this.state.clickedStar === `${id}star`? '#378f1e' : '#ffc107'} onClick={() => this.handleCompareStarClick({name, features}, `${id}star`)}/>
                   <TextBox>
                     <small>{category}</small>
                     <Heading5>{name}</Heading5>
@@ -236,10 +225,17 @@ export default class RelatedProducts extends React.Component {
             })}
           </Content>
         </Carousel>
-        {this.state.firstProductIndex + 4 < relatedProducts.length &&
-          <ForwardArrow>
-            <ForwardArrowIcon onClick={this.handleForwardArrowClick}/>
-          </ForwardArrow>
+        <ForwardArrow>
+          <ForwardArrowIcon visibility={this.state.firstProductIndex + 4 < relatedProducts.length ? 'visible' : 'hidden'} onClick={this.handleForwardArrowClick}/>
+        </ForwardArrow>
+        {this.state.showModal !== false &&
+          <FeatureModal
+            selectedName={this.state.showModal.name}
+            selectedFeature={this.state.showModal.features}
+            currFeature={currFeature}
+            currName={currName}
+            handleCloseModalClick={this.handleCloseModalClick}
+          />
         }
       </Container>
     )

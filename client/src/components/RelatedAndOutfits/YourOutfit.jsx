@@ -5,6 +5,7 @@ import {VscAdd} from 'react-icons/vsc';
 
 const Container = styled.div`
   display: flex;
+  padding-left: 50px;
 `;
 
 const AddCard = styled(Card)`
