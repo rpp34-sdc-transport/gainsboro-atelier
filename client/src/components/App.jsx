@@ -24,13 +24,14 @@ class App extends React.Component {
       sort: 'relevant',
       meta: {},
       product_id: 64626, //64620
-      addedToOutfitList: false
+      outfitList: [],
     }
 
     this.changeStyle = this.changeStyle.bind(this);
     this.handleSortOptionChange = this.handleSortOptionChange.bind(this);
     this.voteForReview = this.voteForReview.bind(this);
     this.handleAddToOutfitClick = this.handleAddToOutfitClick.bind(this);
+    this.handleRemoveOutfitFromListClick = this.handleRemoveOutfitFromListClick.bind(this);
   }
 
   componentDidMount() {
@@ -75,6 +76,8 @@ class App extends React.Component {
         var meta = data.data;
         this.setState({meta})
      });
+
+     this.setState({outfitList: localStorage.getItem("outfit") === null ? [] : JSON.parse(localStorage.getItem("outfit"))})
     });
   }
 
@@ -106,9 +109,6 @@ class App extends React.Component {
   }
 
   handleAddToOutfitClick() {
-    console.log('clicked');
-    var outfitList = localStorage.getItem("outfit") === null ? [] : JSON.parse(localStorage.getItem("outfit"));
-    console.log('get outfit list'), outfitList;
     var newOutfit = {
       id: this.state.overview.id,
       name: this.state.overview.name,
@@ -118,10 +118,19 @@ class App extends React.Component {
       currentStyleSalePrice: this.state.overview.styleData[this.state.currentStyle].sale_price,
       ratings: this.state.meta.ratings
     }
-    var updatedOutfitList = [...outfitList, newOutfit];
-    console.log('updatedOutfitList', updatedOutfitList);
+    var updatedOutfitList = [...this.state.outfitList, newOutfit];
     localStorage.setItem("outfit", JSON.stringify(updatedOutfitList));
-    this.setState({addedToOutfitList: true})
+    this.setState({
+      outfitList: updatedOutfitList
+    })
+  }
+
+  handleRemoveOutfitFromListClick(id) {
+    var updatedOutfitList = this.state.outfitList.filter(outfit => outfit.id !== id);
+    localStorage.setItem("outfit", JSON.stringify(updatedOutfitList));
+    this.setState({
+      outfitList: updatedOutfitList
+    })
   }
 
   render() {
@@ -139,8 +148,9 @@ class App extends React.Component {
         <RelatedAndOutfits
           relatedProducts={this.state.relatedProducts}
           currProduct={this.state.overview}
+          outfitList={this.state.outfitList}
           handleAddToOutfitClick={this.handleAddToOutfitClick}
-          addedToOutfitList={this.state.addedToOutfitList}
+          handleRemoveOutfitFromListClick={this.handleRemoveOutfitFromListClick}
         />
         <QuestionAnswer
           productId={this.state.product_id}
