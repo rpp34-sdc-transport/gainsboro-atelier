@@ -23,12 +23,14 @@ class App extends React.Component {
       relatedProducts: [],
       sort: 'relevant',
       meta: {},
-      product_id: 64626 //64620
+      product_id: 64626, //64620
+      addedToOutfitList: false
     }
 
     this.changeStyle = this.changeStyle.bind(this);
     this.handleSortOptionChange = this.handleSortOptionChange.bind(this);
     this.voteForReview = this.voteForReview.bind(this);
+    this.handleAddToOutfitClick = this.handleAddToOutfitClick.bind(this);
   }
 
   componentDidMount() {
@@ -103,12 +105,24 @@ class App extends React.Component {
     })
   }
 
-  // handleAddToOutfitClick() {
-  //   var outfitList = JSON.parse(localStorage.getItem("outfit"));
-  //   console.log('get outfit list'), outfitList;
-  //   var newOutfit = {[this.state.overview.id]: }
-  //   var updatedOutfitList = {...outfitList, }
-  // }
+  handleAddToOutfitClick() {
+    console.log('clicked');
+    var outfitList = localStorage.getItem("outfit") === null ? [] : JSON.parse(localStorage.getItem("outfit"));
+    console.log('get outfit list'), outfitList;
+    var newOutfit = {
+      id: this.state.overview.id,
+      name: this.state.overview.name,
+      category: this.state.overview.category,
+      currentStylePhotos: this.state.overview.styleData[this.state.currentStyle].photos,
+      currentStylePrice: this.state.overview.styleData[this.state.currentStyle].original_price,
+      currentStyleSalePrice: this.state.overview.styleData[this.state.currentStyle].sale_price,
+      ratings: this.state.meta.ratings
+    }
+    var updatedOutfitList = [...outfitList, newOutfit];
+    console.log('updatedOutfitList', updatedOutfitList);
+    localStorage.setItem("outfit", JSON.stringify(updatedOutfitList));
+    this.setState({addedToOutfitList: true})
+  }
 
   render() {
     return (
@@ -125,6 +139,8 @@ class App extends React.Component {
         <RelatedAndOutfits
           relatedProducts={this.state.relatedProducts}
           currProduct={this.state.overview}
+          handleAddToOutfitClick={this.handleAddToOutfitClick}
+          addedToOutfitList={this.state.addedToOutfitList}
         />
         <QuestionAnswer
           productId={this.state.product_id}

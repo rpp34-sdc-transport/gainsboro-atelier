@@ -9,7 +9,7 @@ const Container = styled.div`
 `;
 
 const AddCard = styled(Card)`
-  height: 300px;
+  height: 420px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -33,10 +33,11 @@ export default class YourOutfit extends React.Component{
 
 
   render() {
+    const {addedToOutfitList, handleAddToOutfitClick} = this.props;
     return(
       <Container>
         <AddCard>
-          <AddIcon />
+          <AddIcon onClick={handleAddToOutfitClick}/>
           <small>Add to Outfit</small>
         </AddCard>
 

@@ -11,14 +11,21 @@ const Title = styled.p`
 export default class RelatedAndOutfits extends React.Component {
 
   render() {
-    const {relatedProducts, currProduct} = this.props;
+    const {relatedProducts, currProduct, handleAddToOutfitClick, addedToOutfitList} = this.props;
 
     return(
     <div>
       <Title>RELATED PRODUCTS</Title>
-      <RelatedProducts relatedProducts={relatedProducts} currFeature={currProduct.features} currName={currProduct.name}/>
+      <RelatedProducts
+        relatedProducts={relatedProducts}
+        currFeature={currProduct.features}
+        currName={currProduct.name}
+      />
       <Title>YOUR OUTFIT</Title>
-      <YourOutfit />
+      <YourOutfit
+        addedToOutfitList={addedToOutfitList}
+        handleAddToOutfitClick={handleAddToOutfitClick}
+      />
     </div>
     )
   }
