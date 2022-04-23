@@ -31,11 +31,21 @@ const Message = styled.span`
   margin-left: 5px;
 `;
 
+
+const Button = styled.button`
+  background: transparent;
+  border: 2px solid #d4d4d4;
+  color: #525252;
+  padding: 15px 30px;
+  margin-right: 40px;
+`;
+
 class Answer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            helpfulVoted: false
+            helpfulVoted: false,
+            reported: this.props.reported || false 
         }
         this.saveHelpful = this.saveHelpful.bind(this);
     }
@@ -56,7 +66,24 @@ class Answer extends React.Component {
                 helpfulVoted: true,
             })
         })
+    }
 
+    report() {
+        fetch(`/qa/answers/${this.props.id}/report`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                ...this.state,
+                product_id: this.props.productId
+            })
+        })
+        .then(() => {
+            this.setState({
+                reported: true,
+            })
+        })
     }
     
     render() {
@@ -83,7 +110,16 @@ class Answer extends React.Component {
                         <Count>({this.props.helpfulness})</Count>
                     </> 
                 }
-            </div>
+            <span>| </span>
+            {this.state.reported ? 
+                    <>
+                        <VoteLink>Reported</VoteLink>
+                    </> :
+                    <>
+                        <VoteLink onClick={() => this.report()}>Report</VoteLink>
+                    </> 
+            }
+             </div>
         </>
         )
     }

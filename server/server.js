@@ -8,6 +8,7 @@ const uploadImages = require("../imageAPI/imageAPI.js");
 
 const upload = multer({storage: multer.diskStorage({})});
 const qaRouter = require('./qa');
+const jsonParser = bodyParser.json();
 
 const app = express();
 const PORT = 3000;
@@ -202,6 +203,24 @@ app.use('/qa',  qaRouter);
 app.get('*', function (request, response) {
   response.sendFile(path.resolve(__dirname, "../client/dist", 'index.html'));
 });
+app.post('/interactions', jsonParser, (req, res) => {
+  var body = req.body;
+
+  var url = `${apiHost}/interactions`;
+  axios.post(url, body, {
+      'content-type': 'application/json',
+      headers: {
+          Authorization: token
+      }
+  })
+  .then(data => {
+      res.send(data.data)
+  })
+  .catch(err => {
+      res.sendStatus(500)
+  })
+})
+
 
 app.listen(PORT, () => {
   console.log(`connected to port ${PORT}`);

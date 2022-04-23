@@ -78,6 +78,25 @@ qaRouter.route('/answers/:answer_id/helpful')
         })
     })
 
+    qaRouter.route('/answers/:answer_id/report')
+        .post(jsonParser, (req, res) => {
+            var {answer_id} = req.params;
+            var body = req.body;
+
+            var url = `${apiHost}/qa/answers/${answer_id}/report`;
+            axios.put(url, body, {
+                'content-type': 'application/json',
+                headers: {
+                    Authorization: token
+                }
+            })
+            .then(data => {
+                res.send(data.data)
+            })
+            .catch(err => {
+                res.sendStatus(500)
+            })
+    })
 
 
 module.exports = qaRouter;
