@@ -5,18 +5,18 @@ import FeatureModal from './FeatureModal.jsx';
 import ThumbnailCarousel from './ThumbnailCarousel.jsx';
 import {MdOutlineHideImage, MdOutlineStar, MdArrowForwardIos, MdOutlineArrowBackIosNew} from 'react-icons/md';
 
-const Container = styled.div`
+export const Container = styled.div`
   display: flex;
   position: relative;
 `;
 
-const Carousel = styled.div`
+export const Carousel = styled.div`
   width: 1160px;
   height: 460px;
   overflow: hidden;
   position: relative;
 `
-const Content = styled.div`
+export const Content = styled.div`
   display: flex;
   gap: 40px;
   position: absolute;
@@ -38,12 +38,12 @@ export const Card = styled.div`
   }
 `;
 
-const BackArrow = styled.div`
+export const BackArrow = styled.div`
   width: 50px;
   padding-top: 180px;
 `;
 
-const BackArrowIcon = styled(MdOutlineArrowBackIosNew)`
+export const BackArrowIcon = styled(MdOutlineArrowBackIosNew)`
   &{
     width: 30px;
     height: 30px;
@@ -57,12 +57,12 @@ const BackArrowIcon = styled(MdOutlineArrowBackIosNew)`
   }
 `
 
-const ForwardArrow = styled.div`
+export const ForwardArrow = styled.div`
   width: 50px;
   padding-top: 180px;
 `;
 
-const ForwardArrowIcon = styled(MdArrowForwardIos)`
+export const ForwardArrowIcon = styled(MdArrowForwardIos)`
   &{
     width: 30px;
     height: 30px;
@@ -76,7 +76,7 @@ const ForwardArrowIcon = styled(MdArrowForwardIos)`
   }
 `
 
-const NoImage = styled.div`
+export const NoImage = styled.div`
   width: 100%;
   height: 300px;
   background-color: #ebebeb;
@@ -86,7 +86,7 @@ const NoImage = styled.div`
   font-size: 50px;
 `;
 
-const Image = styled.div`
+export const Image = styled.div`
   width: 100%;
   height: 300px;
   background-image: url(${props => props.url});
@@ -95,11 +95,11 @@ const Image = styled.div`
   position: relative;
 `;
 
-const TextBox = styled.div`
+export const TextBox = styled.div`
   padding: 10px;
 `;
 
-const Heading5 = styled.h5`
+export const Heading5 = styled.h5`
   margin: 5px 0;
 `;
 

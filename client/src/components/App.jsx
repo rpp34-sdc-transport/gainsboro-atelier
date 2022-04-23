@@ -23,12 +23,15 @@ class App extends React.Component {
       relatedProducts: [],
       sort: 'relevant',
       meta: {},
-      product_id: 64626 //64620
+      product_id: 64626, //64620
+      outfitList: [],
     }
 
     this.changeStyle = this.changeStyle.bind(this);
     this.handleSortOptionChange = this.handleSortOptionChange.bind(this);
     this.voteForReview = this.voteForReview.bind(this);
+    this.handleAddToOutfitClick = this.handleAddToOutfitClick.bind(this);
+    this.handleRemoveOutfitFromListClick = this.handleRemoveOutfitFromListClick.bind(this);
   }
 
   componentDidMount() {
@@ -73,6 +76,8 @@ class App extends React.Component {
         var meta = data.data;
         this.setState({meta})
      });
+
+     this.setState({outfitList: localStorage.getItem("outfit") === null ? [] : JSON.parse(localStorage.getItem("outfit"))})
     });
   }
 
@@ -103,12 +108,30 @@ class App extends React.Component {
     })
   }
 
-  // handleAddToOutfitClick() {
-  //   var outfitList = JSON.parse(localStorage.getItem("outfit"));
-  //   console.log('get outfit list'), outfitList;
-  //   var newOutfit = {[this.state.overview.id]: }
-  //   var updatedOutfitList = {...outfitList, }
-  // }
+  handleAddToOutfitClick() {
+    var newOutfit = {
+      id: this.state.overview.id,
+      name: this.state.overview.name,
+      category: this.state.overview.category,
+      currentStylePhotos: this.state.overview.styleData[this.state.currentStyle].photos,
+      currentStylePrice: this.state.overview.styleData[this.state.currentStyle].original_price,
+      currentStyleSalePrice: this.state.overview.styleData[this.state.currentStyle].sale_price,
+      ratings: this.state.meta.ratings
+    }
+    var updatedOutfitList = [...this.state.outfitList, newOutfit];
+    localStorage.setItem("outfit", JSON.stringify(updatedOutfitList));
+    this.setState({
+      outfitList: updatedOutfitList
+    })
+  }
+
+  handleRemoveOutfitFromListClick(id) {
+    var updatedOutfitList = this.state.outfitList.filter(outfit => outfit.id !== id);
+    localStorage.setItem("outfit", JSON.stringify(updatedOutfitList));
+    this.setState({
+      outfitList: updatedOutfitList
+    })
+  }
 
   render() {
     return (
@@ -125,6 +148,9 @@ class App extends React.Component {
         <RelatedAndOutfits
           relatedProducts={this.state.relatedProducts}
           currProduct={this.state.overview}
+          outfitList={this.state.outfitList}
+          handleAddToOutfitClick={this.handleAddToOutfitClick}
+          handleRemoveOutfitFromListClick={this.handleRemoveOutfitFromListClick}
         />
         <QuestionAnswer
           productId={this.state.product_id}
