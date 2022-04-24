@@ -7,11 +7,13 @@ const {token} = require("../config.js");
 const uploadImages = require("../imageAPI/imageAPI.js");
 
 const upload = multer({storage: multer.diskStorage({})});
+const qaRouter = require('./qa');
+const jsonParser = bodyParser.json();
+
 const app = express();
 const PORT = 3000;
 const apiHost = 'https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp';
 
-const jsonParser = bodyParser.json();
 
 app.use(express.static(path.join(__dirname, "/../client/dist")));
 app.use(bodyParser.json());
@@ -186,38 +188,6 @@ app.post('/reviews', upload.array("images"), (req, res) => {
   })
 })
 
-app.get('/qa/questions', (req, res) => {
-  var {product_id} = req.query;
-  var url = `${apiHost}/qa/questions?product_id=${product_id}`;
-  axios.get(url, {
-    headers: {
-      Authorization: token
-    }
-  })
-  .then(data => res.send(data.data))
-  .catch(err => res.sendStatus(500))
-})
-
-app.post('/qa/questions/:question_id/answers', (req, res) => {
-  var body = req.body;
-  var {question_id} = req.params;
-  var url = `${apiHost}/qa/questions/${question_id}/answers`;
-  axios.post(url, body,
-    {
-      'content-type': 'application/json',
-      headers: {
-        Authorization: token
-      }
-    })
-    .then(data => {
-      res.send(data.data)
-  })
-  .catch(err => {
-    console.log(err)
-    res.sendStatus(500)
-  })
-})
-
 app.put('/reviews/:review_id/report', (req, res) => {
   var url = `${apiHost}/reviews/${req.params["review_id"]}/report`;
   axios.put(url, {}, options)
@@ -228,28 +198,29 @@ app.put('/reviews/:review_id/report', (req, res) => {
   // .catch(err => console.log(err))
 })
 
-app.post('/qa/questions', jsonParser, (req, res) => {
-  var body = req.body;
-
-  var url = `${apiHost}/qa/questions`;
-  axios.post(url, body,
-    {
-      'content-type': 'application/json',
-      headers: {
-      Authorization: token
-    }
-  })
-  .then(data => {
-    res.send(data.data)
-  })
-  .catch(err => {
-    res.sendStatus(500)
-  })
-})
+app.use('/qa',  qaRouter);
 
 app.get('*', function (request, response) {
   response.sendFile(path.resolve(__dirname, "../client/dist", 'index.html'));
 });
+app.post('/interactions', jsonParser, (req, res) => {
+  var body = req.body;
+
+  var url = `${apiHost}/interactions`;
+  axios.post(url, body, {
+      'content-type': 'application/json',
+      headers: {
+          Authorization: token
+      }
+  })
+  .then(data => {
+      res.send(data.data)
+  })
+  .catch(err => {
+      res.sendStatus(500)
+  })
+})
+
 
 app.listen(PORT, () => {
   console.log(`connected to port ${PORT}`);
