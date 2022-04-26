@@ -15,12 +15,16 @@ export default class RelatedAndOutfits extends React.Component {
 
     return(
     <div>
-      <Title>RELATED PRODUCTS</Title>
-      <RelatedProducts
-        relatedProducts={relatedProducts}
-        currFeature={currProduct.features}
-        currName={currProduct.name}
-      />
+      {relatedProducts.length > 0 &&
+      <>
+        <Title>RELATED PRODUCTS</Title>
+        <RelatedProducts
+          relatedProducts={relatedProducts}
+          currFeature={currProduct.features}
+          currName={currProduct.name}
+        />
+      </>
+      }
       <Title>YOUR OUTFIT</Title>
       <YourOutfit
         currProductId={currProduct.id}

@@ -46,8 +46,13 @@ export default class StarRating extends React.Component {
 
   //get average rating in percentage (rounded to the first decimal)
   calAveRating(obj) {
-    var ratingCounts = Object.values(obj).reduce((sum, rating) => sum + Number(rating), 0);
-    var totalRating = Object.values(obj).reduce((sum, rating, index) => sum + Number(rating) * (index + 1), 0);
+    if (Object.keys(obj).length === 0) {
+      return 0;
+    }
+    var keys = Object.keys(obj);
+    var values = Object.values(obj);
+    var ratingCounts = values.reduce((sum, rating) => sum + Number(rating), 0);
+    var totalRating = values.reduce((sum, rating, index) => sum + Number(rating) * keys[index], 0);
     return Math.round((totalRating / ratingCounts) * 10) / 10;
   }
 

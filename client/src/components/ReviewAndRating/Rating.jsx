@@ -6,7 +6,9 @@ import Characters from './Characters.jsx';
 
 export default function Rating({meta, ratingFilterList, handleStarRatingClick, handleRemoveStarRatingClick, handleRemoveAllFiltersClick}) {
   const {characteristics, ratings, recommended} = meta;
-  const aveRecommend = Number(recommended.true) / (Number(recommended.true) + Number(recommended.false));
+  const recommendTrue = recommended.true || 0;
+  const recommendFalse = recommended.false || 0;
+  const aveRecommend = Number(recommendTrue) / (Number(recommendTrue) + Number(recommendFalse));
   const aveRePct = Math.round(aveRecommend * 100);
   return (
     <div>

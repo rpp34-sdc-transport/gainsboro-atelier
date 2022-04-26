@@ -4,6 +4,7 @@ import StarRating from '../ReviewAndRating/StarRating.jsx';
 import {Container, Carousel, Content, Card, BackArrow, BackArrowIcon, ForwardArrow, ForwardArrowIcon, NoImage, Image, TextBox, Heading5} from './RelatedProducts.jsx';
 import {VscAdd} from 'react-icons/vsc';
 import {IoMdCloseCircle, IoMdCheckmark} from 'react-icons/io';
+import {MdOutlineHideImage} from 'react-icons/md';
 
 const Wrapper = styled.div`
   display: flex;

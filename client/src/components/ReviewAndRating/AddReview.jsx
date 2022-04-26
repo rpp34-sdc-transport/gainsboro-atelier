@@ -116,8 +116,8 @@ export const Asterisk = styled(CgAsterisk)`
 `
 
 const CreatedSuccess = styled.div`
-  color: #378f1e;
-  font-size: 48px;
+  // color: #378f1e;
+  font-size: 24px;
   text-align: center;
   margin-top: 150px;
 `;
@@ -191,7 +191,7 @@ export default class AddReview extends React.Component{
     e.preventDefault();
     if (this.state.starRating) {
       var formData = new FormData();
-      formData.append("product_id", JSON.stringify(this.props.product_id));
+      formData.append("product_id", JSON.stringify(Number(this.props.product_id)));
       formData.append("rating", JSON.stringify(this.state.starRating));
       formData.append("summary", this.state.summary);
       formData.append("body", this.state.body);
@@ -212,6 +212,7 @@ export default class AddReview extends React.Component{
       .then(({data}) => {
         if (data === 'Created') {
           this.setState({createdReview: true})
+          this.props.fetchDataAfterSubmittingNewReview();
         }
       })
       .catch(err => console.log(err))
