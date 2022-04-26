@@ -3,37 +3,6 @@ import styled from 'styled-components';
 import axios from 'axios';
 import {MdStarOutline, MdStar} from "react-icons/md";
 
-const Select = styled.select`
-  font-size: 1rem;
-  padding: 10px 24px 10px 10px;
-  margin-right: 12px;
-  margin-bottom: 12px;
-  border-radius: 4px;
-  -webkit-appearance: none;
-  appearance: none;
-  color: ${props => (props.value === 'Select a size' ? (`var(--color-grey-200)`) : (`var(--color-grey-400)`))}
-`;
-
-const IconButton = styled.div`
-  &{
-    border-radius: 4px;
-    width: 42px;
-    height: 42px;
-    background: rgba(255, 255, 255);
-    border: var(--color-grey-100) solid 2px;];
-    color: ${props => (props.addedOutfit ? `var(--color-yellow-100)` : `var(--color-grey-100)`)};
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  &:hover {
-    cursor: pointer;
-    border-color: var(--color-grey-300);
-    color: ${props => (props.addedOutfit ? `var(--color-yellow-100)` : `var(--color-grey-300)`)};
-  }
-`;
-
 const FlexRow = styled.div`
   display: flex;
   flex-direction: row;
@@ -43,15 +12,15 @@ const FlexRow = styled.div`
   height: 32px;
 `;
 
-const StarOutline = styled(MdStarOutline)`
-    height: 22px;
-    width: 22px;
-`;
-
-const StarFill= styled(MdStar)`
-    height: 22px;
-    width: 22px;
-    color: var(--color-yellow-100);
+const Select = styled.select`
+  font-size: 1rem;
+  padding: 10px 24px 10px 10px;
+  margin-right: 12px;
+  margin-bottom: 12px;
+  border-radius: 4px;
+  -webkit-appearance: none;
+  appearance: none;
+  color: ${props => (props.value === 'Select a size' ? (`var(--color-grey-200)`) : (`var(--color-grey-400)`))}
 `;
 
 const SelectWrapper = styled.div`
@@ -93,6 +62,37 @@ const InputButton = styled.input`
 
     background-color: var(--color-brand-100);
   }
+`;
+
+const IconButton = styled.div`
+  &{
+    border-radius: 4px;
+    width: 42px;
+    height: 42px;
+    background: rgba(255, 255, 255);
+    border: var(--color-grey-100) solid 2px;];
+    color: ${props => (props.addedOutfit ? `var(--color-yellow-100)` : `var(--color-grey-100)`)};
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &:hover {
+    cursor: pointer;
+    border-color: var(--color-grey-300);
+    color: ${props => (props.addedOutfit ? `var(--color-yellow-100)` : `var(--color-grey-300)`)};
+  }
+`;
+
+const StarOutline = styled(MdStarOutline)`
+    height: 22px;
+    width: 22px;
+`;
+
+const StarFill= styled(MdStar)`
+    height: 22px;
+    width: 22px;
+    color: var(--color-yellow-100);
 `;
 
 export default class AddToCart extends React.Component {

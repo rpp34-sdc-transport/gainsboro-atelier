@@ -5,25 +5,8 @@ import ImageGallery from './ImageGallery.jsx';
 import StyleSelector from './StyleSelector.jsx';
 import StarRating from '../ReviewAndRating/StarRating.jsx'
 
-const Flexcontainer = styled.div`
-  display: flex;
-`;
-
-const FlexColumn = styled.div`
-  display: flex;
-  flex-direction: column
-`;
-const SalePrice = styled.p`
-  color: red;
-  margin-right: 12px;
-`;
-
-const DiscountedPrice = styled.p`
-  text-decoration: line-through
-`;
-
-const SmallLink = styled.p`
-  text-decoration: underline
+const OverviewContainer = styled.div`
+  margin-bottom: 64px;
 `;
 
 const FlexRow = styled.div`
@@ -35,8 +18,26 @@ const FlexRow = styled.div`
   height: 32px;
 `;
 
-const OverviewContainer = styled.div`
-  margin-bottom: 64px;
+const FlexColumn = styled.div`
+  display: flex;
+  flex-direction: column
+`;
+
+const Flexcontainer = styled.div`
+  display: flex;
+`;
+
+const SmallLink = styled.p`
+  text-decoration: underline
+`;
+
+const DiscountedPrice = styled.p`
+  text-decoration: line-through
+`;
+
+const SalePrice = styled.p`
+  color: red;
+  margin-right: 12px;
 `;
 
 const Stars = styled.div`
@@ -51,7 +52,7 @@ const H2 = styled.h2`
 const H5 = styled.h5`
   font-weight: 400;
   text-transform: uppercase;
-  color: #707070;
+  color: var(--color-grey-200);
   margin-top: 0px;
   margin-bottom: 8px;
 `;
