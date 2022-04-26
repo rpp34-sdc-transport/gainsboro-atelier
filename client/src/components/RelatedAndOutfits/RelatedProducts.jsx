@@ -121,6 +121,20 @@ const Star = styled(MdOutlineStar)`
   }
 `;
 
+const Price = styled.div`
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+`;
+
+const SalePrice = styled.small`
+  color: #FF0000;
+`;
+
+const OriginalPrice = styled.small`
+  text-decoration-line: ${props => props.lineThrough};
+`;
+
 
 export default class RelatedProducts extends React.Component {
   constructor(props) {
@@ -143,8 +157,6 @@ export default class RelatedProducts extends React.Component {
   }
 
   handleCompareStarClick(obj, star) {
-    console.log('obj', obj);
-    console.log('star', star);
     this.setState({
       showModal: obj,
       clickedStar: star
@@ -217,7 +229,10 @@ export default class RelatedProducts extends React.Component {
                   <TextBox>
                     <small>{category}</small>
                     <Heading5>{name}</Heading5>
-                    <small>{original_price}</small>
+                    <Price>
+                      {sale_price && <SalePrice>{sale_price}</SalePrice>}
+                      <OriginalPrice lineThrough={sale_price ? 'line-through' : 'none'}>{original_price}</OriginalPrice>
+                    </Price>
                     <StarRating ratings={ratings} showAve={false}/>
                   </TextBox>
                 </Card>
