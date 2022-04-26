@@ -38,8 +38,8 @@ const ImageButton = styled.div`
     width: 32px;
     height: 32px;
     background: rgba(255, 255, 255);
-    border: #949494 solid 2px;];
-    color: #949494;
+    border: var(--color-grey-100) solid 2px;];
+    color: var(--color-grey-100);
     margin-top: 8px;
     display: flex;
     justify-content: center;
@@ -48,8 +48,8 @@ const ImageButton = styled.div`
 
   &:hover {
     cursor: pointer;
-    border-color: #4D4D4D;
-    color: #4D4D4D;
+    border-color: var(--color-grey-300);
+    color: var(--color-grey-300);
   }
 `;
 
@@ -82,7 +82,7 @@ const ViewArrow = styled.div`
     width: 32px;
     height: 32px;
     background: rgba(255, 255, 255, .8);
-    color: #949494;
+    color: var(--color-grey-100);
     margin: 8px;
     display: flex;
     justify-content: center;
@@ -92,8 +92,8 @@ const ViewArrow = styled.div`
   &:hover {
     cursor: pointer;
     background: rgba(255, 255, 255, 1);
-    border-color: #4D4D4D;
-    color: #4D4D4D;
+    border-color: var(--color-grey-300);
+    color: var(--color-grey-300);
   }
 
 `;

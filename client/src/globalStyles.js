@@ -8,7 +8,8 @@ const GlobalStyle = createGlobalStyle`
     --color-brand-300: #2A66DF;
     --color-grey-100: #949494;
     --color-grey-200: #707070;
-    --color-grey-300: #262626;
+    --color-grey-300: #4D4D4D;
+    --color-grey-400: #262626;
     --color-yellow-100: #ffc107;
   }
 
@@ -18,7 +19,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    color: var(--color-grey-300);
+    color: var(--color-grey-400);
     margin: 0 auto;
     max-width: 1280px;
   }
@@ -78,7 +79,7 @@ const GlobalStyle = createGlobalStyle`
     background-color: white;
     border-radius: 4px;
     border: 2px solid var(--color-grey-100);
-    color: var(--color-grey-100);
+    color: var(--color-grey-200);
     padding: 10px 16px;
     font-weight: 500;
     font-size: 1rem;

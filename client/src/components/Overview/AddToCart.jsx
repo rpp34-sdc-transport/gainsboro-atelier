@@ -11,7 +11,7 @@ const Select = styled.select`
   border-radius: 4px;
   -webkit-appearance: none;
   appearance: none;
-  color: ${props => (props.value === 'Select a size' ? (`var(--color-grey-200)`) : (`var(--color-grey-300)`))}
+  color: ${props => (props.value === 'Select a size' ? (`var(--color-grey-200)`) : (`var(--color-grey-400)`))}
 `;
 
 const IconButton = styled.div`
@@ -20,7 +20,7 @@ const IconButton = styled.div`
     width: 42px;
     height: 42px;
     background: rgba(255, 255, 255);
-    border: #949494 solid 2px;];
+    border: var(--color-grey-100) solid 2px;];
     color: ${props => (props.addedOutfit ? `var(--color-yellow-100)` : `var(--color-grey-100)`)};
     display: flex;
     justify-content: center;
@@ -29,8 +29,8 @@ const IconButton = styled.div`
 
   &:hover {
     cursor: pointer;
-    border-color: #4D4D4D;
-    color: ${props => (props.addedOutfit ? `var(--color-yellow-100)` : `#4D4D4D`)};
+    border-color: var(--color-grey-300);
+    color: ${props => (props.addedOutfit ? `var(--color-yellow-100)` : `var(--color-grey-300)`)};
   }
 `;
 
@@ -75,8 +75,8 @@ const InputButton = styled.input`
   &{
     background-color: white;
     border-radius: 4px;
-    border: 2px solid #949494;
-    color: #949494;
+    border: 2px solid var(--color-grey-100);
+    color: var(--color-grey-200);
     padding: 10px 16px;
     font-weight: 500;
     font-size: 1rem;
@@ -84,8 +84,8 @@ const InputButton = styled.input`
   }
 
   &:hover{
-    color: #1B50BA;
-    border: 2px solid #2A66DF;
+    color: var(--color-brand-300);
+    border: 2px solid var(--color-brand-300);
     font-weight: 500px;
   }
 
