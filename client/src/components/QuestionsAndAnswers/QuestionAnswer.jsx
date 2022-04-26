@@ -49,12 +49,12 @@ export default class QuestionAnswer extends React.Component {
         this.closeAnswerModal = this.closeAnswerModal.bind(this);
         this.getData = this.getData.bind(this);
     }
-    
+
     componentDidMount() {
         this.getData();
     }
-    
-    // Questions should appear in order of ‘helpfulness’, corresponding to how many users have indicated that the question was helpful. 
+
+    // Questions should appear in order of ‘helpfulness’, corresponding to how many users have indicated that the question was helpful.
     getData() {
         fetch(`/qa/questions?product_id=${this.props.productId}`)
         .then(response => response.json())
@@ -65,7 +65,7 @@ export default class QuestionAnswer extends React.Component {
             this.setState({ qas: data.results })
         });
     }
-    
+
     // The remaining questions/answers should be hidden until the user loads them using the “More Answered Questions” button
     expandQABlocks() {
         if (this.state.qas.length > this.state.showCount) {
@@ -125,7 +125,7 @@ export default class QuestionAnswer extends React.Component {
                         <AnswersGroup answers={answersPrioritizingSeller} />
                     </QABlock>);
                 })}
-                
+
                 <button onClick={() => this.expandQABlocks()}>
                     MORE ANSWERED QUESTIONS
                 </button>
@@ -134,7 +134,7 @@ export default class QuestionAnswer extends React.Component {
                     ADD A QUESTION +
                 </button>
 
-                <ModalQuestion 
+                <ModalQuestion
                     isOpen={this.state.modalQuestionOpen}
                     close={() => this.closeQuestionModal()}
                     productId={this.props.productId}
@@ -143,7 +143,7 @@ export default class QuestionAnswer extends React.Component {
                     Placeholder
                 </ModalQuestion>
 
-                <ModalAnswer 
+                <ModalAnswer
                     questionId={this.state.selectedQuestion}
                     isOpen={this.state.modalAnswerOpen}
                     close={() => this.closeAnswerModal()}
@@ -158,4 +158,4 @@ export default class QuestionAnswer extends React.Component {
     }
 }
 
- 
+

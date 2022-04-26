@@ -3,74 +3,206 @@ import ExpandedView from './ExpandedView.jsx';
 import styled from 'styled-components';
 import {MdChevronLeft, MdChevronRight, MdOutlineExpandLess, MdOutlineExpandMore} from "react-icons/md";
 
-const thumbnailHeight = 48;
-const thumbnailBottom = 4;
-const countVisibleThumbnails = 7
-const thumbnailsHeight = countVisibleThumbnails * (thumbnailHeight + thumbnailBottom);
-
 const Gallery = styled.div`
   display: flex;
   flex-direction: row;
-  margin-right: 24px;
-`;
-
-const Img = styled.img`
-  height: 600px;
-  width: auto;
-  overflow: hidden;
+  margin-right: 32px;
 `;
 
 const ImageWrapper = styled.div`
-
-  justify-content: center;
   max-height: 50vw;
   max-width: 50vw;
+  position: relative;
   overflow: hidden
 `;
 
-const ImageButton = styled.button`
+const Img = styled.div`
+  height: min(50vw, 600px);
+  width: min(50vw, 600px);
+  overflow: hidden;
+  background-image: ${props => `url(${props.url})`};
+  background-repeat: no-repeat;
+  background-size: cover;
+`;
+
+const ImageButton = styled.div`
+  &{
+    border-radius: 4px;
+    width: 32px;
+    height: 32px;
+    background: rgba(255, 255, 255);
+    border: #949494 solid 2px;];
+    color: #949494;
+    margin-top: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &:hover {
+    cursor: pointer;
+    border-color: #4D4D4D;
+    color: #4D4D4D;
+  }
+`;
+
+// const ImageButtonDisabled = styled.div`
+//   &{
+//     border-radius: 4px;
+//     width: 32px;
+//     height: 32px;
+//     background: #EBEBEB;
+//     border: #949494 solid 2px;;
+//     color: #949494;
+//     margin-top: 8px;
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//   }
+// `;
+
+const ImageButtonPlaceholder = styled.div`
+    width: 36px;
+    height: 36px;
+    background: #FFF;
+    margin-top: 8px;
+    display: flex;
+`;
+
+const ViewArrow = styled.div`
+  &{
+    border-radius: 4px;
+    width: 32px;
+    height: 32px;
+    background: rgba(255, 255, 255, .8);
+    color: #949494;
+    margin: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &:hover {
+    cursor: pointer;
+    background: rgba(255, 255, 255, 1);
+    border-color: #4D4D4D;
+    color: #4D4D4D;
+  }
+
+`;
+
+
+const ThumbnailsSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-right: 16px;
+  align-items: center;
+`;
+
+const thumbnailHeight = 48;
+const thumbnailBottom = 18;
+const countVisibleThumbnails = 7
+const thumbnailsHeight = countVisibleThumbnails * (thumbnailHeight + thumbnailBottom);
+
+const ThumbnailsView = styled.div`
+  max-height: ${`${thumbnailsHeight}px`};
+  overflow-x: visible;
+  overflow-y: hidden;
+`;
+
+const ThumbnailsWrapper = styled.div`
+  margin-top: ${props => props.offset}px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-x: visible;
+  transition: all .3s ease-in-out 0s;
+`;
+
+const ThumbnailWrapper = styled.div`
+  & {
+    border-radius: 4px;
+    width: 48px;
+    height: 48px;
+    margin-bottom: 2px;
+    overflow: hidden;
+    background-image: ${props => `url(${props.url})`};
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  &:focus {
+    position: absolute;
+    outline: 4px solid var(--color-brand-200) !important;
+  }
+`;
+
+const ThumbnailActive = styled.div`
+  margin-bottom: 12px;
+`;
+
+const ThumbnailActiveIndicator = styled.div`
+  height: 4px;
+  background: var(--color-brand-300);
+  border-radius: 2px;
+`;
+
+const ThumbnailInactive = styled.div`
+  & {
+    margin-bottom: 16px;
+    position: relative;
+  }
+
+  &:hover {
+    opacity: 0.7;
+    cursor: pointer
+  }
+`;
+
+
+const ImageWrapperActive = styled.div`
   border-radius: 4px;
-  width: 32px;
-  height: 32px;
-  display: inline-block;
-  background: rgba(255, 255, 255, 0.6);
+  width: 44px;
+  height: 44px;
+  overflow: hidden;
+  margin: auto
+`;
+
+const UpArrow = styled(MdOutlineExpandLess)`
+    height: 22px;
+    width: 22px;
+`;
+
+const DownArrow = styled(MdOutlineExpandMore)`
+    height: 22px;
+    width: 22px;
+`;
+
+const LeftArrow = styled(MdChevronLeft)`
+    height: 22px;
+    width: 22px;
+`;
+
+const RightArrow = styled(MdChevronRight)`
+    height: 22px;
+    width: 22px;
+`;
+
+const ButtonArrowLeft = styled.div`
+  position: absolute;
+  top: min(calc(25vw - 16px), 284px);
+`;
+
+const ButtonArrowRight = styled.div`
+  position: absolute;
+  top: min(calc(25vw - 16px), 284px);
+  right: 0px;
 `;
 
 const ImgThumbnail = styled.img`
   width: ${props => (props.landscapeOrientation ? 'auto': '64px')};
   height: ${props => (props.landscapeOrientation ? '64px' : 'auto')};
   overflow: hidden;
-`;
-
-const ThumbnailsView = styled.div`
-  height: ${`${thumbnailsHeight}px`};
-  overflow: hidden;
-`;
-
-const ThumbnailsWrapper = styled.div`
-  margin-top: ${props => props.offset}px;
-`;
-
-const ThumbnailsSection = styled.div`
-  flex-direction: column;
-  margin-right: 12px;
-`;
-
-const ThumbnailWrapper = styled.div`
-  border-radius: 4px;
-  width: 48px;
-  height: 48px;
-  overflow: hidden;
-  margin-bottom: 4px;
-`;
-
-const ThumbnailWrapperActive = styled.div`
-  border-radius: 4px;
-  border: 2px solid red;
-  width: 48px;
-  height: 48px;
-  overflow: hidden;
-  margin-bottom: 4px;
 `;
 
 export default class ImageGallery extends React.Component {
@@ -85,6 +217,7 @@ export default class ImageGallery extends React.Component {
     this.changeImage = this.changeImage.bind(this);
     this.imageBack = this.imageBack.bind(this);
     this.imageForward = this.imageForward.bind(this);
+    this.keypressThumbnail = this.keypressThumbnail.bind(this);
     this.loadLandscapeOrientation = this.loadLandscapeOrientation.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
   }
@@ -121,6 +254,10 @@ export default class ImageGallery extends React.Component {
     }
   }
 
+  keypressThumbnail(){
+    console.log('pressed');
+  }
+
   toggleModal(){
     this.setState((prevState)=>({
       modalIsOpen: !prevState.modalIsOpen
@@ -132,29 +269,18 @@ export default class ImageGallery extends React.Component {
     const thumbnails = photos.map((photo, index) => {
       return (
       index === this.state.currentIndex ? (
-      <ThumbnailWrapperActive key={index}>
-        <ImgThumbnail
-          landscapeOrientation={this.state.landscapeOrientations[index] || false}
-          onLoad={(e)=>{
-            this.loadLandscapeOrientation(e, index);}}
-          src={photo.thumbnail_url}
-          value={index}
-        />
-      </ThumbnailWrapperActive>
+      <ThumbnailActive>
+        <ThumbnailWrapper key={index} url={photo.thumbnail_url} value={index} />
+        <ThumbnailActiveIndicator/>
+      </ThumbnailActive>
       ) : (
-      <ThumbnailWrapper key={index} onClick={this.changeImage} >
-        <ImgThumbnail
-          landscapeOrientation={this.state.landscapeOrientations[index] || false}
-          onLoad={(e)=>{
-            this.loadLandscapeOrientation(e, index);}}
-          src={photo.thumbnail_url}
-          value={index}
-        />
-      </ThumbnailWrapper>
+      <ThumbnailInactive>
+        <ThumbnailWrapper tabIndex="0" onKeyPress={this.keypressThumbnail} key={index} onClick={this.changeImage} url={photo.thumbnail_url} value={index} />
+      </ThumbnailInactive>
       )
     )});
 
-    const thumbnailsOffset = this.state.currentIndex >= countVisibleThumbnails ? -(this.state.currentIndex - countVisibleThumbnails -1) * (thumbnailHeight + thumbnailBottom) : 0;
+    const thumbnailsOffset = this.state.currentIndex >= countVisibleThumbnails ? -(this.state.currentIndex - countVisibleThumbnails + 1) * (thumbnailHeight + thumbnailBottom) : 0;
 
     let nextImage, previousImage, nextThumbnail, previousThumbnail;
 
@@ -166,21 +292,26 @@ export default class ImageGallery extends React.Component {
               {thumbnails}
             </ThumbnailsWrapper>
           </ThumbnailsView>
-          {this.state.currentIndex > 0 &&
-          <ImageButton onClick={this.imageBack}><MdOutlineExpandLess/></ImageButton>}
+          {this.state.currentIndex > 0 ?
+          <ImageButton onClick={this.imageBack}><UpArrow/></ImageButton> :
+          <ImageButtonPlaceholder></ImageButtonPlaceholder>}
           {this.state.currentIndex < photos.length -1 &&
-          <ImageButton onClick={this.imageForward}><MdOutlineExpandMore/></ImageButton>}
+          <ImageButton onClick={this.imageForward}><DownArrow/></ImageButton>}
         </ThumbnailsSection>
         <ImageWrapper>
           {this.state.currentIndex > 0 &&
-            <ImageButton onClick={this.imageBack}><MdChevronLeft/></ImageButton>
+            <ButtonArrowLeft>
+              <ViewArrow onClick={this.imageBack}><LeftArrow/></ViewArrow>
+            </ButtonArrowLeft>
           }
           {this.state.currentIndex < photos.length -1 &&
-          <ImageButton onClick={this.imageForward}>
-            <MdChevronRight/>
-          </ImageButton>
+          <ButtonArrowRight>
+            <ViewArrow onClick={this.imageForward}>
+              <RightArrow/>
+            </ViewArrow>
+          </ButtonArrowRight>
           }
-          <Img onClick={this.toggleModal} src={photos[this.state.currentIndex]['url']}/>
+          <Img onClick={this.toggleModal} url={photos[this.state.currentIndex]['url']}/>
         </ImageWrapper>
         {this.state.modalIsOpen &&
           <ExpandedView

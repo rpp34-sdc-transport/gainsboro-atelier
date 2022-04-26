@@ -15,6 +15,7 @@ const FlexColumn = styled.div`
 `;
 const SalePrice = styled.p`
   color: red;
+  margin-right: 12px;
 `;
 
 const DiscountedPrice = styled.p`
@@ -23,6 +24,36 @@ const DiscountedPrice = styled.p`
 
 const SmallLink = styled.p`
   text-decoration: underline
+`;
+
+const FlexRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 0px;
+  margin-bottom: 12px;
+  height: 32px;
+`;
+
+const OverviewContainer = styled.div`
+  margin-bottom: 64px;
+`;
+
+const Stars = styled.div`
+  margin-right: 12px;
+`;
+
+const H2 = styled.h2`
+  margin-top: 0px;
+  margin-bottom: 12px;
+`;
+
+const H5 = styled.h5`
+  font-weight: 400;
+  text-transform: uppercase;
+  color: #707070;
+  margin-top: 0px;
+  margin-bottom: 8px;
 `;
 
 export default class Overview extends React.Component {
@@ -51,25 +82,31 @@ export default class Overview extends React.Component {
 
     //Add discounted price if available
     let price = this.state.salePrice === null ?
-      (<p>${this.state.originalPrice}</p>) :
-      (<div>
+      (<FlexRow>
+        <p>${this.state.originalPrice}</p>
+      </FlexRow>) :
+      (<FlexRow>
         <SalePrice>${this.state.salePrice}</SalePrice>
         <DiscountedPrice>${this.state.originalPrice}</DiscountedPrice>
-       </div>
+       </FlexRow>
       );
 
     return (
-      <div>
+      <OverviewContainer>
         <Flexcontainer>
           <ImageGallery
             currentStyle={currentStyle}
             photos={styleData[currentStyle]['photos']}
           />
           <FlexColumn>
-            <StarRating ratings={this.props.ratings} showAve={false}/>
-            <SmallLink>Read all reviews</SmallLink>
-            <h5>{category}</h5>
-            <h2>{name}</h2>
+            <FlexRow>
+              <Stars>
+                <StarRating ratings={this.props.ratings} showAve={false}/>
+              </Stars>
+              <SmallLink>Read all reviews</SmallLink>
+            </FlexRow>
+            <H5>{category}</H5>
+            <H2>{name}</H2>
             {price}
             <StyleSelector
               changeStyle={changeStyle}
@@ -79,9 +116,9 @@ export default class Overview extends React.Component {
             <AddToCart skus={styleData[currentStyle]['skus']}/>
           </FlexColumn>
         </Flexcontainer>
-        <p>{slogan}</p>
+        <p><strong>{slogan}</strong></p>
         <p>{description}</p>
-      </div>
+      </OverviewContainer>
     );
   }
 }
