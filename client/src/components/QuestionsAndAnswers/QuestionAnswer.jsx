@@ -4,11 +4,18 @@ import styled from 'styled-components';
 import { AnswersGroup } from './Answers.jsx';
 import { ModalQuestion } from './ModalQuestion.jsx';
 import { ModalAnswer } from './ModalAnswer.jsx';
+import { withAnalytics } from '../HOCs/withAnalytics.js';
+import { Question } from './Question.jsx';
 
 const Container = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+`;
+
+const SearchBar = styled.input`
+    width: 50%;
+    height: 50px;
 `;
 
 const QABlock = styled.div`
@@ -17,23 +24,22 @@ const QABlock = styled.div`
     padding: 20px;
 `;
 
-const BoldSpan = styled.span`
-    font-weight: 600;
-`;
-
-const Question = styled.div`
+const ButtonsContainer = styled.div`
+    width: 50%;
     display: flex;
-    justify-content: space-between;
-    font-weight: 600;
-`;
-
-const QuestionAction = styled.span`
-    text-decoration: underline;
-    cursor: pointer;
+    justify-content: flex-start;
 `
 
+const Button = styled.button`
+  background: transparent;
+  border: 2px solid #d4d4d4;
+  color: #525252;
+  padding: 15px 30px;
+  margin-right: 40px;
+`;
+
 // By default, on page load up to two questions should be displayed. Therefore, initial showCount is 2
-export default class QuestionAnswer extends React.Component {
+export class QuestionAnswer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -42,7 +48,9 @@ export default class QuestionAnswer extends React.Component {
             modalQuestionOpen: false,
             modalAnswerOpen: false,
             selectedQuestion: null,
+            searchTerm: ''
         }
+        this.setSearchTerm = this.setSearchTerm.bind(this);
         this.openQuestionModal = this.openQuestionModal.bind(this);
         this.closeQuestionModal = this.closeQuestionModal.bind(this);
         this.openAnswerModal = this.openAnswerModal.bind(this);
@@ -54,16 +62,20 @@ export default class QuestionAnswer extends React.Component {
         this.getData();
     }
 
+    setSearchTerm(searchTerm) {
+        this.setState({ searchTerm });
+    }
+
     // Questions should appear in order of ‘helpfulness’, corresponding to how many users have indicated that the question was helpful.
     getData() {
         fetch(`/qa/questions?product_id=${this.props.productId}`)
-        .then(response => response.json())
-        .then(data => {
-            data.results.sort((a, b) => {
-                return b.question_helpfulness - a.question_helpfulness
+            .then(response => response.json())
+            .then(data => {
+                data.results.sort((a, b) => {
+                    return b.question_helpfulness - a.question_helpfulness
+                });
+                this.setState({ qas: data.results })
             });
-            this.setState({ qas: data.results })
-        });
     }
 
     // The remaining questions/answers should be hidden until the user loads them using the “More Answered Questions” button
@@ -101,11 +113,18 @@ export default class QuestionAnswer extends React.Component {
     }
 
     render() {
-        const qasToRender = this.state.qas.slice(0, this.state.showCount);
+        const { qas, searchTerm, modalQuestionOpen, selectedQuestion, modalAnswerOpen } = this.state;
+        let qasToRender = [];
+        if (searchTerm !== '') {
+            qasToRender = qas.filter((qa) => qa.question_body.includes(searchTerm));
+        } else {
+            qasToRender = qas.slice(0, this.state.showCount);
+        }
 
         return (
             <Container>
                 <h2>Questions and Answers</h2>
+                <SearchBar type="text" placeholder='HAVE A QUESTION? SEARCH FOR ANSWERS...' onChange={(e) => this.setSearchTerm(e.target.value)}  />
                 {qasToRender.map((qa) => {
                     const answersPrioritizingSeller = Object.values(qa.answers).sort((a, b) => {
                         if (a.answerer_name === 'Seller') {
@@ -118,24 +137,20 @@ export default class QuestionAnswer extends React.Component {
 
                     return (
                     <QABlock key={qa.question_id}>
-                        <Question>
-                            Q: {qa.question_body}
-                            <QuestionAction onClick={() => this.openAnswerModal(qa.question_id)}>Add answer</QuestionAction>
-                        </Question>
+                        <Question qa={qa} productId={this.props.productId}/>
                         <AnswersGroup answers={answersPrioritizingSeller} />
                     </QABlock>);
                 })}
-
-                <button onClick={() => this.expandQABlocks()}>
-                    MORE ANSWERED QUESTIONS
-                </button>
-
-                <button onClick={() => this.openQuestionModal()}>
-                    ADD A QUESTION +
-                </button>
-
+                <ButtonsContainer>
+                    <Button type="button" onClick={() => this.expandQABlocks()}>
+                        MORE ANSWERED QUESTIONS
+                    </Button>
+                    <Button type="button" onClick={() => this.openQuestionModal()}>
+                        ADD A QUESTION +
+                    </Button>
+                </ButtonsContainer>
                 <ModalQuestion
-                    isOpen={this.state.modalQuestionOpen}
+                    isOpen={modalQuestionOpen}
                     close={() => this.closeQuestionModal()}
                     productId={this.props.productId}
                     overview={this.props.overview}
@@ -144,8 +159,8 @@ export default class QuestionAnswer extends React.Component {
                 </ModalQuestion>
 
                 <ModalAnswer
-                    questionId={this.state.selectedQuestion}
-                    isOpen={this.state.modalAnswerOpen}
+                    questionId={selectedQuestion}
+                    isOpen={modalAnswerOpen}
                     close={() => this.closeAnswerModal()}
                     productId={this.props.productId}
                     overview={this.props.overview}
@@ -158,4 +173,5 @@ export default class QuestionAnswer extends React.Component {
     }
 }
 
-
+// export default QuestionAnswer;
+export default withAnalytics(QuestionAnswer, 'questionAnswer');

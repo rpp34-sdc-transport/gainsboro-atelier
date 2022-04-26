@@ -56,6 +56,15 @@ const H5 = styled.h5`
   margin-bottom: 8px;
 `;
 
+const Text = styled.div`
+  padding: 0px 80px;
+  margin-top: 32px;
+`;
+
+const Strong = styled.strong`
+  margin-bottom: 4px;
+`;
+
 export default class Overview extends React.Component {
   constructor(props) {
     super(props);
@@ -78,7 +87,7 @@ export default class Overview extends React.Component {
 
   render() {
     const {category, default_price, description, features, id, name, slogan, styleData = []} = this.props.data;
-    const { changeStyle, currentStyle } = this.props;
+    const { addOutfit, changeStyle, currentStyle, productId, removeOutfit } = this.props;
 
     //Add discounted price if available
     let price = this.state.salePrice === null ?
@@ -113,11 +122,13 @@ export default class Overview extends React.Component {
               changeStylePrice={this.changeStylePrice} currentStyle={currentStyle}
               styles={styleData}
             />
-            <AddToCart skus={styleData[currentStyle]['skus']}/>
+            <AddToCart addOutfit={addOutfit} productId={productId} removeOutfit={removeOutfit} skus={styleData[currentStyle]['skus']}/>
           </FlexColumn>
         </Flexcontainer>
-        <p><strong>{slogan}</strong></p>
-        <p>{description}</p>
+        <Text>
+          <Strong>{slogan}</Strong>
+          <p>{description}</p>
+        </Text>
       </OverviewContainer>
     );
   }

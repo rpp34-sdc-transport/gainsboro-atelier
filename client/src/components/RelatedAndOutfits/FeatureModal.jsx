@@ -5,10 +5,17 @@ import styled from 'styled-components';
 const Modal = styled.div`
   position: absolute;
   z-index: 1;
-  top: 200px;
-  left: -40px;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 100px;
+`;
+
+  const FeatureCard = styled.div`
   width: 450px;
   max-height: 400px;
+  overflow: scroll;
   border: 1px solid #b4b4b4;
   background-color: #FAFAFA;
   margin: auto;
@@ -56,31 +63,29 @@ export default class FeatureModal extends React.Component{
 
   render() {
     const {selectedName, selectedFeature, currFeature, currName, handleCloseModalClick} = this.props;
-    console.log('selectedName', selectedName);
-    console.log('selectedFeature', selectedFeature);
-    console.log('currFeature', currFeature);
     const allFeatures = [...selectedFeature, ...currFeature].map(obj => obj.feature);
-    console.log('allFeatures', allFeatures);
     const uniqueFeatures = [...new Set(allFeatures)];
-    console.log('uniqueFeatures', uniqueFeatures);
+
     return(
       <Modal onClick={handleCloseModalClick}>
-        <small>COMPARING</small>
-        <Names>
-          <h5>{currName}</h5>
-          <h5>{selectedName}</h5>
-        </Names>
-        {uniqueFeatures.map(targetFeature =>
-          <Item key={targetFeature}>
-            <CurrValue>
-              {this.getFeatureValue(targetFeature, currFeature)}
-            </CurrValue>
-            <FeatureName>{targetFeature}</FeatureName>
-            <SelectedValue>
-              {this.getFeatureValue(targetFeature, selectedFeature)}
-            </SelectedValue>
-          </Item>
-        )}
+        <FeatureCard>
+          <small>COMPARING</small>
+          <Names>
+            <h5>{currName}</h5>
+            <h5>{selectedName}</h5>
+          </Names>
+          {uniqueFeatures.map(targetFeature =>
+            <Item key={targetFeature}>
+              <CurrValue>
+                {this.getFeatureValue(targetFeature, currFeature)}
+              </CurrValue>
+              <FeatureName>{targetFeature}</FeatureName>
+              <SelectedValue>
+                {this.getFeatureValue(targetFeature, selectedFeature)}
+              </SelectedValue>
+            </Item>
+          )}
+        </FeatureCard>
       </Modal>
     )
   }

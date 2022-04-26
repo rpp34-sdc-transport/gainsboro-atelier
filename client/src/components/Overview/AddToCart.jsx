@@ -11,17 +11,17 @@ const Select = styled.select`
   border-radius: 4px;
   -webkit-appearance: none;
   appearance: none;
+  color: ${props => (props.value === 'Select a size' ? (`var(--color-grey-200)`) : (`var(--color-grey-300)`))}
 `;
 
 const IconButton = styled.div`
   &{
     border-radius: 4px;
-    width: 32px;
-    height: 32px;
+    width: 42px;
+    height: 42px;
     background: rgba(255, 255, 255);
     border: #949494 solid 2px;];
-    color: #949494;
-    margin-top: 8px;
+    color: ${props => (props.addedOutfit ? `var(--color-yellow-100)` : `var(--color-grey-100)`)};
     display: flex;
     justify-content: center;
     align-items: center;
@@ -30,7 +30,7 @@ const IconButton = styled.div`
   &:hover {
     cursor: pointer;
     border-color: #4D4D4D;
-    color: #4D4D4D;
+    color: ${props => (props.addedOutfit ? `var(--color-yellow-100)` : `#4D4D4D`)};
   }
 `;
 
@@ -38,7 +38,7 @@ const FlexRow = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-top: 0px;
+  margin-top: 12px;
   margin-bottom: 16px;
   height: 32px;
 `;
@@ -51,6 +51,7 @@ const StarOutline = styled(MdStarOutline)`
 const StarFill= styled(MdStar)`
     height: 22px;
     width: 22px;
+    color: var(--color-yellow-100);
 `;
 
 const SelectWrapper = styled.div`
@@ -79,6 +80,7 @@ const InputButton = styled.input`
     padding: 10px 16px;
     font-weight: 500;
     font-size: 1rem;
+    margin-bottom: 0px;
   }
 
   &:hover{
@@ -97,6 +99,7 @@ export default class AddToCart extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      addedOutfit: false,
       firstSku: 0,
       maxQuantity: null,
       selectedSku: null,
@@ -164,7 +167,7 @@ export default class AddToCart extends React.Component {
 
 
   render() {
-    const {skus} = this.props;
+    const {addOutfit, productId, removeOutfit, skus} = this.props;
 
     let sizes = Object.keys(skus).map(sku =>
       (<option key={sku} value={skus[sku].size} sku={sku} >
@@ -214,14 +217,29 @@ export default class AddToCart extends React.Component {
       </SelectWrapper>;
     }
 
+    let addOutfitButton = this.state.addedOutfit ? (
+      <IconButton
+        addedOutfit={this.state.addedOutfit}
+        onClick={()=>{this.setState({addedOutfit: false}, ()=>{removeOutfit(JSON.parse(productId));});}}
+      >
+        <MdStar/>
+      </IconButton>
+    ) : (
+      <IconButton
+        addedOutfit={this.state.addedOutfit}
+        onClick={()=>{this.setState({addedOutfit: true}, ()=>{addOutfit();});}}
+      >
+        <MdStarOutline/>
+      </IconButton>
+    )
     return (
       <form onSubmit={this.handleSubmit}>
         {size}
         {quantity}
         {addToCart}
-        {Object.keys(skus).length > 0 && <InputButton type="submit" value="ADD TO BAG" />}
         <FlexRow>
-          <IconButton><MdStarOutline/></IconButton>
+          {Object.keys(skus).length > 0 && <InputButton type="submit" value="ADD TO BAG" />}
+          {addOutfitButton}
         </FlexRow>
       </form>
     );

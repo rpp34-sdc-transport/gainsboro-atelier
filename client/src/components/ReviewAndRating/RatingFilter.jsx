@@ -41,6 +41,7 @@ const StarCount = styled.span`
 `;
 
 export default function RatingFilter({ratings, handleStarRatingClick}) {
+  console.log('ratings', ratings);
   var ratingCounts = Object.values(ratings).reduce((sum, rating) => sum + Number(rating), 0);
   return (
     <div>
@@ -50,7 +51,7 @@ export default function RatingFilter({ratings, handleStarRatingClick}) {
           <BarBtm>
             <BarTop barWidth={Math.round((Number(ratings[num]) / ratingCounts) * 100)}></BarTop>
           </BarBtm>
-          <StarCount>({ratings[num]})</StarCount>
+          <StarCount>({ratings[num] === undefined ? 0 : ratings[num]})</StarCount>
         </Wrapper>
         )}
     </div>

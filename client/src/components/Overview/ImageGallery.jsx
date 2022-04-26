@@ -17,12 +17,19 @@ const ImageWrapper = styled.div`
 `;
 
 const Img = styled.div`
-  height: min(50vw, 600px);
-  width: min(50vw, 600px);
-  overflow: hidden;
-  background-image: ${props => `url(${props.url})`};
-  background-repeat: no-repeat;
-  background-size: cover;
+  &{
+    border-radius: 4px;
+    height: min(50vw, 600px);
+    width: min(50vw, 600px);
+    overflow: hidden;
+    background-image: ${props => `url(${props.url})`};
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  &:hover {
+    cursor: zoom-in
+  }
 `;
 
 const ImageButton = styled.div`
@@ -62,8 +69,8 @@ const ImageButton = styled.div`
 // `;
 
 const ImageButtonPlaceholder = styled.div`
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
     background: #FFF;
     margin-top: 8px;
     display: flex;
@@ -131,10 +138,10 @@ const ThumbnailWrapper = styled.div`
     background-size: cover;
   }
 
-  &:focus {
+  ${'' /* &:focus {
     position: absolute;
     outline: 4px solid var(--color-brand-200) !important;
-  }
+  } */}
 `;
 
 const ThumbnailActive = styled.div`
@@ -190,12 +197,12 @@ const RightArrow = styled(MdChevronRight)`
 
 const ButtonArrowLeft = styled.div`
   position: absolute;
-  top: min(calc(25vw - 16px), 284px);
+  top: min(calc(25vw - 24px), 276px);
 `;
 
 const ButtonArrowRight = styled.div`
   position: absolute;
-  top: min(calc(25vw - 16px), 284px);
+  top: min(calc(25vw - 24px), 276px);
   right: 0px;
 `;
 
@@ -254,8 +261,13 @@ export default class ImageGallery extends React.Component {
     }
   }
 
-  keypressThumbnail(){
-    console.log('pressed');
+  keypressThumbnail(e){
+    const currentIndex = parseInt(e.target.getAttribute('value')) || parseInt(e.currentTarget.getAttribute('value')) || 0;
+    if (event.key === "Enter") {
+      this.setState({
+        currentIndex: currentIndex
+      })
+    }
   }
 
   toggleModal(){

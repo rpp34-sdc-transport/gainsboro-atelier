@@ -9,10 +9,12 @@ const GlobalStyle = createGlobalStyle`
     --color-grey-100: #949494;
     --color-grey-200: #707070;
     --color-grey-300: #262626;
+    --color-yellow-100: #ffc107;
   }
 
   * {
     font-family: "Roboto", sans-serif;
+    box-sizing: border-box;
   }
 
   body {
@@ -49,7 +51,8 @@ const GlobalStyle = createGlobalStyle`
   p {
     font-size: 1rem;
     font-weight: 400;
-    line-height: 1.4;
+    line-height: 1.5;
+    margin-top: 4px;
     margin-bottom: 12px;
   }
 

@@ -6,7 +6,7 @@ import {rest} from 'msw'
 import {setupServer} from 'msw/node'
 import {render, fireEvent, waitFor, screen} from '@testing-library/react'
 import '@testing-library/jest-dom'
-import QuestionAnswer from '../QuestionAnswer'
+import QuestionAnswer from '../QuestionsAndAnswers/QuestionAnswer.jsx'
 
 import { sampleQA } from '../fixtures/qa';
 
@@ -22,7 +22,7 @@ describe('QA Component', () => {
     afterEach(() => server.resetHandlers())
     afterAll(() => server.close())
     it('renders', async () => {
-        render(<QuestionAnswer productId="123" />)
+        render(<QuestionAnswer productId="123" overview=""/>)
         
         await waitFor(() => screen.getByRole('heading', { level: 2 }))
     
