@@ -4,7 +4,6 @@ import Reviews from './Reviews.jsx';
 import Rating from './Rating.jsx';
 
 const WidgetContainer = styled.div`
-  border: 1px solid red;
   padding: 0 80px;
   margin-bottom: 64px;
 `;

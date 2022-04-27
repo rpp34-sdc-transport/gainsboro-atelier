@@ -31,7 +31,7 @@ export const Content = styled.div`
 export const Card = styled.div`
   &{
     border: 1px solid #b4b4b4;
-    border-radius: 3px;
+    border-radius: 4px;
     width: 250px;
     max-height: 450px;
     position: relative;

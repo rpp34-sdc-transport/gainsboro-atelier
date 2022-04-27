@@ -10,7 +10,6 @@ const Title = styled.h5`
 const WidgetContainer = styled.div`
   padding-left: 30px;
   padding-right: 80px;
-  border: 1px solid red;
 `;
 
 
