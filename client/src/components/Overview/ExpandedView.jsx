@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import {MdChevronLeft, MdChevronRight, MdFullscreenExit} from "react-icons/md";
+import throttle from 'lodash.throttle';
 
 const Modal = styled.div`
   position: absolute;
@@ -212,6 +213,7 @@ export default class ExpandedView extends React.Component {
     this.onImageLoad = this.onImageLoad.bind(this);
     this.toggleZoom = this.toggleZoom.bind(this);
     this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
+    this.mouseMove = throttle(this.mouseMove.bind(this), 3);
   }
 
   componentDidMount(){

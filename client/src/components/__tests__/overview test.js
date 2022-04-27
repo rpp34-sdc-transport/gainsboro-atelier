@@ -4,9 +4,9 @@ import {render, fireEvent, waitFor, screen, cleanup} from '@testing-library/reac
 import {jsdom} from '@testing-library/jest-dom';
 import { sampleOverview } from '../fixtures/overview';
 
-describe('Render Overview components', () => {
-  test('It should cart elements', () => {
-    const {getByText} = render(<Overview data={sampleOverview}/>);
+describe('Overview', () => {
+  test('Show cart elements', () => {
+    const {getByText} = render(<Overview data={sampleOverview} currentStyle={0}/>);
     expect(screen.getByRole('option', {name: "Select a size"})).toBeInTheDocument;
     expect(screen.getByRole('option', {name: "—"})).toBeInTheDocument;
     expect(screen.getAllByRole('combobox')).toHaveLength(2);

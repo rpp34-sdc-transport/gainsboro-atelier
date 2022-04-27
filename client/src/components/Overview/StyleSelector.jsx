@@ -64,6 +64,7 @@ export default function StyleSelector ({changeStyle, changeStylePrice, currentSt
       >
         <ThumbnailWrapper>
           <Img
+            alt={'product-style'}
             src={imageUrl}
             landscapeOrientation={landscapeOrientations[index] || false}
             onLoad={(e)=>{
