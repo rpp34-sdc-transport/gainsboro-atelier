@@ -1,13 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 import StarRating from '../ReviewAndRating/StarRating.jsx';
-import {Container, Carousel, Content, Card, BackArrow, BackArrowIcon, ForwardArrow, ForwardArrowIcon, NoImage, Image, TextBox, Heading5} from './RelatedProducts.jsx';
+import {Container, Carousel, Content, Card, BackArrow, BackArrowIcon, ForwardArrow, ForwardArrowIcon, NoImage, Image, TextBox, Heading5, Price, SalePrice, OriginalPrice} from './RelatedProducts.jsx';
 import {VscAdd} from 'react-icons/vsc';
 import {IoMdCloseCircle, IoMdCheckmark} from 'react-icons/io';
 import {MdOutlineHideImage} from 'react-icons/md';
 
 const Wrapper = styled.div`
   display: flex;
+  justify-content: space-between;
   padding-left: 50px;
 `;
 
@@ -17,6 +18,8 @@ const AddCard = styled(Card)`
   justify-content: center;
   align-items: center;
   gap: 10px;
+  height: 420px;
+  width: 240px;
 `;
 
 const AddIcon = styled(VscAdd)`
@@ -38,7 +41,11 @@ const AddedIcon = styled(IoMdCheckmark)`
 `
 
 const ThreeCarousel = styled(Carousel)`
-  width: 870px;
+  width: 790px;
+`;
+
+const BackArrowForOutfit = styled(BackArrow)`
+  width: 30px;
 `;
 
 const CloseCircle = styled.div`
@@ -75,14 +82,14 @@ export default class YourOutfit extends React.Component{
   handleForwardArrowClick() {
     this.setState(preState => ({
       firstProductIndex: preState.firstProductIndex + 1,
-      absoluteLeft: preState.absoluteLeft - 290
+      absoluteLeft: preState.absoluteLeft - 270
     }))
   }
 
   handleBackArrowClick() {
     this.setState(preState => ({
       firstProductIndex: preState.firstProductIndex - 1,
-      absoluteLeft: preState.absoluteLeft + 290
+      absoluteLeft: preState.absoluteLeft + 270
     }))
   }
 
@@ -104,9 +111,9 @@ export default class YourOutfit extends React.Component{
           </AddCard>
         }
         <Container>
-          <BackArrow>
+          <BackArrowForOutfit>
             <BackArrowIcon visibility={this.state.firstProductIndex > 0 ? 'visible' : 'hidden'} onClick={this.handleBackArrowClick}/>
-          </BackArrow>
+          </BackArrowForOutfit>
           <ThreeCarousel>
             <Content absoluteLeft={this.state.absoluteLeft}>
               {outfitList.map((outfit, index) => {
@@ -123,7 +130,10 @@ export default class YourOutfit extends React.Component{
                     <TextBox>
                       <small>{category}</small>
                       <Heading5>{name}</Heading5>
-                      <small>{currentStylePrice}</small>
+                      <Price>
+                        {currentStyleSalePrice && <SalePrice>{currentStyleSalePrice}</SalePrice>}
+                        <OriginalPrice lineThrough={currentStyleSalePrice ? 'line-through' : 'none'}>{currentStylePrice}</OriginalPrice>
+                      </Price>
                       <StarRating ratings={ratings} showAve={false}/>
                     </TextBox>
                   </Card>

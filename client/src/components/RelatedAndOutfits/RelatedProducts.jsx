@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 export const Container = styled.div`
   display: flex;
   position: relative;
+  // margin-bottom: 64px;
 `;
 
 export const Carousel = styled.div`
@@ -20,7 +21,7 @@ export const Carousel = styled.div`
 `
 export const Content = styled.div`
   display: flex;
-  gap: 40px;
+  gap: 20px;
   position: absolute;
   top: 0;
   left: ${props => props.absoluteLeft}px;
@@ -32,7 +33,7 @@ export const Card = styled.div`
     border: 1px solid #b4b4b4;
     border-radius: 3px;
     width: 250px;
-    height: 420px;
+    max-height: 450px;
     position: relative;
   }
   &:hover{
@@ -42,39 +43,39 @@ export const Card = styled.div`
 
 export const BackArrow = styled.div`
   width: 50px;
-  padding-top: 180px;
+  padding-top: 200px;
 `;
 
 export const BackArrowIcon = styled(MdOutlineArrowBackIosNew)`
   &{
-    width: 30px;
-    height: 30px;
+    width: 20px;
+    height: 20px;
     transition: all 0.5s ease;
     visibility: ${props => props.visibility}
   }
   &:hover {
     cursor: pointer;
-    width: 50px;
-    height: 50px;
+    width: 30px;
+    height: 30px;
   }
 `
 
 export const ForwardArrow = styled.div`
   width: 50px;
-  padding-top: 180px;
+  padding-top: 200px;
 `;
 
 export const ForwardArrowIcon = styled(MdArrowForwardIos)`
   &{
-    width: 30px;
-    height: 30px;
+    width: 20px;
+    height: 20px;
     transition: all 0.5s ease;
     visibility: ${props => props.visibility}
   }
   &:hover {
     cursor: pointer;
-    width: 50px;
-    height: 50px;
+    width: 30px;
+    height: 30px;
   }
 `
 
@@ -123,17 +124,17 @@ const Star = styled(MdOutlineStar)`
   }
 `;
 
-const Price = styled.div`
+export const Price = styled.div`
   display: flex;
   gap: 10px;
   margin-bottom: 10px;
 `;
 
-const SalePrice = styled.small`
+export const SalePrice = styled.small`
   color: #FF0000;
 `;
 
-const OriginalPrice = styled.small`
+export const OriginalPrice = styled.small`
   text-decoration-line: ${props => props.lineThrough};
 `;
 
@@ -145,6 +146,7 @@ export default class RelatedProducts extends React.Component {
       clickedStar: false,
       showModal: false,
       previewImages: {},
+      selectedPreviewImageIndex: 0,
       firstProductIndex: 0,
       absoluteLeft: 0,
       showThumbnailCarousel: '',
@@ -172,14 +174,14 @@ export default class RelatedProducts extends React.Component {
   handleForwardArrowClick() {
     this.setState(preState => ({
       firstProductIndex: preState.firstProductIndex + 1,
-      absoluteLeft: preState.absoluteLeft - 290
+      absoluteLeft: preState.absoluteLeft - 270
     }))
   }
 
   handleBackArrowClick() {
     this.setState(preState => ({
       firstProductIndex: preState.firstProductIndex - 1,
-      absoluteLeft: preState.absoluteLeft + 290
+      absoluteLeft: preState.absoluteLeft + 270
     }))
   }
 
@@ -192,7 +194,10 @@ export default class RelatedProducts extends React.Component {
   }
 
   handleChangePreviewImageClick(id, index) {
-    this.setState(preState => ({previewImages: {...preState.previewImages, [id]: index}}))
+    this.setState(preState => ({
+      previewImages: {...preState.previewImages, [id]: index},
+      selectedPreviewImageIndex: index
+    }))
   }
 
   handleCardClick() {
@@ -210,12 +215,11 @@ export default class RelatedProducts extends React.Component {
         </BackArrow>
         <Carousel>
           <Content absoluteLeft={this.state.absoluteLeft}>
-            {relatedProducts.map(product => {
+            {relatedProducts.map((product, index) => {
               const {id, ratings, name, features, defaultStyle, category} = product;
               const {original_price, sale_price, photos} = defaultStyle;
               return (
-                <Link to="/64620">
-                <Card key={id}>
+                <Card key={index}>
                   {!photos || !photos[0].thumbnail_url ?
                     <NoImage>
                       <MdOutlineHideImage/>
@@ -229,6 +233,7 @@ export default class RelatedProducts extends React.Component {
                         <ThumbnailCarousel
                           id={id}
                           photos={photos}
+                          selectedPreviewImageIndex={this.state.selectedPreviewImageIndex}
                           handleChangePreviewImageClick={this.handleChangePreviewImageClick}
                         />
                       }
@@ -245,7 +250,6 @@ export default class RelatedProducts extends React.Component {
                     <StarRating ratings={ratings} showAve={false}/>
                   </TextBox>
                 </Card>
-                </Link>
               )
             })}
           </Content>

@@ -1,7 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import {Button} from './Reviews.jsx';
 import {GrFormClose} from 'react-icons/gr';
+
+const FilterList = styled.div`
+  margin-top: 30px;
+`;
 
 const FilterContainer = styled.div`
   display: flex;
@@ -9,7 +12,7 @@ const FilterContainer = styled.div`
   flex-wrap: wrap;
 `;
 
-const RatingBtn = styled(Button)`
+const RatingBtn = styled.button`
   padding: 5px 10px;
   margin-right: 5px;
   margin-bottom: 5px;
@@ -19,7 +22,7 @@ const RatingBtn = styled(Button)`
 
 export default function RatingFilterList({ratingFilterList, handleRemoveStarRatingClick, handleRemoveAllFiltersClick}) {
   return(
-    <div>
+    <FilterList>
       <p>Filter reviews by ratings</p>
       <FilterContainer>
       {ratingFilterList.map(rating =>
@@ -33,6 +36,6 @@ export default function RatingFilterList({ratingFilterList, handleRemoveStarRati
           <GrFormClose onClick={handleRemoveAllFiltersClick}/>
       </RatingBtn>
       </FilterContainer>
-    </div>
+    </FilterList>
   )
 }

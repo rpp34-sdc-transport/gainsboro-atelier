@@ -3,8 +3,14 @@ import styled from 'styled-components';
 import RelatedProducts from './RelatedProducts.jsx';
 import YourOutfit from './YourOutfit.jsx';
 
-const Title = styled.p`
+const Title = styled.h5`
   padding-left: 50px;
+`;
+
+const WidgetContainer = styled.div`
+  padding-left: 30px;
+  padding-right: 80px;
+  border: 1px solid red;
 `;
 
 
@@ -14,7 +20,7 @@ export default class RelatedAndOutfits extends React.Component {
     const {relatedProducts, currProduct, outfitList, handleAddToOutfitClick, handleRemoveOutfitFromListClick} = this.props;
 
     return(
-    <div>
+    <WidgetContainer>
       {relatedProducts.length > 0 &&
       <>
         <Title>RELATED PRODUCTS</Title>
@@ -32,7 +38,7 @@ export default class RelatedAndOutfits extends React.Component {
         handleAddToOutfitClick={handleAddToOutfitClick}
         handleRemoveOutfitFromListClick={handleRemoveOutfitFromListClick}
       />
-    </div>
+    </WidgetContainer>
     )
   }
 }

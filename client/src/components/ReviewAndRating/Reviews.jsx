@@ -4,28 +4,23 @@ import Review from './Review.jsx';
 import SortMenu from './SortMenu.jsx';
 import AddReview from './AddReview.jsx';
 
-
-
-const Container = styled.div`
-  padding-left:60px;
-`;
-
 const SortBar = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 10px;
 `;
 
 const SearchBox = styled.div`
   display: flex;
-  width: 300px;
+  width: 370px;
   flex-direction: column;
 `;
 
 const Search = styled.input`
-  width: 300px;
+  width: 370px;
   height: 45px;
-  border: 1px solid #ebebeb;
+  border: 2px solid #ebebeb;
 `;
 
 const SearchError = styled.small`
@@ -33,20 +28,18 @@ const SearchError = styled.small`
   font-size: 12px;
 `;
 
-export const Button = styled.button`
-  background: transparent;
-  border: 2px solid #d4d4d4;
-  color: #525252;
-  padding: 15px 30px;
-  margin-right: 40px;
+export const ButtonGroup = styled.div`
+  display: flex;
+  gap: 40px;
 `;
 
 const ReviewList = styled.div`
-  width: 800px;
+  width: 700px;
   max-height: 800px;
   overflow: scroll;
-  border: 1px solid #ebebeb;
-  margin-bottom: 20px;
+  border: 2px solid #ebebeb;
+  border-radius: 4px;
+  margin-bottom: 40px;
   padding: 40px;
 `
 
@@ -115,7 +108,7 @@ export default class Reviews extends React.Component {
     var restList = filteredReivew.slice(this.state.currReviewIndex);
 
     return (
-      <Container>
+      <div>
         <SortBar>
           {!reviews.length ?
             <h4>0 review</h4> :
@@ -137,8 +130,10 @@ export default class Reviews extends React.Component {
             <p>There is no review under current filters!</p>
           }
         </ReviewList>
-        {restList.length > 0 && <Button type="button" onClick={this.handleMoreReviewBtnClick}>MORE REVIEWS</Button>}
-        <Button type="button" onClick={this.handleAddRviewBtn}>ADD A REVIEW +</Button>
+        <ButtonGroup>
+          {restList.length > 0 && <button type="button" onClick={this.handleMoreReviewBtnClick}>MORE REVIEWS</button>}
+          <button type="button" onClick={this.handleAddRviewBtn}>ADD A REVIEW +</button>
+        </ButtonGroup>
         {this.state.addReviewModal &&
           <AddReview
             product_id={product_id}
@@ -147,7 +142,7 @@ export default class Reviews extends React.Component {
             handleCloseModalClick={this.handleCloseModalClick}
             fetchDataAfterSubmittingNewReview={fetchDataAfterSubmittingNewReview}
           />}
-      </Container>
+      </div>
     );
   }
 }

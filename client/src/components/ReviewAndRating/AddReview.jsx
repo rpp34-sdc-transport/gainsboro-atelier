@@ -99,12 +99,29 @@ const TextArea = styled.textarea`
   display: block;
 `;
 
+export const Input = styled.input`
+  width: 535px;
+`;
+
 
 const SubmitBtn = styled.input`
-  background: transparent;
-  border: 2px solid #d4d4d4;
-  color: #525252;
-  padding: 10px 50px;
+  &{
+    border-radius: 4px;
+    border: 2px solid var(--color-grey-100);
+    color: var(--color-grey-200);
+    padding: 10px 16px;
+    font-weight: 500;
+    font-size: 1rem;
+    background: transparent;
+  }
+  &:hover{
+    color: #1B50BA;
+    border: 2px solid var(--color-brand-300);
+    font-weight: 500px;
+  }
+  &:active {
+    background-color: var(--color-brand-100);
+  }
 `;
 
 const CloseModal = styled(CloseImage)`
@@ -273,7 +290,7 @@ export default class AddReview extends React.Component{
                 <div>
                   {['Yes', 'No'].map(value =>
                     <label key={value} style={{marginRight: '40px'}}>
-                      < input
+                      <input
                         type="radio"
                         name="recommend"
                         value={value}
@@ -354,7 +371,7 @@ export default class AddReview extends React.Component{
               <Section>
                 <Title>Email<Asterisk/></Title>
                 <div>
-                  <input type="email" name="email" value={this.state.email} onChange={this.handleFormChange} required/>
+                  <Input type="email" name="email" value={this.state.email} onChange={this.handleFormChange} required/>
                   <RemindMessage><MdArrowRight />For authentication reasons, you will not be emailed</RemindMessage>
                 </div>
               </Section>
