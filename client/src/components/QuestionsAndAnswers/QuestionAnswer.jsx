@@ -61,12 +61,12 @@ export class QuestionAnswer extends React.Component {
     componentDidMount() {
         this.getData();
     }
-    
+
     setSearchTerm(searchTerm) {
         this.setState({ searchTerm });
     }
-    
-    // Questions should appear in order of ‘helpfulness’, corresponding to how many users have indicated that the question was helpful. 
+
+    // Questions should appear in order of ‘helpfulness’, corresponding to how many users have indicated that the question was helpful.
     getData() {
         fetch(`/qa/questions?product_id=${this.props.productId}`)
             .then(response => response.json())
@@ -149,7 +149,7 @@ export class QuestionAnswer extends React.Component {
                         ADD A QUESTION +
                     </Button>
                 </ButtonsContainer>
-                <ModalQuestion 
+                <ModalQuestion
                     isOpen={modalQuestionOpen}
                     close={() => this.closeQuestionModal()}
                     productId={this.props.productId}
@@ -158,7 +158,7 @@ export class QuestionAnswer extends React.Component {
                     Placeholder
                 </ModalQuestion>
 
-                <ModalAnswer 
+                <ModalAnswer
                     questionId={selectedQuestion}
                     isOpen={modalAnswerOpen}
                     close={() => this.closeAnswerModal()}

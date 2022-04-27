@@ -126,6 +126,7 @@ class App extends React.Component {
   }
 
   handleRemoveOutfitFromListClick(id) {
+    console.log('REMOVE IDDDDD', id);
     var updatedOutfitList = this.state.outfitList.filter(outfit => outfit.id !== id);
     localStorage.setItem("outfit", JSON.stringify(updatedOutfitList));
     this.setState({
@@ -139,10 +140,13 @@ class App extends React.Component {
         <GlobalStyle />
         {Object.keys(this.state.overview).length > 0 &&
           <Overview
+          addOutfit={this.handleAddToOutfitClick}
           changeStyle={this.changeStyle}
           currentStyle={this.state.currentStyle}
           data={this.state.overview}
+          productId={this.state.product_id}
           ratings={this.state.meta.ratings}
+          removeOutfit={this.handleRemoveOutfitFromListClick}
           />
         }
         <RelatedAndOutfits

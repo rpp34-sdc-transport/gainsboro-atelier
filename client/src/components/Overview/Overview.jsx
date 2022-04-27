@@ -5,24 +5,65 @@ import ImageGallery from './ImageGallery.jsx';
 import StyleSelector from './StyleSelector.jsx';
 import StarRating from '../ReviewAndRating/StarRating.jsx'
 
-const Flexcontainer = styled.div`
+const OverviewContainer = styled.div`
+  margin-bottom: 64px;
+`;
+
+const FlexRow = styled.div`
   display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 0px;
+  margin-bottom: 12px;
+  height: 32px;
 `;
 
 const FlexColumn = styled.div`
   display: flex;
   flex-direction: column
 `;
-const SalePrice = styled.p`
-  color: red;
+
+const Flexcontainer = styled.div`
+  display: flex;
+`;
+
+const SmallLink = styled.p`
+  text-decoration: underline
 `;
 
 const DiscountedPrice = styled.p`
   text-decoration: line-through
 `;
 
-const SmallLink = styled.p`
-  text-decoration: underline
+const SalePrice = styled.p`
+  color: red;
+  margin-right: 12px;
+`;
+
+const Stars = styled.div`
+  margin-right: 12px;
+`;
+
+const H2 = styled.h2`
+  margin-top: 0px;
+  margin-bottom: 12px;
+`;
+
+const H5 = styled.h5`
+  font-weight: 400;
+  text-transform: uppercase;
+  color: var(--color-grey-200);
+  margin-top: 0px;
+  margin-bottom: 8px;
+`;
+
+const Text = styled.div`
+  padding: 0px 80px;
+  margin-top: 32px;
+`;
+
+const Strong = styled.strong`
+  margin-bottom: 4px;
 `;
 
 export default class Overview extends React.Component {
@@ -47,41 +88,49 @@ export default class Overview extends React.Component {
 
   render() {
     const {category, default_price, description, features, id, name, slogan, styleData = []} = this.props.data;
-    const { changeStyle, currentStyle } = this.props;
+    const { addOutfit, changeStyle, currentStyle, productId, removeOutfit } = this.props;
 
     //Add discounted price if available
     let price = this.state.salePrice === null ?
-      (<p>${this.state.originalPrice}</p>) :
-      (<div>
+      (<FlexRow>
+        <p>${this.state.originalPrice}</p>
+      </FlexRow>) :
+      (<FlexRow>
         <SalePrice>${this.state.salePrice}</SalePrice>
         <DiscountedPrice>${this.state.originalPrice}</DiscountedPrice>
-       </div>
+       </FlexRow>
       );
 
     return (
-      <div>
+      <OverviewContainer>
         <Flexcontainer>
           <ImageGallery
             currentStyle={currentStyle}
             photos={styleData[currentStyle]['photos']}
           />
           <FlexColumn>
-            <StarRating ratings={this.props.ratings} showAve={false}/>
-            <SmallLink>Read all reviews</SmallLink>
-            <h5>{category}</h5>
-            <h2>{name}</h2>
+            <FlexRow>
+              <Stars>
+                <StarRating ratings={this.props.ratings} showAve={false}/>
+              </Stars>
+              <SmallLink>Read all reviews</SmallLink>
+            </FlexRow>
+            <H5>{category}</H5>
+            <H2>{name}</H2>
             {price}
             <StyleSelector
               changeStyle={changeStyle}
               changeStylePrice={this.changeStylePrice} currentStyle={currentStyle}
               styles={styleData}
             />
-            <AddToCart skus={styleData[currentStyle]['skus']}/>
+            <AddToCart addOutfit={addOutfit} productId={productId} removeOutfit={removeOutfit} skus={styleData[currentStyle]['skus']}/>
           </FlexColumn>
         </Flexcontainer>
-        <p>{slogan}</p>
-        <p>{description}</p>
-      </div>
+        <Text>
+          <Strong>{slogan}</Strong>
+          <p>{description}</p>
+        </Text>
+      </OverviewContainer>
     );
   }
 }
