@@ -59,7 +59,7 @@ const H5 = styled.h5`
 
 const Text = styled.div`
   padding: 0px 80px;
-  margin-top: 32px;
+  margin-top: 64px;
 `;
 
 const Strong = styled.strong`
