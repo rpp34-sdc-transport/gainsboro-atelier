@@ -14,12 +14,12 @@ const Container = styled.div`
 `;
 
 const SearchBar = styled.input`
-    width: 50%;
+    width: 100%;
     height: 50px;
 `;
 
 const QABlock = styled.div`
-    width: 50%;
+    width: 70%;
     margin: 20px;
     padding: 20px;
 `;
@@ -68,14 +68,14 @@ export class QuestionAnswer extends React.Component {
 
     // Questions should appear in order of ‘helpfulness’, corresponding to how many users have indicated that the question was helpful.
     getData() {
-        fetch(`/qa/questions?product_id=${this.props.productId}`)
-            .then(response => response.json())
-            .then(data => {
-                data.results.sort((a, b) => {
-                    return b.question_helpfulness - a.question_helpfulness
+            fetch(`/qa/questions?product_id=${this.props.productId}`)
+                .then(response => response.json())
+                .then(data => {
+                    data.results.sort((a, b) => {
+                        return b.question_helpfulness - a.question_helpfulness
+                    });
+                    this.setState({ qas: data.results })
                 });
-                this.setState({ qas: data.results })
-            });
     }
 
     // The remaining questions/answers should be hidden until the user loads them using the “More Answered Questions” button
@@ -123,7 +123,7 @@ export class QuestionAnswer extends React.Component {
 
         return (
             <Container>
-                <h2>Questions and Answers</h2>
+            <p>QUESTIONS & ANSWERS</p>
                 <SearchBar type="text" placeholder='HAVE A QUESTION? SEARCH FOR ANSWERS...' onChange={(e) => this.setSearchTerm(e.target.value)}  />
                 {qasToRender.map((qa) => {
                     const answersPrioritizingSeller = Object.values(qa.answers).sort((a, b) => {
@@ -167,7 +167,6 @@ export class QuestionAnswer extends React.Component {
                 >
                     Placeholder
                 </ModalAnswer>
-
             </Container>
         )
     }

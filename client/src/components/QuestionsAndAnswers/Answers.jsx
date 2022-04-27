@@ -97,7 +97,7 @@ class Answer extends React.Component {
             <div key={this.props.body} >
                 <span style={{ fontWeight: 600 }}>A:</span> {this.props.body}
             </div>
-            <div>
+            <small>
                 by {this.props.answerer_name}, {formatedDate} | Helpful? 
                 {this.state.helpfulVoted ? 
                     <>
@@ -119,7 +119,7 @@ class Answer extends React.Component {
                         <VoteLink onClick={() => this.report()}>Report</VoteLink>
                     </> 
             }
-             </div>
+             </small>
         </>
         )
     }
