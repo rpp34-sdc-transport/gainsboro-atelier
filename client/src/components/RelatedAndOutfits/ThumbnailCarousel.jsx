@@ -8,7 +8,7 @@ const Modal = styled.div`
   z-index: 1;
   top: 300px;
   left: 0;
-  width: 250px;
+  width: 248px;
   height: 120px;
   background-color: #ffffff;
   display: flex;
@@ -19,7 +19,7 @@ const Modal = styled.div`
 
 const Carousel = styled.div`
   width: 210px;
-  height: 50px;
+  height: 60px;
   overflow: hidden;
   position: relative;
 `
@@ -35,16 +35,21 @@ const Content = styled.div`
 const Thumbnail = styled.img`
   &{
     width: 45px;
-    height: 50px;
-    border-radius: 5px;
+    height: 45px;
+    border-radius: 4px;
     background-image: url(${props => props.url});
     background-repeat: no-repeat;
     background-size: cover;
   }
   &:hover {
-    border: 1px solid #535353;
-    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+    opacity: 0.7;
   }
+`;
+
+const SelectedImage = styled.div`
+  height: 4px;
+  background: var(--color-brand-300);
+  border-radius: 2px;
 `;
 
 const BackArrow = styled.div`
@@ -87,7 +92,7 @@ export default class ThumbnailCarousel extends React.Component{
     super(props);
     this.state = {
       firstImageIndex: 0,
-      absoluteLeft: 0
+      absoluteLeft: 0,
     }
     this.handleForwardArrowClick = this.handleForwardArrowClick.bind(this);
     this.handleBackArrowClick = this.handleBackArrowClick.bind(this);
@@ -108,8 +113,8 @@ export default class ThumbnailCarousel extends React.Component{
   }
 
   render() {
-    const {id, photos, handleChangePreviewImageClick} = this.props;
-    console.log('photos', photos);
+    const {id, photos, selectedPreviewImageIndex, handleChangePreviewImageClick} = this.props;
+
     return(
       <Modal>
         {this.state.firstImageIndex > 0 &&
@@ -120,7 +125,10 @@ export default class ThumbnailCarousel extends React.Component{
         <Carousel>
           <Content absoluteLeft={this.state.absoluteLeft}>
             {photos.map((photo, index) =>
-              <Thumbnail key={index} url={photo.thumbnail_url} onClick={() => handleChangePreviewImageClick(id, index)}></Thumbnail>
+            <div key={index}>
+              <Thumbnail  url={photo.thumbnail_url} onClick={() => handleChangePreviewImageClick(id, index)}></Thumbnail>
+              {selectedPreviewImageIndex === index && <SelectedImage/>}
+            </div>
             )}
           </Content>
         </Carousel>

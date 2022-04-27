@@ -23,7 +23,7 @@ class App extends React.Component {
       relatedProducts: [],
       sort: 'relevant',
       meta: {},
-      product_id: 64626, //64620
+      product_id: 64620, //64626
       outfitList: [],
     }
 
@@ -32,6 +32,7 @@ class App extends React.Component {
     this.voteForReview = this.voteForReview.bind(this);
     this.handleAddToOutfitClick = this.handleAddToOutfitClick.bind(this);
     this.handleRemoveOutfitFromListClick = this.handleRemoveOutfitFromListClick.bind(this);
+    this.fetchDataAfterSubmittingNewReview = this.fetchDataAfterSubmittingNewReview.bind(this);
   }
 
   componentDidMount() {
@@ -134,6 +135,14 @@ class App extends React.Component {
     })
   }
 
+  fetchDataAfterSubmittingNewReview() {
+    axios.get(`/reviews?product_id=${this.state.product_id}&sort=${this.state.sort}&count=500`)
+    .then(({data}) => this.setState({reviews: data}));
+
+    axios.get(`/reviews/meta/${this.state.product_id}`)
+    .then(({data}) => this.setState({meta: data}));
+  }
+
   render() {
     return (
       <>
@@ -167,6 +176,7 @@ class App extends React.Component {
           reviews={this.state.reviews}
           handleSortOptionChange={this.handleSortOptionChange}
           voteForReview={this.voteForReview}
+          fetchDataAfterSubmittingNewReview={this.fetchDataAfterSubmittingNewReview}
         />
       </>
     );
