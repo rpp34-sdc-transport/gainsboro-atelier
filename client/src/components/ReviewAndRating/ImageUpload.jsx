@@ -19,8 +19,8 @@ const CloseCircle = styled(AiOutlineCloseCircle)`
   position: absolute;
   top: -5px;
   right: -10px;
-  color: #F20000;
-  background: white;
+  color: gray;
+  background: beige;
   border-radius: 50%;
 `;
 

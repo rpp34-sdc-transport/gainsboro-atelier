@@ -4,6 +4,8 @@ import StarRating from '../ReviewAndRating/StarRating.jsx';
 import FeatureModal from './FeatureModal.jsx';
 import ThumbnailCarousel from './ThumbnailCarousel.jsx';
 import {MdOutlineHideImage, MdOutlineStar, MdArrowForwardIos, MdOutlineArrowBackIosNew} from 'react-icons/md';
+import { Link } from 'react-router-dom';
+// import { withRouter } from "react-router-dom";
 
 export const Container = styled.div`
   display: flex;
@@ -145,7 +147,7 @@ export default class RelatedProducts extends React.Component {
       previewImages: {},
       firstProductIndex: 0,
       absoluteLeft: 0,
-      showThumbnailCarousel: ''
+      showThumbnailCarousel: '',
     }
     this.handleCompareStarClick = this.handleCompareStarClick.bind(this);
     this.handleCloseModalClick = this.handleCloseModalClick.bind(this);
@@ -193,6 +195,12 @@ export default class RelatedProducts extends React.Component {
     this.setState(preState => ({previewImages: {...preState.previewImages, [id]: index}}))
   }
 
+  handleCardClick() {
+    console.log('redirect');
+    // this.props.history.push('/64624');
+    //window.location='/64624'
+  }
+
   render() {
     const {relatedProducts, currFeature, currName} = this.props;
     return(
@@ -206,6 +214,7 @@ export default class RelatedProducts extends React.Component {
               const {id, ratings, name, features, defaultStyle, category} = product;
               const {original_price, sale_price, photos} = defaultStyle;
               return (
+                <Link to="/64620">
                 <Card key={id}>
                   {!photos || !photos[0].thumbnail_url ?
                     <NoImage>
@@ -236,6 +245,7 @@ export default class RelatedProducts extends React.Component {
                     <StarRating ratings={ratings} showAve={false}/>
                   </TextBox>
                 </Card>
+                </Link>
               )
             })}
           </Content>
@@ -256,3 +266,5 @@ export default class RelatedProducts extends React.Component {
     )
   }
 }
+
+// export default withRouter(RelatedProducts);
