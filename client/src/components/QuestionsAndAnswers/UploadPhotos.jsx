@@ -42,7 +42,6 @@ const Remove = styled.div`
 const initState = {
     photos: []
 }
-
 export class UploadPhotos extends React.Component {
     constructor(props) {
         super(props);
@@ -59,6 +58,7 @@ export class UploadPhotos extends React.Component {
         photos.push(e.target.files[0]);
 
         this.props.updatePhotos(photos);
+
         // this is to be able to re-upload the same file
         // https://stackoverflow.com/questions/19643265/second-use-of-input-file-doesnt-trigger-onchange-anymore
         e.target.value = '';
@@ -79,7 +79,7 @@ export class UploadPhotos extends React.Component {
                 <input type='file' onChange={this.uploadThumbnail} />
                 <Photos>
                     {this.props.photos.map((file, i) => 
-                        <ImageContainer>
+                        <ImageContainer key={JSON.stringify(file)}>
                             <StyledImg src={ URL.createObjectURL(file)} />
                             <Remove onClick={() => this.remove(i)}>&times;</Remove>
                         </ImageContainer>)}

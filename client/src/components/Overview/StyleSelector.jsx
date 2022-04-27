@@ -12,7 +12,9 @@ const Styles = styled.div`
 
 const Style = styled.div`
   width: 64px;
-  margin: 8px;
+  margin-right: 16px;
+  margin-bottom: 16px;
+  margin-top: 0px;
   position: relative;
 `;
 
@@ -39,6 +41,10 @@ const Selected = styled.div`
   display: inline;
   top: 0px;
   right: 0px
+`;
+
+const P = styled.p`
+  margin-top: 0px;
 `;
 
 export default function StyleSelector ({changeStyle, changeStylePrice, currentStyle, styles}) {
@@ -75,7 +81,7 @@ export default function StyleSelector ({changeStyle, changeStylePrice, currentSt
 
   return (
     <div>
-      <p>Current style: {styles[currentStyle]['name']}</p>
+      <P><strong>Style: </strong>{styles[currentStyle]['name']}</P>
       <Styles>
         {styleThumbnails}
       </Styles>
