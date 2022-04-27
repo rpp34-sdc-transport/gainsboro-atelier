@@ -8,7 +8,6 @@ import {MdOutlineHideImage} from 'react-icons/md';
 
 const Wrapper = styled.div`
   display: flex;
-  justify-content: space-between;
   padding-left: 50px;
 `;
 
