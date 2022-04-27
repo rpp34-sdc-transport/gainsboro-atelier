@@ -319,7 +319,7 @@ export default class ExpandedView extends React.Component {
     </CarouselIndicatorsWrapper>,
     ] : [
       //zoomed image
-    <ImgZoomedWrapper onMouseMove={this.mouseMove}>
+    <ImgZoomedWrapper onMouseMove={this.mouseMove} onClick={this.toggleZoom}>
       <ImgZoomed onLoad={this.onImageLoad} src={url} leftOffset={this.state.positionX} topOffset={this.state.positionY}/>
     </ImgZoomedWrapper>
 
