@@ -10,7 +10,7 @@ import { Question } from './Question.jsx';
 const Container = styled.div`
     display: flex;
     flex-direction: column;
-    align-items: center;
+    margin: 60px 0;
 `;
 
 const SearchBar = styled.input`
@@ -19,8 +19,7 @@ const SearchBar = styled.input`
 `;
 
 const QABlock = styled.div`
-    width: 70%;
-    margin: 20px;
+    margin: 0 20px;
     padding: 20px;
 `;
 
@@ -37,6 +36,11 @@ const Button = styled.button`
   padding: 15px 30px;
   margin-right: 40px;
 `;
+
+const QuestionAction = styled.span`
+    text-decoration: underline;
+    cursor: pointer;
+`
 
 // By default, on page load up to two questions should be displayed. Therefore, initial showCount is 2
 export class QuestionAnswer extends React.Component {
@@ -123,7 +127,7 @@ export class QuestionAnswer extends React.Component {
 
         return (
             <Container>
-            <p>QUESTIONS & ANSWERS</p>
+                <h5>QUESTIONS & ANSWERS</h5>
                 <SearchBar type="text" placeholder='HAVE A QUESTION? SEARCH FOR ANSWERS...' onChange={(e) => this.setSearchTerm(e.target.value)}  />
                 {qasToRender.map((qa) => {
                     const answersPrioritizingSeller = Object.values(qa.answers).sort((a, b) => {
@@ -137,7 +141,11 @@ export class QuestionAnswer extends React.Component {
 
                     return (
                     <QABlock key={qa.question_id}>
-                        <Question qa={qa} productId={this.props.productId}/>
+                        <Question qa={qa} productId={this.props.productId}>
+                            <QuestionAction onClick={() => this.openAnswerModal(qa.question_id)}>
+                                Add answer
+                            </QuestionAction>
+                        </Question>
                         <AnswersGroup answers={answersPrioritizingSeller} />
                     </QABlock>);
                 })}
@@ -154,23 +162,17 @@ export class QuestionAnswer extends React.Component {
                     close={() => this.closeQuestionModal()}
                     productId={this.props.productId}
                     overview={this.props.overview}
-                >
-                    Placeholder
-                </ModalQuestion>
-
+                />
                 <ModalAnswer
                     questionId={selectedQuestion}
                     isOpen={modalAnswerOpen}
                     close={() => this.closeAnswerModal()}
                     productId={this.props.productId}
                     overview={this.props.overview}
-                >
-                    Placeholder
-                </ModalAnswer>
+                />
             </Container>
         )
     }
 }
 
-// export default QuestionAnswer;
 export default withAnalytics(QuestionAnswer, 'questionAnswer');

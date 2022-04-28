@@ -96,7 +96,7 @@ export default class YourOutfit extends React.Component{
   render() {
     const {currProductId, outfitList, handleRemoveOutfitFromListClick, handleAddToOutfitClick} = this.props;
     const addedCurrProductToList = outfitList.reduce((result, outfit) => result = outfit.id === currProductId ? true : result, false);
-    console.log('addedCurrProductToList', addedCurrProductToList);
+    // console.log('addedCurrProductToList', addedCurrProductToList);
     return(
       <Wrapper>
         {addedCurrProductToList ?

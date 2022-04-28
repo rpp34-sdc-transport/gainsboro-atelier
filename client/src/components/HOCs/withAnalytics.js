@@ -5,11 +5,14 @@ export const withAnalytics = (Component, widgetName) =>
         sendAnalytics(e) {
             fetch('/interactions', {
                 method: "POST",
-                body: {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
                     element: e.currentTarget.className,
                     widget: widgetName,
-                    time: Date.now(),
-                }
+                    time: String(Date.now()),
+                }),
             })
         }
 
