@@ -13,7 +13,7 @@ const CharacterTitle = styled.span`
 `;
 
 const RadiosAndSelection = styled.div`
-  width: 370px;
+  width: 420px;
   margin-bottom: 30px;
   border-radius: 2px;
   background-color: #f2f2f2;

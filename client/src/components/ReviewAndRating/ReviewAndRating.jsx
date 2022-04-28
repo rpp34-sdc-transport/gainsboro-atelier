@@ -3,8 +3,14 @@ import styled from 'styled-components';
 import Reviews from './Reviews.jsx';
 import Rating from './Rating.jsx';
 
+const WidgetContainer = styled.div`
+  padding: 0 80px;
+  margin-bottom: 64px;
+`;
+
 const Container = styled.div`
   display: flex;
+  justify-content: space-between;
 `;
 
 export default class ReviewAndRating extends React.Component{
@@ -35,10 +41,10 @@ export default class ReviewAndRating extends React.Component{
   }
 
   render() {
-    const {product_id, productName, meta, reviews, handleMoreReviewBtnClick, moreReviewBtn, handleSortOptionChange, voteForReview} = this.props;
+    const {product_id, productName, meta, reviews, handleMoreReviewBtnClick, moreReviewBtn, handleSortOptionChange, voteForReview, fetchDataAfterSubmittingNewReview} = this.props;
     return (
-      <div>
-        <p>RATINGS & REVIEWS</p>
+      <WidgetContainer>
+        <h5>RATINGS & REVIEWS</h5>
         <Container>
           {Object.keys(meta).length &&
             <Rating
@@ -58,9 +64,10 @@ export default class ReviewAndRating extends React.Component{
             moreReviewBtn={moreReviewBtn}
             handleSortOptionChange={handleSortOptionChange}
             voteForReview={voteForReview}
+            fetchDataAfterSubmittingNewReview={fetchDataAfterSubmittingNewReview}
           />
         </Container>
-      </div>
+      </WidgetContainer>
     )
   }
 }

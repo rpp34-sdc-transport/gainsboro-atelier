@@ -41,13 +41,12 @@ const StarCount = styled.span`
 `;
 
 export default function RatingFilter({ratings, handleStarRatingClick}) {
-  console.log('ratings', ratings);
   var ratingCounts = Object.values(ratings).reduce((sum, rating) => sum + Number(rating), 0);
   return (
     <div>
       {[5, 4, 3, 2, 1].map(num =>
         <Wrapper key={num} onClick={() => handleStarRatingClick(num)}>
-          <Button type="button">{num} stars</Button>
+          <small>{num} stars</small>
           <BarBtm>
             <BarTop barWidth={Math.round((Number(ratings[num]) / ratingCounts) * 100)}></BarTop>
           </BarBtm>
