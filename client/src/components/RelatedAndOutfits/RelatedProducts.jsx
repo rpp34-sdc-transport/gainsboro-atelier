@@ -4,8 +4,8 @@ import StarRating from '../ReviewAndRating/StarRating.jsx';
 import FeatureModal from './FeatureModal.jsx';
 import ThumbnailCarousel from './ThumbnailCarousel.jsx';
 import {MdOutlineHideImage, MdOutlineStar, MdArrowForwardIos, MdOutlineArrowBackIosNew} from 'react-icons/md';
-import { Link } from 'react-router-dom';
-// import { withRouter } from "react-router-dom";
+// import {withRouter} from "./withRouter.js";
+import { Link } from "react-router-dom";
 
 export const Container = styled.div`
   display: flex;
@@ -158,6 +158,7 @@ export default class RelatedProducts extends React.Component {
     this.handleMouseEnterImageClick = this.handleMouseEnterImageClick.bind(this);
     this.handleMouseLeaveImageClick = this.handleMouseLeaveImageClick.bind(this);
     this.handleChangePreviewImageClick = this.handleChangePreviewImageClick.bind(this);
+    this.handleCardClick = this.handleCardClick.bind(this);
   }
 
   handleCompareStarClick(obj, star) {
@@ -202,8 +203,7 @@ export default class RelatedProducts extends React.Component {
 
   handleCardClick() {
     console.log('redirect');
-    // this.props.history.push('/64624');
-    //window.location='/64624'
+    this.props.navigate('/64624');
   }
 
   render() {
@@ -219,6 +219,7 @@ export default class RelatedProducts extends React.Component {
               const {id, ratings, name, features, defaultStyle, category} = product;
               const {original_price, sale_price, photos} = defaultStyle;
               return (
+                <Link to="/64624">
                 <Card key={index}>
                   {!photos || !photos[0].thumbnail_url ?
                     <NoImage>
@@ -250,6 +251,7 @@ export default class RelatedProducts extends React.Component {
                     <StarRating ratings={ratings} showAve={false}/>
                   </TextBox>
                 </Card>
+                </Link>
               )
             })}
           </Content>

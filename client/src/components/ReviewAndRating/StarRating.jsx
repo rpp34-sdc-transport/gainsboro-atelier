@@ -57,7 +57,7 @@ export default class StarRating extends React.Component {
   }
 
   render() {
-    if (typeof this.props.ratings === 'number') {
+    if (typeof this.props.ratings === 'number' || typeof this.props.ratings === 'string') {
       var aveRating = this.props.ratings;
     } else {
       var aveRating = this.calAveRating(this.props.ratings);
