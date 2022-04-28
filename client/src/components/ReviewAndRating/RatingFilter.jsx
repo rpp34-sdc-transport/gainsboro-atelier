@@ -4,16 +4,13 @@ import styled from 'styled-components';
 const Wrapper = styled.div`
   & {
     padding: 8px 0;
+    cursor: pointer;
   }
   &:hover {
     background-color: #D4D4D4;
     border-radius: 3px;
+    padding-left: 10px;
   }
-`;
-
-const Button = styled.button`
-  border: none;
-  background-color: Transparent;
 `;
 
 const BarBtm = styled.div`

@@ -14,7 +14,7 @@ export const Container = styled.div`
 
 export const Carousel = styled.div`
   width: 1160px;
-  height: 460px;
+  height: 480px;
   overflow: hidden;
   position: relative;
 `
@@ -30,7 +30,7 @@ export const Content = styled.div`
 export const Card = styled.div`
   &{
     border: 1px solid #b4b4b4;
-    border-radius: 4px;
+    border-radius: 8px;
     width: 250px;
     height: 450px;
     position: relative;
@@ -86,6 +86,8 @@ export const NoImage = styled.div`
   justify-content: center;
   align-items: center;
   font-size: 50px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
 `;
 
 export const Image = styled.div`
@@ -95,6 +97,8 @@ export const Image = styled.div`
   background-repeat: no-repeat;
   background-size: cover;
   position: relative;
+  border-top-left-radius: 7px;
+  border-top-right-radius: 7px;
 `;
 
 export const TextBox = styled.div`

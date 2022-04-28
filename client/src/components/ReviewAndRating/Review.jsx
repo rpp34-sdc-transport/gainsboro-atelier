@@ -112,16 +112,13 @@ const Segment = styled.span`
 const ReportLink = styled.small`
   & {
     text-decoration: underline;
-
+    color: #378f1e;
+    cursor: pointer;
   }
   &:hover {
-    color: #FF0000;
     font-weight: 900
   }
 `
-const Reported = styled.small`
-  color: #FF0000;
-`;
 
 const Response = styled.div`
   background-color: #d4d4d4;
@@ -231,7 +228,7 @@ export default class Review extends React.Component{
             </>
           }
           <Segment>|</Segment>
-          {this.state.report ? <ReportLink onClick={() => this.handleReportClick(review_id)}>Report</ReportLink> : <Reported>Reported</Reported>}
+          {this.state.report ? <ReportLink onClick={() => this.handleReportClick(review_id)}>Report</ReportLink> : <small>Reported</small>}
         </div>
       </Container>
     )

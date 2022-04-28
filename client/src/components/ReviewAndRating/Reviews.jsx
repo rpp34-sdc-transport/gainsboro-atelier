@@ -38,7 +38,7 @@ const ReviewList = styled.div`
   max-height: 800px;
   overflow: scroll;
   border: 2px solid #ebebeb;
-  border-radius: 4px;
+  border-radius: 6px;
   margin-bottom: 40px;
   padding: 40px;
 `
