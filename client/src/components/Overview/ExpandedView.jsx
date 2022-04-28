@@ -97,22 +97,21 @@ const Img = styled.div`
 `;
 
 const ImgZoomed = styled.img`
-  &{
-    margin-left: ${props => `${props.leftOffset}px`};
-    margin-top: ${props => `${props.topOffset}px`};
+    ${'' /* margin-left: ${props => `${props.leftOffset}px`};
+    margin-top: ${props => `${props.topOffset}px`}; */}
     width: 3200px;
     height: auto;
-  }
-
-  &:hover {
-    cursor: url("data:image/svg+xml,%3Csvg%20width%3D%2219%22%20height%3D%2219%22%20viewBox%3D%220%200%2019%2019%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Cg%20clip-path%3D%22url(%23clip0_1964_50170)%22%3E%0A%3Ccircle%20cx%3D%229.5%22%20cy%3D%229.5%22%20r%3D%229.5%22%20fill%3D%22white%22%2F%3E%0A%3Cpath%20d%3D%22M18.0251%209.50001C18.0251%2014.2082%2014.2083%2018.025%209.5001%2018.025V19.025C14.7606%2019.025%2019.0251%2014.7605%2019.0251%209.50001H18.0251ZM9.5001%2018.025C4.79187%2018.025%200.975098%2014.2082%200.975098%209.50001H-0.0249023C-0.0249023%2014.7605%204.23959%2019.025%209.5001%2019.025V18.025ZM0.975098%209.50001C0.975098%204.79178%204.79187%200.975006%209.5001%200.975006V-0.0249939C4.23959%20-0.0249939%20-0.0249023%204.23949%20-0.0249023%209.50001H0.975098ZM9.5001%200.975006C14.2083%200.975006%2018.0251%204.79178%2018.0251%209.50001H19.0251C19.0251%204.23949%2014.7606%20-0.0249939%209.5001%20-0.0249939V0.975006ZM4.98775%2010L14.0126%2010L14.0126%209.00001L4.98774%209.00003L4.98775%2010Z%22%20fill%3D%22black%22%2F%3E%0A%3C%2Fg%3E%0A%3Cdefs%3E%0A%3CclipPath%20id%3D%22clip0_1964_50170%22%3E%0A%3Crect%20width%3D%2219%22%20height%3D%2219%22%20fill%3D%22white%22%2F%3E%0A%3C%2FclipPath%3E%0A%3C%2Fdefs%3E%0A%3C%2Fsvg%3E%0A"), auto;
-  }
 `;
 
 const ImgZoomedWrapper = styled.div`
   height: min(50vw, 600px);
   width: min(100vw, var(--space-div-xl));
   overflow: hidden;
+  position: absolute;
+
+  &:hover {
+    cursor: url("data:image/svg+xml,%3Csvg%20width%3D%2219%22%20height%3D%2219%22%20viewBox%3D%220%200%2019%2019%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Cg%20clip-path%3D%22url(%23clip0_1964_50170)%22%3E%0A%3Ccircle%20cx%3D%229.5%22%20cy%3D%229.5%22%20r%3D%229.5%22%20fill%3D%22white%22%2F%3E%0A%3Cpath%20d%3D%22M18.0251%209.50001C18.0251%2014.2082%2014.2083%2018.025%209.5001%2018.025V19.025C14.7606%2019.025%2019.0251%2014.7605%2019.0251%209.50001H18.0251ZM9.5001%2018.025C4.79187%2018.025%200.975098%2014.2082%200.975098%209.50001H-0.0249023C-0.0249023%2014.7605%204.23959%2019.025%209.5001%2019.025V18.025ZM0.975098%209.50001C0.975098%204.79178%204.79187%200.975006%209.5001%200.975006V-0.0249939C4.23959%20-0.0249939%20-0.0249023%204.23949%20-0.0249023%209.50001H0.975098ZM9.5001%200.975006C14.2083%200.975006%2018.0251%204.79178%2018.0251%209.50001H19.0251C19.0251%204.23949%2014.7606%20-0.0249939%209.5001%20-0.0249939V0.975006ZM4.98775%2010L14.0126%2010L14.0126%209.00001L4.98774%209.00003L4.98775%2010Z%22%20fill%3D%22black%22%2F%3E%0A%3C%2Fg%3E%0A%3Cdefs%3E%0A%3CclipPath%20id%3D%22clip0_1964_50170%22%3E%0A%3Crect%20width%3D%2219%22%20height%3D%2219%22%20fill%3D%22white%22%2F%3E%0A%3C%2FclipPath%3E%0A%3C%2Fdefs%3E%0A%3C%2Fsvg%3E%0A"), auto;
+  }
 `;
 
 // const ImgZoom = styled.div`
@@ -213,7 +212,7 @@ export default class ExpandedView extends React.Component {
     this.onImageLoad = this.onImageLoad.bind(this);
     this.toggleZoom = this.toggleZoom.bind(this);
     this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
-    this.mouseMove = throttle(this.mouseMove.bind(this), 3);
+    // this.mouseMove = throttle(this.mouseMove.bind(this), 3);
   }
 
   componentDidMount(){
@@ -236,18 +235,44 @@ export default class ExpandedView extends React.Component {
   }
 
   mouseMove(event){
-    let leftOffset = (event.nativeEvent.offsetX/1280)*(-1.5*1280);
-    let topOffset = (event.nativeEvent.offsetY/600) * -1 * (this.state.imageHeight-600);
-    // console.log('client x%', event.nativeEvent.offsetX/1280);
-    // console.log('client x offset', leftOffset);
-    // console.log('client y%', event.nativeEvent.offsetY/600);
-    // console.log('client y offset', topOffset);
+
+    console.log(`native offsetX: ${event.nativeEvent.offsetX}, nativeoffSetY: ${event.nativeEvent.offsetY}` );
+
+    // //APPROACH1
+    // let x = event.nativeEvent.offsetX / 1.1;
+    // let y = event.nativeEvent.offsetY / 1.1;
+    // console.log(`x: ${x}, y: ${y}`);
+    // const image-wrapper = document.getElementById('image-wrapper');
+    // image-wrapper.scrollTo({
+    //   left: x,
+    //   top: y,
+    //   behavior: 'auto'
+    // });
+
+    // //APPROACH 2
+    // let x = (event.nativeEvent.offsetX / 1280) * (this.state.imageWidth);
+    // let y = (event.nativeEvent.offsetY / 600) * (this.state.imageHeight);
+    // console.log(`x: ${x}, y: ${y}`);
+    // const image-wrapper = document.getElementById('image-wrapper');
+    // image-wrapper.scrollTo({
+    //   left: x,
+    //   top: y,
+    //   behavior: 'auto'
+    // })
 
 
-    this.setState({
-      positionX: leftOffset,
-      positionY: topOffset
-    })
+    //APPROACH 3
+    let leftOffset = Math.round((event.nativeEvent.offsetX/1280)*(-1.5*1280));
+    let topOffset = Math.round(-(event.nativeEvent.offsetY/600) * (this.state.imageHeight-600));
+
+    const image = document.getElementById('image');
+    image.style['margin-left'] = leftOffset+'px';
+    image.style['margin-top'] = topOffset+'px';
+
+    // this.setState({
+    //   positionX: leftOffset,
+    //   positionY: topOffset
+    // })
   }
 
   onImageLoad({target: image}){
@@ -287,14 +312,14 @@ export default class ExpandedView extends React.Component {
     for (let i = 0; i < imageCount; i++) {
       if (i === currentIndex) {
         carouselIndicators.push(
-          <CarouselIndicatorWrapper>
+          <CarouselIndicatorWrapper key={i}>
             <CarouselIndicatorActive>
             </CarouselIndicatorActive>
           </CarouselIndicatorWrapper>
         );
       } else {
         carouselIndicators.push(
-          <CarouselIndicatorWrapper onClick={changeImage} value={i}>
+          <CarouselIndicatorWrapper onClick={changeImage} key={i} value={i}>
             <CarouselIndicatorInactive>
             </CarouselIndicatorInactive>
           </CarouselIndicatorWrapper>
@@ -321,8 +346,8 @@ export default class ExpandedView extends React.Component {
     </CarouselIndicatorsWrapper>,
     ] : [
       //zoomed image
-    <ImgZoomedWrapper onMouseMove={this.mouseMove} onClick={this.toggleZoom}>
-      <ImgZoomed onLoad={this.onImageLoad} src={url} leftOffset={this.state.positionX} topOffset={this.state.positionY}/>
+    <ImgZoomedWrapper id={'image-wrapper'} onMouseMove={this.mouseMove} onClick={this.toggleZoom}>
+      <ImgZoomed id={'image'} onLoad={this.onImageLoad}   src={url} leftOffset={this.state.positionX} topOffset={this.state.positionY}/>
     </ImgZoomedWrapper>
 
       // <ImgZoom

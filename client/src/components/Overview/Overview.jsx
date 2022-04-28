@@ -6,6 +6,7 @@ import StyleSelector from './StyleSelector.jsx';
 import StarRating from '../ReviewAndRating/StarRating.jsx'
 
 const OverviewContainer = styled.div`
+  margin-top: 64px;
   margin-bottom: 64px;
 `;
 

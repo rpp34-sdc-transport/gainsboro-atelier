@@ -282,13 +282,13 @@ export default class ImageGallery extends React.Component {
     const thumbnails = photos.map((photo, index) => {
       return (
       index === this.state.currentIndex ? (
-      <ThumbnailActive>
-        <ThumbnailWrapper key={photo.url} url={photo.thumbnail_url} value={index} />
+      <ThumbnailActive key={index}>
+        <ThumbnailWrapper url={photo.thumbnail_url} value={index} />
         <ThumbnailActiveIndicator/>
       </ThumbnailActive>
       ) : (
-      <ThumbnailInactive>
-        <ThumbnailWrapper tabIndex="0" onKeyPress={this.keypressThumbnail} key={photo.url} onClick={this.changeImage} url={photo.thumbnail_url} value={index} />
+      <ThumbnailInactive key={index} >
+        <ThumbnailWrapper tabIndex="0" onKeyPress={this.keypressThumbnail} onClick={this.changeImage} url={photo.thumbnail_url} value={index} />
       </ThumbnailInactive>
       )
     )});

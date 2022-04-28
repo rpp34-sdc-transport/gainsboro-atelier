@@ -1,8 +1,8 @@
 import React from 'react';
-import Overview from '../Overview/Overview.jsx';
+import Overview from '../../Overview/Overview.jsx';
 import {render, fireEvent, waitFor, screen, cleanup} from '@testing-library/react';
 import {jsdom} from '@testing-library/jest-dom';
-import { sampleOverview } from '../fixtures/overview';
+import { sampleOverview } from '../../fixtures/overview';
 
 describe('Overview', () => {
   test('Show cart elements', () => {
