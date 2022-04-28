@@ -12,6 +12,7 @@ function withParams(Component) {
   return props => <Component {...props} params={useParams()} />;
 }
 
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -23,10 +24,11 @@ class App extends React.Component {
       relatedProducts: [],
       sort: 'relevant',
       meta: {},
-      product_id: 0,
+      product_id: 64620,
       outfitList: [],
     }
 
+    this.fetchDataFromAPI = this.fetchDataFromAPI.bind(this);
     this.changeStyle = this.changeStyle.bind(this);
     this.handleSortOptionChange = this.handleSortOptionChange.bind(this);
     this.voteForReview = this.voteForReview.bind(this);
@@ -35,51 +37,60 @@ class App extends React.Component {
     this.fetchDataAfterSubmittingNewReview = this.fetchDataAfterSubmittingNewReview.bind(this);
   }
 
+  componentDidUpdate(prevProps) {
+    if(this.props.params.productId !== prevProps.params.productId) {
+      this.setState({
+        product_id: this.props.params.productId
+      }, this.fetchDataFromAPI);
+    }
+  }
+
   componentDidMount() {
     const id = this.props.params.productId || this.state['product_id'];
     this.setState({
       product_id: id
-    }, ()=>{
+    }, this.fetchDataFromAPI);
+  }
 
-      axios(`/overview/${this.state.product_id}`)
-      .then(({data})=>{
+  fetchDataFromAPI() {
+    axios(`/overview/${this.state.product_id}`)
+    .then(({data})=>{
 
-        let defaultIndex;
-        for (var i = 0; i < data.styleData.length; i++){
-          if (data.styleData[i]['default?']){
-            defaultIndex = i;
-            break;
-          }
+      let defaultIndex;
+      for (var i = 0; i < data.styleData.length; i++){
+        if (data.styleData[i]['default?']){
+          defaultIndex = i;
+          break;
         }
-        defaultIndex = defaultIndex || 0;
-        this.setState({
-          currentStyle: defaultIndex,
-          overview: data
-        })
-      });
-
-      axios.get(`/products/${this.state.product_id}/related`)
-      .then(({data}) => {
-        this.setState({relatedProducts: data})
-      });
-
-      axios.get(`/reviews?product_id=${this.state.product_id}&sort=${this.state.sort}&count=500`)
-      .then(data => {
-        var reviews = data.data;
-        this.setState(preState => ({
-        reviews,
-        moreReviewBtn: reviews.length <= 2 ? false : true
-        }))
-      });
-
-      axios.get(`/reviews/meta/${this.state.product_id}`)
-      .then(data => {
-        var meta = data.data;
-        this.setState({meta})
-     });
-
-     this.setState({outfitList: localStorage.getItem("outfit") === null ? [] : JSON.parse(localStorage.getItem("outfit"))})
+      }
+      defaultIndex = defaultIndex || 0;
+      this.setState({
+        currentStyle: defaultIndex,
+        overview: data
+      })
     });
+
+    axios.get(`/products/${this.state.product_id}/related`)
+    .then(({data}) => {
+      this.setState({relatedProducts: data})
+    });
+
+    axios.get(`/reviews?product_id=${this.state.product_id}&sort=${this.state.sort}&count=500`)
+    .then(data => {
+      var reviews = data.data;
+      this.setState(preState => ({
+      reviews,
+      moreReviewBtn: reviews.length <= 2 ? false : true
+      }))
+    });
+
+    axios.get(`/reviews/meta/${this.state.product_id}`)
+    .then(data => {
+      var meta = data.data;
+      this.setState({meta})
+    });
+
+    this.setState({outfitList: localStorage.getItem("outfit") === null ? [] : JSON.parse(localStorage.getItem("outfit"))})
   }
 
   changeStyle(index){

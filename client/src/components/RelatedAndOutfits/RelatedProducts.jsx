@@ -4,7 +4,6 @@ import StarRating from '../ReviewAndRating/StarRating.jsx';
 import FeatureModal from './FeatureModal.jsx';
 import ThumbnailCarousel from './ThumbnailCarousel.jsx';
 import {MdOutlineHideImage, MdOutlineStar, MdArrowForwardIos, MdOutlineArrowBackIosNew} from 'react-icons/md';
-// import {withRouter} from "./withRouter.js";
 import { Link } from "react-router-dom";
 
 export const Container = styled.div`
@@ -33,7 +32,7 @@ export const Card = styled.div`
     border: 1px solid #b4b4b4;
     border-radius: 4px;
     width: 250px;
-    max-height: 450px;
+    height: 450px;
     position: relative;
   }
   &:hover{
@@ -138,6 +137,10 @@ export const OriginalPrice = styled.small`
   text-decoration-line: ${props => props.lineThrough};
 `;
 
+const StyledLink = styled(Link)`
+  color: inherit;
+  text-decoration: inherit;
+`;
 
 export default class RelatedProducts extends React.Component {
   constructor(props) {
@@ -158,7 +161,6 @@ export default class RelatedProducts extends React.Component {
     this.handleMouseEnterImageClick = this.handleMouseEnterImageClick.bind(this);
     this.handleMouseLeaveImageClick = this.handleMouseLeaveImageClick.bind(this);
     this.handleChangePreviewImageClick = this.handleChangePreviewImageClick.bind(this);
-    this.handleCardClick = this.handleCardClick.bind(this);
   }
 
   handleCompareStarClick(obj, star) {
@@ -201,11 +203,6 @@ export default class RelatedProducts extends React.Component {
     }))
   }
 
-  handleCardClick() {
-    console.log('redirect');
-    this.props.navigate('/64624');
-  }
-
   render() {
     const {relatedProducts, currFeature, currName} = this.props;
     return(
@@ -219,39 +216,39 @@ export default class RelatedProducts extends React.Component {
               const {id, ratings, name, features, defaultStyle, category} = product;
               const {original_price, sale_price, photos} = defaultStyle;
               return (
-                <Link to="/64624">
-                <Card key={index}>
-                  {!photos || !photos[0].thumbnail_url ?
-                    <NoImage>
-                      <MdOutlineHideImage/>
-                    </NoImage> :
-                    <Image
-                      url={this.state.previewImages[id] !== undefined ? photos[this.state.previewImages[id]].thumbnail_url : photos[0].thumbnail_url}
-                      onMouseEnter={() => this.handleMouseEnterImageClick(`${id}thumbnailCarousel`)}
-                      onMouseLeave={this.handleMouseLeaveImageClick}
-                    >
-                      {this.state.showThumbnailCarousel === `${id}thumbnailCarousel` &&
-                        <ThumbnailCarousel
-                          id={id}
-                          photos={photos}
-                          selectedPreviewImageIndex={this.state.selectedPreviewImageIndex}
-                          handleChangePreviewImageClick={this.handleChangePreviewImageClick}
-                        />
-                      }
-                    </Image>
-                  }
-                  <Star color={this.state.clickedStar === `${id}star`? '#378f1e' : '#ffc107'} onClick={() => this.handleCompareStarClick({name, features}, `${id}star`)}/>
-                  <TextBox>
-                    <small>{category}</small>
-                    <Heading5>{name}</Heading5>
-                    <Price>
-                      {sale_price && <SalePrice>{sale_price}</SalePrice>}
-                      <OriginalPrice lineThrough={sale_price ? 'line-through' : 'none'}>{original_price}</OriginalPrice>
-                    </Price>
-                    <StarRating ratings={ratings} showAve={false}/>
-                  </TextBox>
-                </Card>
-                </Link>
+                <StyledLink to={`/${id}`} key={index}>
+                  <Card>
+                    {!photos || !photos[0].thumbnail_url ?
+                      <NoImage>
+                        <MdOutlineHideImage/>
+                      </NoImage> :
+                      <Image
+                        url={this.state.previewImages[id] !== undefined ? photos[this.state.previewImages[id]].thumbnail_url : photos[0].thumbnail_url}
+                        onMouseEnter={() => this.handleMouseEnterImageClick(`${id}thumbnailCarousel`)}
+                        onMouseLeave={this.handleMouseLeaveImageClick}
+                      >
+                        {this.state.showThumbnailCarousel === `${id}thumbnailCarousel` &&
+                          <ThumbnailCarousel
+                            id={id}
+                            photos={photos}
+                            selectedPreviewImageIndex={this.state.selectedPreviewImageIndex}
+                            handleChangePreviewImageClick={this.handleChangePreviewImageClick}
+                          />
+                        }
+                      </Image>
+                    }
+                    <Star color={this.state.clickedStar === `${id}star`? '#378f1e' : '#ffc107'} onClick={() => this.handleCompareStarClick({name, features}, `${id}star`)}/>
+                    <TextBox>
+                      <small>{category}</small>
+                      <Heading5>{name}</Heading5>
+                      <Price>
+                        {sale_price && <SalePrice>{sale_price}</SalePrice>}
+                        <OriginalPrice lineThrough={sale_price ? 'line-through' : 'none'}>{original_price}</OriginalPrice>
+                      </Price>
+                      <StarRating ratings={ratings} showAve={false}/>
+                    </TextBox>
+                  </Card>
+                </StyledLink>
               )
             })}
           </Content>
@@ -273,4 +270,3 @@ export default class RelatedProducts extends React.Component {
   }
 }
 
-// export default withRouter(RelatedProducts);
