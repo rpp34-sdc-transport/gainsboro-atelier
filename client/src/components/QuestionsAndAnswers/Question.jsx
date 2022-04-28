@@ -8,6 +8,7 @@ const Container = styled.div`
     display: flex;
     justify-content: space-between;
     font-weight: 600;
+    margin-bottom: 20px;
 `;
 
 
@@ -42,6 +43,11 @@ const Message = styled.span`
 const QuestionAction = styled.span`
     text-decoration: underline;
     cursor: pointer;
+`;
+
+const StyledRightQuestion = styled.div`
+  display: flex;
+
 `
 
 export class Question extends React.Component {
@@ -77,22 +83,26 @@ export class Question extends React.Component {
 
         return (
             <Container>
-                Q: {qa.question_body}
-                <div> Helpful?
-                    {this.state.helpfulVoted ?
-                        <>
-                            <Count>({qa.question_helpfulness + 1})</Count>
-                            <CheckCircle />
-                            <Message>Thank you for your feedback.</Message>
-                        </> :
-                        <>
-                            <VoteLink onClick={() => this.saveHelpful()}>Yes</VoteLink>
-                            <Count>({qa.question_helpfulness})</Count>
-                        </>
-                    }
+                <div>
+                    Q: {qa.question_body}
                 </div>
-                <QuestionAction onClick={() => this.openAnswerModal(qa.question_id)}>Add answer</QuestionAction>
+                <StyledRightQuestion>
+                    <div> Helpful?
+                        {this.state.helpfulVoted ?
+                            <>
+                                <Count>({qa.question_helpfulness + 1})</Count>
+                                <CheckCircle />
+                                <Message>Thank you for your feedback.</Message>
+                            </> :
+                            <>
+                                <VoteLink onClick={() => this.saveHelpful()}>Yes</VoteLink>
+                                <Count>({qa.question_helpfulness})</Count>
+                            </>
+                        }
+                    </div>
 
+                    {this.props.children}
+                </StyledRightQuestion>
             </Container>
         )
     }

@@ -139,9 +139,9 @@ export default class ExpandedView extends React.Component {
   }
 
   mouseMove(event){
-    console.log('x percentage: ', (event.clientX / this.state.windowWidth));
-    console.log('diff width: ', (this.state.imageWidth * 2.5) - this.state.windowWidth);
-    console.log('newpositionx: ', -(event.clientX / this.state.windowWidth) * ((this.state.imageWidth * 2.5) - this.state.windowWidth));
+    // console.log('x percentage: ', (event.clientX / this.state.windowWidth));
+    // console.log('diff width: ', (this.state.imageWidth * 2.5) - this.state.windowWidth);
+    // console.log('newpositionx: ', -(event.clientX / this.state.windowWidth) * ((this.state.imageWidth * 2.5) - this.state.windowWidth));
 
     this.setState({
       positionX: -(event.clientX / this.state.windowWidth) * ((this.state.imageWidth * 2.5) - this.state.windowWidth),

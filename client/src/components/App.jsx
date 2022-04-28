@@ -23,7 +23,7 @@ class App extends React.Component {
       relatedProducts: [],
       sort: 'relevant',
       meta: {},
-      product_id: 64620, //64626
+      product_id: 0,
       outfitList: [],
     }
 
@@ -127,7 +127,7 @@ class App extends React.Component {
   }
 
   handleRemoveOutfitFromListClick(id) {
-    console.log('REMOVE IDDDDD', id);
+    // console.log('REMOVE IDDDDD', id);
     var updatedOutfitList = this.state.outfitList.filter(outfit => outfit.id !== id);
     localStorage.setItem("outfit", JSON.stringify(updatedOutfitList));
     this.setState({
@@ -165,10 +165,10 @@ class App extends React.Component {
           handleAddToOutfitClick={this.handleAddToOutfitClick}
           handleRemoveOutfitFromListClick={this.handleRemoveOutfitFromListClick}
         />
-        <QuestionAnswer
+        {this.state.product_id !== 0 ? <QuestionAnswer
           productId={this.state.product_id}
           overview={this.state.overview}
-        />
+        /> : null}
         <ReviewAndRating
           product_id={this.state.product_id}
           productName={this.state.overview.name}

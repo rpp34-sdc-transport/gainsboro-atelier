@@ -194,8 +194,8 @@ export default class AddReview extends React.Component{
 
   handlePhotosChange(e) {
     this.setState(preState => {
-      console.log('e.target.files', e.target.files);
-      console.log('e.target.files[0]', e.target.files[0]);
+      // console.log('e.target.files', e.target.files);
+      // console.log('e.target.files[0]', e.target.files[0]);
       return ({photos: [...preState.photos, e.target.files[0]]})
     })
   }

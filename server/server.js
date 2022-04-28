@@ -68,11 +68,11 @@ app.post('/cart', (req, res)=>{
 })
 
 app.get('/products/:product_id/related', (req, res) => {
-  console.log('realted request');
+  // console.log('realted request');
   var url = `${apiHost}/products/${req.params.product_id}/related`;
   axios.get(url, options)
   .then(({data}) => {
-    console.log('related product list', data);
+    // console.log('related product list', data);
     var productInfo = data.map(productId => {
       var infoURL = `${apiHost}/products/${productId}`;
       return axios.get(infoURL, options)
@@ -85,16 +85,16 @@ app.get('/products/:product_id/related', (req, res) => {
     return Promise.all(productInfo);
   })
   .then(productInfo => {
-    console.log('productInfo', productInfo)
+    // console.log('productInfo', productInfo)
     var defaultStyles = productInfo.map(info => {
-      console.log('info', info);
+      // console.log('info', info);
       var styleURL = `${apiHost}/products/${info.id}/styles`;
       return axios.get(styleURL, options)
       .then(({data}) => {
         var styles = data.results;
-        console.log('styles', styles);
+        // console.log('styles', styles);
         var defaultStyle = styles.reduce((defaultStyle, style) => defaultStyle = style['default?'] ? {...defaultStyle, ...style} : {...defaultStyle}, {});
-        console.log('defaultStyle', defaultStyle);
+        // console.log('defaultStyle', defaultStyle);
         if (!Object.keys(defaultStyle).length) {
           defaultStyle = styles[0];
         }
@@ -105,14 +105,14 @@ app.get('/products/:product_id/related', (req, res) => {
     return Promise.all(defaultStyles);
   })
   .then(defaultStyles => {
-    console.log('defaultStyles', defaultStyles)
+    // console.log('defaultStyles', defaultStyles)
     var relatedProducts = defaultStyles.map(defaultStyle => {
       var metaURL = `${apiHost}/reviews/meta?product_id=${defaultStyle.id}`;
       return axios.get(metaURL, options)
       .then(({data}) => {
         var ratings = data.ratings;
         defaultStyle.ratings = ratings;
-        console.log('defaultStyle', defaultStyle);
+        // console.log('defaultStyle', defaultStyle);
         return defaultStyle;
       });
     })
@@ -156,7 +156,7 @@ app.post('/reviews', upload.array("images"), (req, res) => {
   const {product_id, rating, summary, body, recommend, name, email, characteristics} = req.body;
   uploadImages(req.files)
   .then(data => {
-    console.log('get url from cloudinary', data)
+    // console.log('get url from cloudinary', data)
     var photos = data;
     var formData = {
       product_id: JSON.parse(product_id),
@@ -169,7 +169,7 @@ app.post('/reviews', upload.array("images"), (req, res) => {
       characteristics: JSON.parse(characteristics),
       photos
     }
-    console.log('formData', formData);
+    // console.log('formData', formData);
     var config = {
       headers: {
         Authorization: token,
@@ -179,7 +179,7 @@ app.post('/reviews', upload.array("images"), (req, res) => {
     return axios.post(`${apiHost}/reviews`, formData, config)
   })
   .then(data => {
-    console.log('upload successfully', data.data);
+    // console.log('upload successfully', data.data);
     res.send(data.data)
   })
   .catch(err => {
@@ -200,9 +200,6 @@ app.put('/reviews/:review_id/report', (req, res) => {
 
 app.use('/qa',  qaRouter);
 
-app.get('*', function (request, response) {
-  response.sendFile(path.resolve(__dirname, "../client/dist", 'index.html'));
-});
 app.post('/interactions', jsonParser, (req, res) => {
   var body = req.body;
 
@@ -217,10 +214,14 @@ app.post('/interactions', jsonParser, (req, res) => {
       res.send(data.data)
   })
   .catch(err => {
+      console.log(err)
       res.sendStatus(500)
   })
 })
 
+app.get('*', function (request, response) {
+  response.sendFile(path.resolve(__dirname, "../client/dist", 'index.html'));
+});
 
 app.listen(PORT, () => {
   console.log(`connected to port ${PORT}`);
