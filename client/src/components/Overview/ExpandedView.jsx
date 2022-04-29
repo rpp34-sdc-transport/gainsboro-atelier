@@ -96,24 +96,6 @@ const Img = styled.div`
   background-position: 50% 50%;
 `;
 
-const ImgZoomed = styled.img`
-    ${'' /* margin-left: ${props => `${props.leftOffset}px`};
-    margin-top: ${props => `${props.topOffset}px`}; */}
-    width: 3200px;
-    height: auto;
-`;
-
-const ImgZoomedWrapper = styled.div`
-  height: min(50vw, 600px);
-  width: min(100vw, var(--space-div-xl));
-  overflow: hidden;
-  position: absolute;
-
-  &:hover {
-    cursor: url("data:image/svg+xml,%3Csvg%20width%3D%2219%22%20height%3D%2219%22%20viewBox%3D%220%200%2019%2019%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Cg%20clip-path%3D%22url(%23clip0_1964_50170)%22%3E%0A%3Ccircle%20cx%3D%229.5%22%20cy%3D%229.5%22%20r%3D%229.5%22%20fill%3D%22white%22%2F%3E%0A%3Cpath%20d%3D%22M18.0251%209.50001C18.0251%2014.2082%2014.2083%2018.025%209.5001%2018.025V19.025C14.7606%2019.025%2019.0251%2014.7605%2019.0251%209.50001H18.0251ZM9.5001%2018.025C4.79187%2018.025%200.975098%2014.2082%200.975098%209.50001H-0.0249023C-0.0249023%2014.7605%204.23959%2019.025%209.5001%2019.025V18.025ZM0.975098%209.50001C0.975098%204.79178%204.79187%200.975006%209.5001%200.975006V-0.0249939C4.23959%20-0.0249939%20-0.0249023%204.23949%20-0.0249023%209.50001H0.975098ZM9.5001%200.975006C14.2083%200.975006%2018.0251%204.79178%2018.0251%209.50001H19.0251C19.0251%204.23949%2014.7606%20-0.0249939%209.5001%20-0.0249939V0.975006ZM4.98775%2010L14.0126%2010L14.0126%209.00001L4.98774%209.00003L4.98775%2010Z%22%20fill%3D%22black%22%2F%3E%0A%3C%2Fg%3E%0A%3Cdefs%3E%0A%3CclipPath%20id%3D%22clip0_1964_50170%22%3E%0A%3Crect%20width%3D%2219%22%20height%3D%2219%22%20fill%3D%22white%22%2F%3E%0A%3C%2FclipPath%3E%0A%3C%2Fdefs%3E%0A%3C%2Fsvg%3E%0A"), auto;
-  }
-`;
-
 // const ImgZoom = styled.div`
 //   ${props => `background-position: ${props.positionX}px ${props.positionY}px`};
 //   background-repeat: no-repeat;
@@ -193,6 +175,26 @@ const RightArrow = styled(MdChevronRight)`
     width: 22px;
 `;
 
+const ImgZoomed = styled.img`
+    ${'' /* margin-left: ${props => `${props.leftOffset}px`};
+    margin-top: ${props => `${props.topOffset}px`}; */}
+    width: 3200px;
+    height: auto;
+    z-index: 99;
+    position: absolute
+`;
+
+const ImgZoomedWrapper = styled.div`
+  height: min(50vw, 600px);
+  width: min(100vw, var(--space-div-xl));
+  overflow: hidden;
+  position: relative;
+
+  &:hover {
+    cursor: url("data:image/svg+xml,%3Csvg%20width%3D%2219%22%20height%3D%2219%22%20viewBox%3D%220%200%2019%2019%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Cg%20clip-path%3D%22url(%23clip0_1964_50170)%22%3E%0A%3Ccircle%20cx%3D%229.5%22%20cy%3D%229.5%22%20r%3D%229.5%22%20fill%3D%22white%22%2F%3E%0A%3Cpath%20d%3D%22M18.0251%209.50001C18.0251%2014.2082%2014.2083%2018.025%209.5001%2018.025V19.025C14.7606%2019.025%2019.0251%2014.7605%2019.0251%209.50001H18.0251ZM9.5001%2018.025C4.79187%2018.025%200.975098%2014.2082%200.975098%209.50001H-0.0249023C-0.0249023%2014.7605%204.23959%2019.025%209.5001%2019.025V18.025ZM0.975098%209.50001C0.975098%204.79178%204.79187%200.975006%209.5001%200.975006V-0.0249939C4.23959%20-0.0249939%20-0.0249023%204.23949%20-0.0249023%209.50001H0.975098ZM9.5001%200.975006C14.2083%200.975006%2018.0251%204.79178%2018.0251%209.50001H19.0251C19.0251%204.23949%2014.7606%20-0.0249939%209.5001%20-0.0249939V0.975006ZM4.98775%2010L14.0126%2010L14.0126%209.00001L4.98774%209.00003L4.98775%2010Z%22%20fill%3D%22black%22%2F%3E%0A%3C%2Fg%3E%0A%3Cdefs%3E%0A%3CclipPath%20id%3D%22clip0_1964_50170%22%3E%0A%3Crect%20width%3D%2219%22%20height%3D%2219%22%20fill%3D%22white%22%2F%3E%0A%3C%2FclipPath%3E%0A%3C%2Fdefs%3E%0A%3C%2Fsvg%3E%0A"), auto;
+  }
+`;
+
 export default class ExpandedView extends React.Component {
   constructor(props) {
     super(props);
@@ -236,8 +238,7 @@ export default class ExpandedView extends React.Component {
 
   mouseMove(event){
 
-    console.log(`native offsetX: ${event.nativeEvent.offsetX}, nativeoffSetY: ${event.nativeEvent.offsetY}` );
-
+    event.preventDefault();
     // //APPROACH1
     // let x = event.nativeEvent.offsetX / 1.1;
     // let y = event.nativeEvent.offsetY / 1.1;
@@ -259,11 +260,24 @@ export default class ExpandedView extends React.Component {
     //   top: y,
     //   behavior: 'auto'
     // })
-
+    // console.log('img', type==='img');
+    // console.log('div', type==='div');
+    // console.log('classname', event.target.className[event.target.className.length-1]);
+    // console.log('target ', target);
+    // console.log('tyepof ', tyepof);
+    // console.log('typeof target', typeof target);
+    // console.log('keys', Object.keys(target));
+    console.log('event target', event.target);
+    // let type = event.target.className.slice(event.target.className.length - 3);
 
     //APPROACH 3
+    console.log(`native offsetX: ${event.nativeEvent.offsetX}, nativeoffSetY: ${event.nativeEvent.offsetY}`);
+
     let leftOffset = Math.round((event.nativeEvent.offsetX/1280)*(-1.5*1280));
     let topOffset = Math.round(-(event.nativeEvent.offsetY/600) * (this.state.imageHeight-600));
+
+    // console.log(`leftoffset ${leftOffset}, topOffset`, topOffset);
+
 
     const image = document.getElementById('image');
     image.style['margin-left'] = leftOffset+'px';
@@ -276,20 +290,13 @@ export default class ExpandedView extends React.Component {
   }
 
   onImageLoad({target: image}){
-    console.log('image', image)
     const {offsetHeight: imageHeight, offsetWidth: imageWidth} = image;
     const landscapeOrientation = imageWidth > imageHeight ? true : false;
-    console.log('image height', imageHeight);
-    console.log('image width', imageWidth);
     this.setState({
       imageWidth: imageWidth,
       imageHeight: imageHeight,
       landscapeOrientation: landscapeOrientation,
-    }, ()=>{
-      console.log('new state width', this.state.imageWidth);
-      console.log('new state height', this.state.imageHeight);
-      console.log('new state orientation', this.state.landscapeOrientation);
-    });
+    },);
   }
 
   toggleZoom(){
@@ -346,8 +353,20 @@ export default class ExpandedView extends React.Component {
     </CarouselIndicatorsWrapper>,
     ] : [
       //zoomed image
-    <ImgZoomedWrapper id={'image-wrapper'} onMouseMove={this.mouseMove} onClick={this.toggleZoom}>
-      <ImgZoomed id={'image'} onLoad={this.onImageLoad}   src={url} leftOffset={this.state.positionX} topOffset={this.state.positionY}/>
+    <ImgZoomedWrapper
+      id={'image-wrapper'}
+      className={'div'}
+      onClick={this.toggleZoom}
+      onMouseMove={this.mouseMove}
+    >
+      <ImgZoomed
+        id={'image'}
+        className={'img'}
+        onLoad={this.onImageLoad}
+        src={url}
+        leftOffset={this.state.positionX}
+        topOffset={this.state.positionY}
+      />
     </ImgZoomedWrapper>
 
       // <ImgZoom

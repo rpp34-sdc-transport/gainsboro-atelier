@@ -50,6 +50,14 @@ const GlobalStyle = createGlobalStyle`
     text-transform: uppercase;
   }
 
+  h6 {
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    margin-top: 0px;
+    margin-bottom: 12px;
+  }
+
   p {
     font-size: 1rem;
     font-weight: 400;

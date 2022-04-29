@@ -190,6 +190,7 @@ export default class AddToCart extends React.Component {
       size =
       <SelectWrapper>
         <Select
+          data-testid="select-size"
           name="size"
           onChange={this.selectSize}
           ref={this.sizeRef}
@@ -211,7 +212,7 @@ export default class AddToCart extends React.Component {
       };
       quantity =
       <SelectWrapper>
-        <Select name="quantity" onChange={this.selectQuantity}>
+        <Select data-testid="select-quantity" name="quantity" onChange={this.selectQuantity}>
           {options}
         </Select>
       </SelectWrapper>;

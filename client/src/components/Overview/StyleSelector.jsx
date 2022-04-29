@@ -43,46 +43,44 @@ const Selected = styled.div`
   right: 0px
 `;
 
-const P = styled.p`
-  margin-top: 0px;
-`;
-
 export default function StyleSelector ({changeStyle, changeStylePrice, currentStyle, styles}) {
   const [landscapeOrientations, setLandscapeOrientation] = useState([]);
 
-  const styleThumbnails = styles.map((style, index)=> {
-    let selected;
-    let imageUrl = style['photos'][0]['thumbnail_url'];
-    if (index === currentStyle) {
-      selected = <Selected><MdCheck/></Selected>;
-    }
-
-    return (
-      <Style
-        onClick={()=>{changeStyle(index); changeStylePrice(index);}}
-        key={style.style_id}
-      >
-        <ThumbnailWrapper>
-          <Img
-            alt={'product-style'}
-            src={imageUrl}
-            landscapeOrientation={landscapeOrientations[index] || false}
-            onLoad={(e)=>{
-              let landscape = e.target.offsetWidth > e.target.offsetHeight ? true : false;
-              let orientations = [...landscapeOrientations];
-              orientations[index] = landscape;
-              setLandscapeOrientation(orientations);
-            }}
-          />
-          {selected}
-        </ThumbnailWrapper>
-      </Style>
-    )
-  });
+  const styleThumbnails = styles.map((style, index)=> (
+    <Style
+      aria-label={"style option"}
+      role={"style-option"}
+      aria-selected={index === currentStyle ? true : false}
+      key={style.style_id}
+      tabIndex={0}
+      onKeyPress={(event)=>{
+        if (event.key === 'Enter') {
+          changeStyle(index);
+          changeStylePrice(index);
+        }
+      }}
+      onClick={()=>{changeStyle(index); changeStylePrice(index);}}
+    >
+      <ThumbnailWrapper>
+        <Img
+          alt={`product style ${index}`}
+          src={style['photos'][0]['thumbnail_url']}
+          landscapeOrientation={landscapeOrientations[index] || false}
+          onLoad={(e)=>{
+            let landscape = e.target.offsetWidth > e.target.offsetHeight ? true : false;
+            let orientations = [...landscapeOrientations];
+            orientations[index] = landscape;
+            setLandscapeOrientation(orientations);
+          }}
+        />
+        {index === currentStyle && <Selected aria-label='selected style' role='selected-style'><MdCheck/></Selected>}
+      </ThumbnailWrapper>
+    </Style>
+  ));
 
   return (
     <div>
-      <P><strong>Style: </strong>{styles[currentStyle]['name']}</P>
+      <h6><strong>Style: </strong>{styles[currentStyle]['name']}</h6>
       <Styles>
         {styleThumbnails}
       </Styles>
