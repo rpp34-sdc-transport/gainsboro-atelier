@@ -138,7 +138,6 @@ class App extends React.Component {
   }
 
   handleRemoveOutfitFromListClick(id) {
-    // console.log('REMOVE IDDDDD', id);
     var updatedOutfitList = this.state.outfitList.filter(outfit => outfit.id !== id);
     localStorage.setItem("outfit", JSON.stringify(updatedOutfitList));
     this.setState({

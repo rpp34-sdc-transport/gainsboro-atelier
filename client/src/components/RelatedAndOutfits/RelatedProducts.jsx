@@ -220,7 +220,7 @@ export default class RelatedProducts extends React.Component {
               const {id, ratings, name, features, defaultStyle, category} = product;
               const {original_price, sale_price, photos} = defaultStyle;
               return (
-                <StyledLink to={`/${id}`} key={index}>
+                <StyledLink to={this.state.showThumbnailCarousel === `${id}thumbnailCarousel` || this.state.clickedStar ? '#' : `/${id}`} key={index}>
                   <Card>
                     {!photos || !photos[0].thumbnail_url ?
                       <NoImage>

@@ -69,6 +69,7 @@ export default class Reviews extends React.Component {
 
   handleMoreReviewBtnClick() {
     this.setState(preState => ({currReviewIndex: preState.currReviewIndex + 2}))
+
   }
 
   handleAddRviewBtn() {
