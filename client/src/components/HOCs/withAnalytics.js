@@ -3,6 +3,7 @@ import React from 'react';
 export const withAnalytics = (Component, widgetName) =>
     class extends React.Component {
         sendAnalytics(e) {
+            console.log('e.currentTarget', e.currentTarget);
             console.log('e.currentTarget.className', e.currentTarget.className);
             console.log('widgetName', widgetName);
             fetch('/interactions', {
