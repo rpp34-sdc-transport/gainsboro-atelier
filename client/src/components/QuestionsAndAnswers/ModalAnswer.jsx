@@ -100,14 +100,14 @@ export class ModalAnswer extends React.Component {
                     <h5>Submit your Answer</h5>
                     <h6>{this.props.overview.name}: {this.props.question}</h6>
                     <label>Your Answer *</label>
-                    <input 
+                    <input
                         onChange={(e) => this.setState({
                             body: e.target.value,
-                        })} 
+                        })}
                      />
                     <label>What is your nickname *</label>
-                    <input 
-                        onChange={(e) => this.setState({ name: e.target.value})} 
+                    <input
+                        onChange={(e) => this.setState({ name: e.target.value})}
                         placeholder='Example: jack543!'
                     />
                     <label>
@@ -116,16 +116,16 @@ export class ModalAnswer extends React.Component {
                     <label>
                         Your email *
                     </label>
-                    <input 
+                    <input
                         type='email'
                         onChange={(e) => this.setState({ email: e.target.value })}
                         placeholder='Example: jack@email.com'
                     />
                     <label>For authentication reasons, you will not be emailed</label>
-                    <UploadPhotos 
+                    <UploadPhotos
                         limit={5}
                         photos={this.state.photos}
-                        updatePhotos={(photos) => this.setState({ photos })} 
+                        updatePhotos={(photos) => this.setState({ photos })}
                     />
                     <button onClick={this.saveAnswer}>
                         Submit answer

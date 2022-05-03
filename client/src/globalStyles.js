@@ -6,6 +6,7 @@ const GlobalStyle = createGlobalStyle`
     --color-brand-100: #F0F4FF;
     --color-brand-200: #C6D9FE;
     --color-brand-300: #2A66DF;
+    --color-brand-400: #1B50BA;
     --color-grey-100: #949494;
     --color-grey-200: #707070;
     --color-grey-300: #4D4D4D;

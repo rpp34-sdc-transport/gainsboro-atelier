@@ -35,8 +35,8 @@ const Img = styled.div`
 const ImageButton = styled.div`
   &{
     border-radius: 4px;
-    width: 32px;
-    height: 32px;
+    width: 40px;
+    height: 40px;
     background: rgba(255, 255, 255);
     border: var(--color-grey-100) solid 2px;];
     color: var(--color-grey-100);
@@ -69,8 +69,8 @@ const ImageButton = styled.div`
 // `;
 
 const ImageButtonPlaceholder = styled.div`
-    width: 32px;
-    height: 32px;
+    width: 40px;
+    height: 40px;
     background: #FFF;
     margin-top: 8px;
     display: flex;
@@ -79,8 +79,8 @@ const ImageButtonPlaceholder = styled.div`
 const ViewArrow = styled.div`
   &{
     border-radius: 4px;
-    width: 32px;
-    height: 32px;
+    width: 40px;
+    height: 40px;
     background: rgba(255, 255, 255, .8);
     color: var(--color-grey-100);
     margin: 8px;
@@ -197,12 +197,12 @@ const RightArrow = styled(MdChevronRight)`
 
 const ButtonArrowLeft = styled.div`
   position: absolute;
-  top: min(calc(25vw - 24px), 276px);
+  top: min(calc(25vw - 28px), 276px);
 `;
 
 const ButtonArrowRight = styled.div`
   position: absolute;
-  top: min(calc(25vw - 24px), 276px);
+  top: min(calc(25vw - 28px), 276px);
   right: 0px;
 `;
 
@@ -226,7 +226,7 @@ export default class ImageGallery extends React.Component {
     this.imageForward = this.imageForward.bind(this);
     this.keypressThumbnail = this.keypressThumbnail.bind(this);
     this.loadLandscapeOrientation = this.loadLandscapeOrientation.bind(this);
-    this.toggleModal = this.toggleModal.bind(this);
+    this.toggleExpandedView = this.toggleExpandedView.bind(this);
   }
 
   changeImage(e){
@@ -245,7 +245,8 @@ export default class ImageGallery extends React.Component {
     })
   }
 
-  imageBack(){
+  imageBack(event){
+    event.stopPropagation();
     if (this.state.currentIndex > 0) {
       this.setState((prevState)=> ({
         currentIndex: prevState.currentIndex - 1
@@ -253,7 +254,8 @@ export default class ImageGallery extends React.Component {
     }
   }
 
-  imageForward(){
+  imageForward(event){
+    event.stopPropagation();
     if (this.state.currentIndex < this.props.photos.length - 1) {
       this.setState((prevState)=> ({
         currentIndex: prevState.currentIndex + 1
@@ -270,7 +272,7 @@ export default class ImageGallery extends React.Component {
     }
   }
 
-  toggleModal(){
+  toggleExpandedView(){
     this.setState((prevState)=>({
       modalIsOpen: !prevState.modalIsOpen
     }))
@@ -296,7 +298,7 @@ export default class ImageGallery extends React.Component {
     const thumbnailsOffset = this.state.currentIndex >= countVisibleThumbnails ? -(this.state.currentIndex - countVisibleThumbnails + 1) * (thumbnailHeight + thumbnailBottom) : 0;
 
     let nextImage, previousImage, nextThumbnail, previousThumbnail;
-
+    console.log('PHOTO LENGTH', photos.length);
     return (
       <Gallery>
         <ThumbnailsSection>
@@ -324,7 +326,7 @@ export default class ImageGallery extends React.Component {
             </ViewArrow>
           </ButtonArrowRight>
           }
-          <Img onClick={this.toggleModal} url={photos[this.state.currentIndex]['url']}/>
+          <Img onClick={this.toggleExpandedView} url={photos[this.state.currentIndex]['url']}/>
         </ImageWrapper>
         {this.state.modalIsOpen &&
           <ExpandedView
@@ -333,7 +335,7 @@ export default class ImageGallery extends React.Component {
             imageCount={photos.length}
             imageBack={this.imageBack}
             imageForward={this.imageForward}
-            toggleModal={this.toggleModal}
+            toggleExpandedView={this.toggleExpandedView}
             url={photos[this.state.currentIndex]['url']}>
           </ExpandedView>
         }

@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import GlobalStyle from '../globalStyles.js'
 import Overview from './Overview/Overview.jsx';
 import RelatedAndOutfits from './RelatedAndOutfits/RelatedAndOutfits.jsx';
-import QuestionAnswer from './QuestionsAndAnswers/questionAnswer.jsx';
+import QuestionAnswer from './QuestionsAndAnswers/QuestionAnswer.jsx';
 import ReviewAndRating from './ReviewAndRating/ReviewAndRating.jsx';
 
 //HOC to pass down router params
@@ -82,6 +82,7 @@ class App extends React.Component {
   }
 
   changeStyle(index){
+    console.log('index is: ', index);
     this.setState({
       currentStyle: index,
     })

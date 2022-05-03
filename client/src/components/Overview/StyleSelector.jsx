@@ -16,13 +16,24 @@ const Style = styled.div`
   margin-bottom: 16px;
   margin-top: 0px;
   position: relative;
+
 `;
 
 const ThumbnailWrapper = styled.div`
-  border-radius: 50%;
-  width: 64px;
-  height: 64px;
-  overflow: hidden;
+  & {
+    border-radius: 50%;
+    width: 64px;
+    height: 64px;
+    overflow: hidden;
+  }
+
+  &:hover {
+    opacity: ${props => props.selected ? '1' : '0.7'};
+    cursor: ${props => props.selected ? 'default' : 'pointer'}
+  }
+
+  &:active {
+    outline: 4px solid var(--color-brand-200);
   }
 `;
 
@@ -61,7 +72,9 @@ export default function StyleSelector ({changeStyle, changeStylePrice, currentSt
       }}
       onClick={()=>{changeStyle(index); changeStylePrice(index);}}
     >
-      <ThumbnailWrapper>
+      <ThumbnailWrapper
+        selected={index === currentStyle ? true : false}
+      >
         <Img
           alt={`product style ${index}`}
           src={style['photos'][0]['thumbnail_url']}

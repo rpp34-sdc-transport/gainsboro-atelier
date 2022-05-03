@@ -2,3 +2,7 @@ node_modules
 client/dist/bundle.js
 config.js
 coverage
+*.pem
+awsSetup.txt
+login.sh
+.env

@@ -29,7 +29,19 @@ const Flexcontainer = styled.div`
 `;
 
 const SmallLink = styled.p`
-  text-decoration: underline
+
+  &{
+    margin-bottom: 0px;
+    text-decoration: underline;
+  }
+  &:hover{
+    color: var(--color-brand-300);
+    cursor: pointer
+  }
+
+  &:active{
+    color: var(--color-brand-400);
+  }
 `;
 
 const DiscountedPrice = styled.p`
@@ -114,7 +126,9 @@ export default class Overview extends React.Component {
               <Stars>
                 <StarRating ratings={this.props.ratings} showAve={false}/>
               </Stars>
-              <SmallLink>Read all reviews</SmallLink>
+              <SmallLink onClick={()=>{
+                document.getElementById('reviews').scrollIntoView({behavior: "smooth"});
+              }}>Read all reviews</SmallLink>
             </FlexRow>
             <H5>{category}</H5>
             <H2>{name}</H2>
