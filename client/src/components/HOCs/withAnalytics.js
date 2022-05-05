@@ -1,8 +1,11 @@
 import React from 'react';
 
-export const withAnalytics = (Component, widgetName) => 
+export const withAnalytics = (Component, widgetName) =>
     class extends React.Component {
         sendAnalytics(e) {
+            console.log('e.currentTarget', e.currentTarget);
+            console.log('e.currentTarget.className', e.currentTarget.className);
+            console.log('widgetName', widgetName);
             fetch('/interactions', {
                 method: "POST",
                 headers: {
@@ -19,7 +22,7 @@ export const withAnalytics = (Component, widgetName) =>
         render() {
             return (
                 <div onClick={this.sendAnalytics}>
-                    <Component {...this.props}/>
+                    <Component {...this.props} />
                 </div>
             );
         }

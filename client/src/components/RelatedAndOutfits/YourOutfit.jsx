@@ -17,7 +17,7 @@ const AddCard = styled(Card)`
   justify-content: center;
   align-items: center;
   gap: 10px;
-  height: 420px;
+  height: 450px;
   width: 240px;
 `;
 

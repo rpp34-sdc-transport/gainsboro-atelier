@@ -52,12 +52,12 @@ export default class StarRating extends React.Component {
     var keys = Object.keys(obj);
     var values = Object.values(obj);
     var ratingCounts = values.reduce((sum, rating) => sum + Number(rating), 0);
-    var totalRating = values.reduce((sum, rating, index) => sum + Number(rating) * keys[index], 0);
+    var totalRating = values.reduce((sum, rating, index) => sum + Number(rating) * Number(keys[index]), 0);
     return Math.round((totalRating / ratingCounts) * 10) / 10;
   }
 
   render() {
-    if (typeof this.props.ratings === 'number') {
+    if (typeof this.props.ratings !== 'object') {
       var aveRating = this.props.ratings;
     } else {
       var aveRating = this.calAveRating(this.props.ratings);

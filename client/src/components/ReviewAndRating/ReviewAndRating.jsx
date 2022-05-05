@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Reviews from './Reviews.jsx';
 import Rating from './Rating.jsx';
+import { withAnalytics } from '../HOCs/withAnalytics.js';
 
 const WidgetContainer = styled.div`
   padding: 0 80px;
@@ -13,7 +14,7 @@ const Container = styled.div`
   justify-content: space-between;
 `;
 
-export default class ReviewAndRating extends React.Component{
+export class ReviewAndRating extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
@@ -71,3 +72,5 @@ export default class ReviewAndRating extends React.Component{
     )
   }
 }
+
+export default withAnalytics(ReviewAndRating, 'reviewandrating');

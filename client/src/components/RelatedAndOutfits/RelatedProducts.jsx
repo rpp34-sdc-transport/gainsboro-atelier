@@ -4,8 +4,7 @@ import StarRating from '../ReviewAndRating/StarRating.jsx';
 import FeatureModal from './FeatureModal.jsx';
 import ThumbnailCarousel from './ThumbnailCarousel.jsx';
 import {MdOutlineHideImage, MdOutlineStar, MdArrowForwardIos, MdOutlineArrowBackIosNew} from 'react-icons/md';
-import { Link } from 'react-router-dom';
-// import { withRouter } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export const Container = styled.div`
   display: flex;
@@ -15,7 +14,7 @@ export const Container = styled.div`
 
 export const Carousel = styled.div`
   width: 1160px;
-  height: 460px;
+  height: 480px;
   overflow: hidden;
   position: relative;
 `
@@ -31,9 +30,9 @@ export const Content = styled.div`
 export const Card = styled.div`
   &{
     border: 1px solid #b4b4b4;
-    border-radius: 4px;
+    border-radius: 8px;
     width: 250px;
-    max-height: 450px;
+    height: 450px;
     position: relative;
   }
   &:hover{
@@ -87,6 +86,8 @@ export const NoImage = styled.div`
   justify-content: center;
   align-items: center;
   font-size: 50px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
 `;
 
 export const Image = styled.div`
@@ -96,6 +97,8 @@ export const Image = styled.div`
   background-repeat: no-repeat;
   background-size: cover;
   position: relative;
+  border-top-left-radius: 7px;
+  border-top-right-radius: 7px;
 `;
 
 export const TextBox = styled.div`
@@ -138,6 +141,10 @@ export const OriginalPrice = styled.small`
   text-decoration-line: ${props => props.lineThrough};
 `;
 
+const StyledLink = styled(Link)`
+  color: inherit;
+  text-decoration: inherit;
+`;
 
 export default class RelatedProducts extends React.Component {
   constructor(props) {
@@ -200,12 +207,6 @@ export default class RelatedProducts extends React.Component {
     }))
   }
 
-  handleCardClick() {
-    console.log('redirect');
-    // this.props.history.push('/64624');
-    //window.location='/64624'
-  }
-
   render() {
     const {relatedProducts, currFeature, currName} = this.props;
     return(
@@ -219,7 +220,7 @@ export default class RelatedProducts extends React.Component {
               const {id, ratings, name, features, defaultStyle, category} = product;
               const {original_price, sale_price, photos} = defaultStyle;
               return (
-                <Card key={index}>
+                <Card>
                   {!photos || !photos[0].thumbnail_url ?
                     <NoImage>
                       <MdOutlineHideImage/>
@@ -240,15 +241,17 @@ export default class RelatedProducts extends React.Component {
                     </Image>
                   }
                   <Star color={this.state.clickedStar === `${id}star`? '#378f1e' : '#ffc107'} onClick={() => this.handleCompareStarClick({name, features}, `${id}star`)}/>
-                  <TextBox>
-                    <small>{category}</small>
-                    <Heading5>{name}</Heading5>
-                    <Price>
-                      {sale_price && <SalePrice>{sale_price}</SalePrice>}
-                      <OriginalPrice lineThrough={sale_price ? 'line-through' : 'none'}>{original_price}</OriginalPrice>
-                    </Price>
-                    <StarRating ratings={ratings} showAve={false}/>
-                  </TextBox>
+                  <StyledLink to={`/${id}`} key={index}>
+                    <TextBox>
+                      <small>{category}</small>
+                      <Heading5>{name}</Heading5>
+                      <Price>
+                        {sale_price && <SalePrice>{sale_price}</SalePrice>}
+                        <OriginalPrice lineThrough={sale_price ? 'line-through' : 'none'}>{original_price}</OriginalPrice>
+                      </Price>
+                      <StarRating ratings={ratings} showAve={false}/>
+                    </TextBox>
+                  </StyledLink>
                 </Card>
               )
             })}
@@ -271,4 +274,3 @@ export default class RelatedProducts extends React.Component {
   }
 }
 
-// export default withRouter(RelatedProducts);

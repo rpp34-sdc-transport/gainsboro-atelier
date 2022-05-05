@@ -38,7 +38,7 @@ const ReviewList = styled.div`
   max-height: 800px;
   overflow: scroll;
   border: 2px solid #ebebeb;
-  border-radius: 4px;
+  border-radius: 6px;
   margin-bottom: 40px;
   padding: 40px;
 `
@@ -69,6 +69,7 @@ export default class Reviews extends React.Component {
 
   handleMoreReviewBtnClick() {
     this.setState(preState => ({currReviewIndex: preState.currReviewIndex + 2}))
+
   }
 
   handleAddRviewBtn() {
