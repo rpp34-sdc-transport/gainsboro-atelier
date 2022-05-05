@@ -46,7 +46,7 @@ export default class StarRating extends React.Component {
 
   //get average rating in percentage (rounded to the first decimal)
   calAveRating(obj) {
-    if (Object.keys(obj).length === 0 || obj === null) {
+    if (obj === undefined || Object.keys(obj).length === 0) {
       return 0;
     }
     var keys = Object.keys(obj);
@@ -57,7 +57,7 @@ export default class StarRating extends React.Component {
   }
 
   render() {
-    if (typeof this.props.ratings !== 'object') {
+    if (typeof this.props.ratings === 'number') {
       var aveRating = this.props.ratings;
     } else {
       var aveRating = this.calAveRating(this.props.ratings);
