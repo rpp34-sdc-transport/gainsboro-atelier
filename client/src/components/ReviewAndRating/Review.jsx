@@ -27,6 +27,7 @@ export const Image = styled.div`
     background-size: cover;
     background-position: center;
     border: 1px solid #b4b4b4;
+    border-radius: 4px;
   }
 
  &:hover {
