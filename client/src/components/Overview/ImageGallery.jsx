@@ -30,7 +30,7 @@ const MainImage = styled.div`
     cursor: zoom-in
   }
 
-  &:focus {
+  &:focus-visible {
     outline: 4px solid var(--color-brand-200);
   }
 `;
@@ -149,7 +149,7 @@ const ThumbnailWrapper = styled.div`
     background-size: cover;
   }
 
-  &:focus {
+  &:focus-visible {
     border: 6px solid var(--color-brand-400);
     outline: none;
   }
