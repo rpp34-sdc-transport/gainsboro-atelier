@@ -10,13 +10,12 @@ const Styles = styled.div`
   width: 350px;
 `;
 
-const Style = styled.div`
+const StyleThumbnail = styled.div`
   width: 64px;
   margin-right: 16px;
   margin-bottom: 16px;
   margin-top: 0px;
   position: relative;
-
 `;
 
 const ThumbnailWrapper = styled.div`
@@ -57,8 +56,10 @@ const Selected = styled.div`
 export default function StyleSelector ({changeStyle, changeStylePrice, currentStyle, styles}) {
   const [landscapeOrientations, setLandscapeOrientation] = useState([]);
 
+  console.log('styles', styles);
+
   const styleThumbnails = styles.map((style, index)=> (
-    <Style
+    <StyleThumbnail
       aria-label={"style option"}
       role={"style-option"}
       aria-selected={index === currentStyle ? true : false}
@@ -75,20 +76,23 @@ export default function StyleSelector ({changeStyle, changeStylePrice, currentSt
       <ThumbnailWrapper
         selected={index === currentStyle ? true : false}
       >
-        <Img
-          alt={`product style ${index}`}
-          src={style['photos'][0]['thumbnail_url']}
-          landscapeOrientation={landscapeOrientations[index] || false}
-          onLoad={(e)=>{
-            let landscape = e.target.offsetWidth > e.target.offsetHeight ? true : false;
-            let orientations = [...landscapeOrientations];
-            orientations[index] = landscape;
-            setLandscapeOrientation(orientations);
-          }}
-        />
+        {
+          style['photos'][0]['thumbnail_url'] &&
+          <Img
+            alt={`product style ${index}`}
+            src={style['photos'][0]['thumbnail_url']}
+            landscapeOrientation={landscapeOrientations[index] || false}
+            onLoad={(e)=>{
+              let landscape = e.target.offsetWidth > e.target.offsetHeight ? true : false;
+              let orientations = [...landscapeOrientations];
+              orientations[index] = landscape;
+              setLandscapeOrientation(orientations);
+            }}
+          />
+        }
         {index === currentStyle && <Selected aria-label='selected style' role='selected-style'><MdCheck/></Selected>}
       </ThumbnailWrapper>
-    </Style>
+    </StyleThumbnail>
   ));
 
   return (

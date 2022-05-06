@@ -9,14 +9,14 @@ const Gallery = styled.div`
   margin-right: 32px;
 `;
 
-const ImageWrapper = styled.div`
+const MainImageWrapper = styled.div`
   max-height: 50vw;
   max-width: 50vw;
   position: relative;
   overflow: hidden
 `;
 
-const Img = styled.div`
+const MainImage = styled.div`
   &{
     border-radius: 4px;
     height: min(50vw, 600px);
@@ -53,22 +53,7 @@ const ImageButton = styled.div`
   }
 `;
 
-// const ImageButtonDisabled = styled.div`
-//   &{
-//     border-radius: 4px;
-//     width: 32px;
-//     height: 32px;
-//     background: #EBEBEB;
-//     border: #949494 solid 2px;;
-//     color: #949494;
-//     margin-top: 8px;
-//     display: flex;
-//     justify-content: center;
-//     align-items: center;
-//   }
-// `;
-
-const ImageButtonPlaceholder = styled.div`
+const ButtonPlaceholder = styled.div`
     width: 40px;
     height: 40px;
     background: #FFF;
@@ -98,6 +83,10 @@ const ViewArrow = styled.div`
 
 `;
 
+const thumbnailHeight = 48;
+const thumbnailBottom = 18;
+const countVisibleThumbnails = 7
+const thumbnailsHeight = countVisibleThumbnails * (thumbnailHeight + thumbnailBottom);
 
 const ThumbnailsSection = styled.div`
   display: flex;
@@ -106,10 +95,6 @@ const ThumbnailsSection = styled.div`
   align-items: center;
 `;
 
-const thumbnailHeight = 48;
-const thumbnailBottom = 18;
-const countVisibleThumbnails = 7
-const thumbnailsHeight = countVisibleThumbnails * (thumbnailHeight + thumbnailBottom);
 
 const ThumbnailsView = styled.div`
   max-height: ${`${thumbnailsHeight}px`};
@@ -137,42 +122,35 @@ const ThumbnailWrapper = styled.div`
     background-repeat: no-repeat;
     background-size: cover;
   }
-
-  ${'' /* &:focus {
-    position: absolute;
-    outline: 4px solid var(--color-brand-200) !important;
-  } */}
 `;
 
-const ThumbnailActive = styled.div`
+const ThumbnailEmpty = styled.div`
+  background-color: var(--color-grey-200);
+  border-radius: 4px;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 2px;
+`;
+
+const ThumbnailSelected = styled.div`
   margin-bottom: 12px;
 `;
 
-const ThumbnailActiveIndicator = styled.div`
+const ThumbnailSelectedIndicator = styled.div`
   height: 4px;
   background: var(--color-brand-300);
   border-radius: 2px;
 `;
 
-const ThumbnailInactive = styled.div`
+const Thumbnail = styled.div`
   & {
     margin-bottom: 16px;
-    position: relative;
   }
 
   &:hover {
     opacity: 0.7;
     cursor: pointer
   }
-`;
-
-
-const ImageWrapperActive = styled.div`
-  border-radius: 4px;
-  width: 44px;
-  height: 44px;
-  overflow: hidden;
-  margin: auto
 `;
 
 const UpArrow = styled(MdOutlineExpandLess)`
@@ -204,12 +182,6 @@ const ButtonArrowRight = styled.div`
   position: absolute;
   top: min(calc(25vw - 28px), 276px);
   right: 0px;
-`;
-
-const ImgThumbnail = styled.img`
-  width: ${props => (props.landscapeOrientation ? 'auto': '64px')};
-  height: ${props => (props.landscapeOrientation ? '64px' : 'auto')};
-  overflow: hidden;
 `;
 
 export default class ImageGallery extends React.Component {
@@ -281,17 +253,24 @@ export default class ImageGallery extends React.Component {
   render() {
     const {currentStyle, photos} = this.props;
     console.log('thumbs', photos);
+
+
     const thumbnails = photos.map((photo, index) => {
+
+
       return (
       index === this.state.currentIndex ? (
-      <ThumbnailActive key={index}>
-        <ThumbnailWrapper url={photo.thumbnail_url} value={index} />
-        <ThumbnailActiveIndicator/>
-      </ThumbnailActive>
+      <ThumbnailSelected key={index}>
+        {photo.thumbnail_url ?
+          (<ThumbnailWrapper url={photo.thumbnail_url} value={index} />) :
+          (<ThumbnailEmpty></ThumbnailEmpty>)
+        }
+        <ThumbnailSelectedIndicator/>
+      </ThumbnailSelected>
       ) : (
-      <ThumbnailInactive key={index} >
+      <Thumbnail key={index} >
         <ThumbnailWrapper tabIndex="0" onKeyPress={this.keypressThumbnail} onClick={this.changeImage} url={photo.thumbnail_url} value={index} />
-      </ThumbnailInactive>
+      </Thumbnail>
       )
     )});
 
@@ -309,11 +288,11 @@ export default class ImageGallery extends React.Component {
           </ThumbnailsView>
           {this.state.currentIndex > 0 ?
           <ImageButton onClick={this.imageBack}><UpArrow/></ImageButton> :
-          <ImageButtonPlaceholder></ImageButtonPlaceholder>}
+          <ButtonPlaceholder></ButtonPlaceholder>}
           {this.state.currentIndex < photos.length -1 &&
           <ImageButton onClick={this.imageForward}><DownArrow/></ImageButton>}
         </ThumbnailsSection>
-        <ImageWrapper>
+        <MainImageWrapper>
           {this.state.currentIndex > 0 &&
             <ButtonArrowLeft>
               <ViewArrow onClick={this.imageBack}><LeftArrow/></ViewArrow>
@@ -326,8 +305,8 @@ export default class ImageGallery extends React.Component {
             </ViewArrow>
           </ButtonArrowRight>
           }
-          <Img onClick={this.toggleExpandedView} url={photos[this.state.currentIndex]['url']}/>
-        </ImageWrapper>
+          <MainImage onClick={this.toggleExpandedView} url={photos[this.state.currentIndex]['url']}/>
+        </MainImageWrapper>
         {this.state.modalIsOpen &&
           <ExpandedView
             currentIndex={this.state.currentIndex}
