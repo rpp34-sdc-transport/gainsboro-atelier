@@ -284,12 +284,8 @@ export default class ImageGallery extends React.Component {
 
   render() {
     const {currentStyle, photos} = this.props;
-    console.log('thumbs', photos);
-
 
     const thumbnails = photos.map((photo, index) => {
-
-
       return (
       index === this.state.currentIndex ? (
       <ThumbnailSelected key={index}>

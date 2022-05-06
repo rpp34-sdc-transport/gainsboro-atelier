@@ -44,7 +44,7 @@ export class ReviewAndRating extends React.Component{
   render() {
     const {product_id, productName, meta, reviews, handleMoreReviewBtnClick, moreReviewBtn, handleSortOptionChange, voteForReview, fetchDataAfterSubmittingNewReview} = this.props;
     return (
-      <div  id='reviews'>
+      <WidgetContainer id='reviews'>
         <p>RATINGS & REVIEWS</p>
         <Container>
           {Object.keys(meta).length &&

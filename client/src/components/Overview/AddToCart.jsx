@@ -184,7 +184,6 @@ export default class AddToCart extends React.Component {
 
     let addToCart, size, quantity;
 
-    console.log('skus', skus);
     if (Object.keys(skus).length === 0 || skus['null']){
       size= <Select name="sizes" disabled>
       <option>OUT OF STOCK</option>

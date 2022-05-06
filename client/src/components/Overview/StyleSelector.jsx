@@ -82,8 +82,6 @@ const Selected = styled.div`
 export default function StyleSelector ({changeStyle, changeStylePrice, currentStyle, styles}) {
   const [landscapeOrientations, setLandscapeOrientation] = useState([]);
 
-  console.log('styles', styles);
-
   const styleOptions = styles.map((style, index)=> (
     <StyleWrapper
       aria-label={"style option"}
