@@ -1,7 +1,7 @@
 import React, {useRef} from 'react';
 import ExpandedView from './ExpandedView.jsx';
 import styled from 'styled-components';
-import {MdChevronLeft, MdChevronRight, MdOutlineExpandLess, MdOutlineExpandMore} from "react-icons/md";
+import {MdChevronLeft, MdChevronRight, MdOutlineExpandLess, MdOutlineExpandMore, MdOutlineHideImage} from "react-icons/md";
 
 const Gallery = styled.div`
   display: flex;
@@ -13,7 +13,6 @@ const MainImageWrapper = styled.div`
   max-height: 50vw;
   max-width: 50vw;
   position: relative;
-  overflow: hidden
 `;
 
 const MainImage = styled.div`
@@ -22,7 +21,7 @@ const MainImage = styled.div`
     height: min(50vw, 600px);
     width: min(50vw, 600px);
     overflow: hidden;
-    background-image: ${props => `url(${props.url})`};
+    background-image: url(${props => props.url});
     background-repeat: no-repeat;
     background-size: cover;
   }
@@ -30,6 +29,22 @@ const MainImage = styled.div`
   &:hover {
     cursor: zoom-in
   }
+
+  &:focus {
+    outline: 4px solid var(--color-brand-200);
+  }
+`;
+
+const MainImageEmpty = styled.div`
+    border-radius: 4px;
+    font-size: 48px;
+    color: var(--color-grey-300);
+    background-color: var(--color-grey-050);
+    height: min(50vw, 600px);
+    width: min(50vw, 600px);
+    display: flex;
+    align-items: center;
+    justify-content: center
 `;
 
 const ImageButton = styled.div`
@@ -50,6 +65,12 @@ const ImageButton = styled.div`
     cursor: pointer;
     border-color: var(--color-grey-300);
     color: var(--color-grey-300);
+  }
+
+  &:active {
+    background-color: var(--color-brand-100);
+    border-color: var(--color-brand-400);
+    color: var(--color-brand-400);
   }
 `;
 
@@ -81,6 +102,11 @@ const ViewArrow = styled.div`
     color: var(--color-grey-300);
   }
 
+  &:active {
+    background-color: var(--color-brand-100);
+    border-color: var(--color-brand-400);
+    color: var(--color-brand-400);
+  }
 `;
 
 const thumbnailHeight = 48;
@@ -122,14 +148,24 @@ const ThumbnailWrapper = styled.div`
     background-repeat: no-repeat;
     background-size: cover;
   }
+
+  &:focus {
+    border: 6px solid var(--color-brand-400);
+    outline: none;
+  }
 `;
 
 const ThumbnailEmpty = styled.div`
-  background-color: var(--color-grey-200);
+  background-color: var(--color-grey-050);
   border-radius: 4px;
+  font-size: 24px;
+  color: var(--color-grey-300);
   width: 48px;
   height: 48px;
   margin-bottom: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center
 `;
 
 const ThumbnailSelected = styled.div`
@@ -150,6 +186,10 @@ const Thumbnail = styled.div`
   &:hover {
     opacity: 0.7;
     cursor: pointer
+  }
+
+  &:active {
+    opacity: 0.5;
   }
 `;
 
@@ -196,16 +236,17 @@ export default class ImageGallery extends React.Component {
     this.changeImage = this.changeImage.bind(this);
     this.imageBack = this.imageBack.bind(this);
     this.imageForward = this.imageForward.bind(this);
-    this.keypressThumbnail = this.keypressThumbnail.bind(this);
     this.loadLandscapeOrientation = this.loadLandscapeOrientation.bind(this);
     this.toggleExpandedView = this.toggleExpandedView.bind(this);
   }
 
   changeImage(e){
     const currentIndex = parseInt(e.target.getAttribute('value')) || parseInt(e.currentTarget.getAttribute('value')) || 0;
-    this.setState({
-      currentIndex: currentIndex
-    })
+    if (event.key === undefined || event.key === "Enter") {
+      this.setState({
+        currentIndex: currentIndex
+      });
+    }
   }
 
   loadLandscapeOrientation(e, index){
@@ -217,30 +258,21 @@ export default class ImageGallery extends React.Component {
     })
   }
 
-  imageBack(event){
+  imageBack(event, expandedView = false){
     event.stopPropagation();
-    if (this.state.currentIndex > 0) {
+    if (this.state.currentIndex > 0 && (event.key === undefined || event.key === "Enter" || expandedView)) {
       this.setState((prevState)=> ({
         currentIndex: prevState.currentIndex - 1
       }));
     }
   }
 
-  imageForward(event){
+  imageForward(event, expandedView = false){
     event.stopPropagation();
-    if (this.state.currentIndex < this.props.photos.length - 1) {
+    if (this.state.currentIndex < this.props.photos.length - 1 && (event.key === undefined || event.key === "Enter" || expandedView)) {
       this.setState((prevState)=> ({
         currentIndex: prevState.currentIndex + 1
       }));
-    }
-  }
-
-  keypressThumbnail(e){
-    const currentIndex = parseInt(e.target.getAttribute('value')) || parseInt(e.currentTarget.getAttribute('value')) || 0;
-    if (event.key === "Enter") {
-      this.setState({
-        currentIndex: currentIndex
-      })
     }
   }
 
@@ -263,13 +295,16 @@ export default class ImageGallery extends React.Component {
       <ThumbnailSelected key={index}>
         {photo.thumbnail_url ?
           (<ThumbnailWrapper url={photo.thumbnail_url} value={index} />) :
-          (<ThumbnailEmpty></ThumbnailEmpty>)
+          (<ThumbnailEmpty selected={true} ><MdOutlineHideImage/></ThumbnailEmpty>)
         }
         <ThumbnailSelectedIndicator/>
       </ThumbnailSelected>
       ) : (
       <Thumbnail key={index} >
-        <ThumbnailWrapper tabIndex="0" onKeyPress={this.keypressThumbnail} onClick={this.changeImage} url={photo.thumbnail_url} value={index} />
+      {photo.thumbnail_url ?
+        (<ThumbnailWrapper tabIndex="0" onKeyPress={this.changeImage} onClick={this.changeImage} url={photo.thumbnail_url} value={index} />) :
+        (<ThumbnailEmpty selected={false} ><MdOutlineHideImage/></ThumbnailEmpty>)
+      }
       </Thumbnail>
       )
     )});
@@ -277,7 +312,7 @@ export default class ImageGallery extends React.Component {
     const thumbnailsOffset = this.state.currentIndex >= countVisibleThumbnails ? -(this.state.currentIndex - countVisibleThumbnails + 1) * (thumbnailHeight + thumbnailBottom) : 0;
 
     let nextImage, previousImage, nextThumbnail, previousThumbnail;
-    console.log('PHOTO LENGTH', photos.length);
+
     return (
       <Gallery>
         <ThumbnailsSection>
@@ -287,25 +322,56 @@ export default class ImageGallery extends React.Component {
             </ThumbnailsWrapper>
           </ThumbnailsView>
           {this.state.currentIndex > 0 ?
-          <ImageButton onClick={this.imageBack}><UpArrow/></ImageButton> :
+          <ImageButton
+            onClick={this.imageBack}
+            onKeyPress={this.imageBack}
+            tabIndex="0"
+          >
+            <UpArrow/>
+          </ImageButton> :
           <ButtonPlaceholder></ButtonPlaceholder>}
           {this.state.currentIndex < photos.length -1 &&
-          <ImageButton onClick={this.imageForward}><DownArrow/></ImageButton>}
+          <ImageButton
+            onClick={this.imageForward}
+            onKeyPress={this.imageForward}
+            tabIndex="0"
+          >
+            <DownArrow/>
+          </ImageButton>}
         </ThumbnailsSection>
         <MainImageWrapper>
           {this.state.currentIndex > 0 &&
             <ButtonArrowLeft>
-              <ViewArrow onClick={this.imageBack}><LeftArrow/></ViewArrow>
+              <ViewArrow
+                onClick={this.imageBack}
+                onKeyPress={this.imageBack}
+                tabIndex="0"
+              >
+                <LeftArrow/>
+              </ViewArrow>
             </ButtonArrowLeft>
           }
           {this.state.currentIndex < photos.length -1 &&
           <ButtonArrowRight>
-            <ViewArrow onClick={this.imageForward}>
+            <ViewArrow
+              onClick={this.imageForward}
+              onKeyPress={this.imageForward}
+              tabIndex="0"
+            >
               <RightArrow/>
             </ViewArrow>
           </ButtonArrowRight>
           }
-          <MainImage onClick={this.toggleExpandedView} url={photos[this.state.currentIndex]['url']}/>
+          {photos[this.state.currentIndex]['url'] ?
+          (<MainImage
+            onClick={this.toggleExpandedView}
+            onKeyPress={(event)=>{if(event.key ==="Enter") {this.toggleExpandedView()}}}
+            tabIndex="0"
+            url={photos[this.state.currentIndex]['url']}
+
+          />) :
+          (<MainImageEmpty><MdOutlineHideImage/></MainImageEmpty>)
+          }
         </MainImageWrapper>
         {this.state.modalIsOpen &&
           <ExpandedView

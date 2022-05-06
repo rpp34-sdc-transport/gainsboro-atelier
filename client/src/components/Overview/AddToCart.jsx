@@ -13,6 +13,7 @@ const FlexRow = styled.div`
 `;
 
 const Select = styled.select`
+  width: ${props => props.width}%;
   font-size: 1rem;
   padding: 10px 24px 10px 10px;
   margin-right: 12px;
@@ -47,6 +48,7 @@ const InputButton = styled.input`
     border: 2px solid var(--color-grey-100);
     color: var(--color-grey-200);
     padding: 10px 16px;
+    width: 100%;
     font-weight: 500;
     font-size: 1rem;
     margin-bottom: 0px;
@@ -67,7 +69,7 @@ const InputButton = styled.input`
 const IconButton = styled.div`
   &{
     border-radius: 4px;
-    width: 42px;
+    min-width: 42px;
     height: 42px;
     background: rgba(255, 255, 255);
     border: var(--color-grey-100) solid 2px;];
@@ -182,7 +184,8 @@ export default class AddToCart extends React.Component {
 
     let addToCart, size, quantity;
 
-    if (Object.keys(skus).length === 0){
+    console.log('skus', skus);
+    if (Object.keys(skus).length === 0 || skus['null']){
       size= <Select name="sizes" disabled>
       <option>OUT OF STOCK</option>
     </Select>;
@@ -222,6 +225,8 @@ export default class AddToCart extends React.Component {
       <IconButton
         addedOutfit={this.state.addedOutfit}
         onClick={()=>{this.setState({addedOutfit: false}, ()=>{removeOutfit(JSON.parse(productId));});}}
+        onKeyPress={()=>{if(event.key==="Enter") {this.setState({addedOutfit: false}, ()=>{removeOutfit(JSON.parse(productId));});}}}
+        tabIndex="0"
       >
         <MdStar/>
       </IconButton>
@@ -229,6 +234,8 @@ export default class AddToCart extends React.Component {
       <IconButton
         addedOutfit={this.state.addedOutfit}
         onClick={()=>{this.setState({addedOutfit: true}, ()=>{addOutfit();});}}
+        onKeyPress={()=>{if(event.key==="Enter") {this.setState({addedOutfit: true}, ()=>{addOutfit();});}}}
+        tabIndex="0"
       >
         <MdStarOutline/>
       </IconButton>
@@ -239,7 +246,7 @@ export default class AddToCart extends React.Component {
         {quantity}
         {addToCart}
         <FlexRow>
-          {Object.keys(skus).length > 0 && <InputButton type="submit" value="ADD TO BAG" />}
+          {Object.keys(skus).length > 0 && !skus['null'] && <InputButton type="submit" value="ADD TO BAG" />}
           {addOutfitButton}
         </FlexRow>
       </form>

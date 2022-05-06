@@ -126,9 +126,10 @@ export default class Overview extends React.Component {
               <Stars>
                 <StarRating ratings={this.props.ratings} showAve={false}/>
               </Stars>
-              <SmallLink onClick={()=>{
-                document.getElementById('reviews').scrollIntoView({behavior: "smooth"});
-              }}>Read all reviews</SmallLink>
+              <SmallLink tabIndex="0"
+                onClick={()=>{document.getElementById('reviews').scrollIntoView({behavior: "smooth"});}}
+                onKeyPress={()=>{ if (event.key === "Enter") {document.getElementById('reviews').scrollIntoView({behavior: "smooth"});}}}
+              >Read all reviews</SmallLink>
             </FlexRow>
             <H5>{category}</H5>
             <H2>{name}</H2>
