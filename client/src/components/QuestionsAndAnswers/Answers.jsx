@@ -43,14 +43,35 @@ const Button = styled.button`
   margin-right: 40px;
 `;
 
+const Image = styled.div`
+  & {
+    display: inline-block;
+    margin-right: 20px;
+    width: 130px;
+    height: 100px;
+    background-image: url(${props => props.url});
+    background-size: cover;
+    background-position: center;
+    border: 1px solid #b4b4b4;
+    margin-top: 10px;
+  }
+
+ &:hover {
+   opacity: 0.8;
+   cursor: pointer;
+ }
+`;
+
 class Answer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             helpfulVoted: false,
-            reported: this.props.reported || false 
+            reported: this.props.reported || false,
+            showImage: false
         }
         this.saveHelpful = this.saveHelpful.bind(this);
+        this.handleImageClick = this.handleImageClick.bind(this);
     }
     
     saveHelpful() {
@@ -68,6 +89,12 @@ class Answer extends React.Component {
             this.setState({
                 helpfulVoted: true,
             })
+        })
+    }
+
+    handleImageClick(url) {
+        this.setState({
+            showImage: url
         })
     }
 
@@ -100,6 +127,14 @@ class Answer extends React.Component {
             <div key={this.props.body} >
                 <span style={{ fontWeight: 600 }}>A:</span> {this.props.body}
             </div>
+            {this.props.photos.length > 0 
+                && this.props.photos.map(
+                    photo => <Image 
+                            key={photo}
+                            style={{backgroundImage: `url(${photo})`}}
+                            onclick={() => {this.handleImageClick(photo)}}>
+                    </Image>)
+            }
             <p>
                 <small>
                     by {this.props.answerer_name}, {formatedDate} | Helpful? 

@@ -11,6 +11,7 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     margin: 60px 0;
+    padding: 0 80px;
 `;
 
 const SearchBar = styled.input`
@@ -33,8 +34,8 @@ const Button = styled.button`
   background: transparent;
   border: 2px solid #d4d4d4;
   color: #525252;
-  padding: 15px 30px;
   margin-right: 40px;
+  margin-top: 20px
 `;
 
 const QuestionAction = styled.span`
@@ -149,6 +150,7 @@ export class QuestionAnswer extends React.Component {
                         <AnswersGroup answers={answersPrioritizingSeller} />
                     </QABlock>);
                 })}
+                <>
                 <ButtonsContainer>
                     <Button type="button" onClick={() => this.expandQABlocks()}>
                         MORE ANSWERED QUESTIONS
@@ -157,6 +159,7 @@ export class QuestionAnswer extends React.Component {
                         ADD A QUESTION +
                     </Button>
                 </ButtonsContainer>
+                </>
                 <ModalQuestion
                     isOpen={modalQuestionOpen}
                     close={() => this.closeQuestionModal()}
