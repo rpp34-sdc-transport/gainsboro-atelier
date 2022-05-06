@@ -11,7 +11,6 @@ export const withAnalytics = (Component, widgetName) =>
                 element = 'icon image';
             }
 
-
             if (!element && e.target.className) {
                 var seperatorIndex = e.target.className.indexOf('-');
                 element = e.target.className.slice(0, seperatorIndex);
