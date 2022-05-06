@@ -35,7 +35,6 @@ const Pointer = styled.span`
     height: 10px;
     position: absolute;
     top: -2px;
-    // left: 10px;
     left:${props => props.pointerLeft}px;
   }
 
@@ -74,7 +73,7 @@ export default function characters({characteristics}) {
               segmentLeft={Math.round((num - 1) * segWidth + (barWidth - segWidth * 2) / 3 * num)}
               segmentWidth={segWidth}>
             </Segment>)}
-            <Pointer pointerLeft={Math.round(Number(characteristics[charactersName].value) / 5 * barWidth)}></Pointer>
+            <Pointer pointerLeft={Math.round(Number(characteristics[charactersName].value) / 5 * (barWidth - 10))}></Pointer>
             <Label labelWidth={barWidth}>
               <small>{labels[charactersName][0]}</small>
               <small>{labels[charactersName][1]}</small>

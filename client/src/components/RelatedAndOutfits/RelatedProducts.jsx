@@ -4,21 +4,23 @@ import StarRating from '../ReviewAndRating/StarRating.jsx';
 import FeatureModal from './FeatureModal.jsx';
 import ThumbnailCarousel from './ThumbnailCarousel.jsx';
 import {MdOutlineHideImage, MdOutlineStar, MdArrowForwardIos, MdOutlineArrowBackIosNew} from 'react-icons/md';
+import { Link } from "react-router-dom";
 
 export const Container = styled.div`
   display: flex;
   position: relative;
+  // margin-bottom: 64px;
 `;
 
 export const Carousel = styled.div`
   width: 1160px;
-  height: 460px;
+  height: 480px;
   overflow: hidden;
   position: relative;
 `
 export const Content = styled.div`
   display: flex;
-  gap: 40px;
+  gap: 20px;
   position: absolute;
   top: 0;
   left: ${props => props.absoluteLeft}px;
@@ -28,9 +30,9 @@ export const Content = styled.div`
 export const Card = styled.div`
   &{
     border: 1px solid #b4b4b4;
-    border-radius: 3px;
+    border-radius: 8px;
     width: 250px;
-    height: 420px;
+    height: 450px;
     position: relative;
   }
   &:hover{
@@ -40,39 +42,39 @@ export const Card = styled.div`
 
 export const BackArrow = styled.div`
   width: 50px;
-  padding-top: 180px;
+  padding-top: 200px;
 `;
 
 export const BackArrowIcon = styled(MdOutlineArrowBackIosNew)`
   &{
-    width: 30px;
-    height: 30px;
+    width: 20px;
+    height: 20px;
     transition: all 0.5s ease;
     visibility: ${props => props.visibility}
   }
   &:hover {
     cursor: pointer;
-    width: 50px;
-    height: 50px;
+    width: 30px;
+    height: 30px;
   }
 `
 
 export const ForwardArrow = styled.div`
   width: 50px;
-  padding-top: 180px;
+  padding-top: 200px;
 `;
 
 export const ForwardArrowIcon = styled(MdArrowForwardIos)`
   &{
-    width: 30px;
-    height: 30px;
+    width: 20px;
+    height: 20px;
     transition: all 0.5s ease;
     visibility: ${props => props.visibility}
   }
   &:hover {
     cursor: pointer;
-    width: 50px;
-    height: 50px;
+    width: 30px;
+    height: 30px;
   }
 `
 
@@ -84,6 +86,8 @@ export const NoImage = styled.div`
   justify-content: center;
   align-items: center;
   font-size: 50px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
 `;
 
 export const Image = styled.div`
@@ -93,6 +97,8 @@ export const Image = styled.div`
   background-repeat: no-repeat;
   background-size: cover;
   position: relative;
+  border-top-left-radius: 7px;
+  border-top-right-radius: 7px;
 `;
 
 export const TextBox = styled.div`
@@ -121,6 +127,24 @@ const Star = styled(MdOutlineStar)`
   }
 `;
 
+export const Price = styled.div`
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+`;
+
+export const SalePrice = styled.small`
+  color: #FF0000;
+`;
+
+export const OriginalPrice = styled.small`
+  text-decoration-line: ${props => props.lineThrough};
+`;
+
+const StyledLink = styled(Link)`
+  color: inherit;
+  text-decoration: inherit;
+`;
 
 export default class RelatedProducts extends React.Component {
   constructor(props) {
@@ -129,9 +153,10 @@ export default class RelatedProducts extends React.Component {
       clickedStar: false,
       showModal: false,
       previewImages: {},
+      selectedPreviewImageIndex: 0,
       firstProductIndex: 0,
       absoluteLeft: 0,
-      showThumbnailCarousel: ''
+      showThumbnailCarousel: '',
     }
     this.handleCompareStarClick = this.handleCompareStarClick.bind(this);
     this.handleCloseModalClick = this.handleCloseModalClick.bind(this);
@@ -143,8 +168,6 @@ export default class RelatedProducts extends React.Component {
   }
 
   handleCompareStarClick(obj, star) {
-    console.log('obj', obj);
-    console.log('star', star);
     this.setState({
       showModal: obj,
       clickedStar: star
@@ -158,14 +181,14 @@ export default class RelatedProducts extends React.Component {
   handleForwardArrowClick() {
     this.setState(preState => ({
       firstProductIndex: preState.firstProductIndex + 1,
-      absoluteLeft: preState.absoluteLeft - 290
+      absoluteLeft: preState.absoluteLeft - 270
     }))
   }
 
   handleBackArrowClick() {
     this.setState(preState => ({
       firstProductIndex: preState.firstProductIndex - 1,
-      absoluteLeft: preState.absoluteLeft + 290
+      absoluteLeft: preState.absoluteLeft + 270
     }))
   }
 
@@ -178,7 +201,10 @@ export default class RelatedProducts extends React.Component {
   }
 
   handleChangePreviewImageClick(id, index) {
-    this.setState(preState => ({previewImages: {...preState.previewImages, [id]: index}}))
+    this.setState(preState => ({
+      previewImages: {...preState.previewImages, [id]: index},
+      selectedPreviewImageIndex: index
+    }))
   }
 
   render() {
@@ -190,11 +216,11 @@ export default class RelatedProducts extends React.Component {
         </BackArrow>
         <Carousel>
           <Content absoluteLeft={this.state.absoluteLeft}>
-            {relatedProducts.map(product => {
+            {relatedProducts.map((product, index) => {
               const {id, ratings, name, features, defaultStyle, category} = product;
               const {original_price, sale_price, photos} = defaultStyle;
               return (
-                <Card key={id}>
+                <Card>
                   {!photos || !photos[0].thumbnail_url ?
                     <NoImage>
                       <MdOutlineHideImage/>
@@ -208,18 +234,24 @@ export default class RelatedProducts extends React.Component {
                         <ThumbnailCarousel
                           id={id}
                           photos={photos}
+                          selectedPreviewImageIndex={this.state.selectedPreviewImageIndex}
                           handleChangePreviewImageClick={this.handleChangePreviewImageClick}
                         />
                       }
                     </Image>
                   }
                   <Star color={this.state.clickedStar === `${id}star`? '#378f1e' : '#ffc107'} onClick={() => this.handleCompareStarClick({name, features}, `${id}star`)}/>
-                  <TextBox>
-                    <small>{category}</small>
-                    <Heading5>{name}</Heading5>
-                    <small>{original_price}</small>
-                    <StarRating ratings={ratings} showAve={false}/>
-                  </TextBox>
+                  <StyledLink to={`/${id}`} key={index}>
+                    <TextBox>
+                      <small>{category}</small>
+                      <Heading5>{name}</Heading5>
+                      <Price>
+                        {sale_price && <SalePrice>{sale_price}</SalePrice>}
+                        <OriginalPrice lineThrough={sale_price ? 'line-through' : 'none'}>{original_price}</OriginalPrice>
+                      </Price>
+                      <StarRating ratings={ratings} showAve={false}/>
+                    </TextBox>
+                  </StyledLink>
                 </Card>
               )
             })}
@@ -241,3 +273,4 @@ export default class RelatedProducts extends React.Component {
     )
   }
 }
+

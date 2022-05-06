@@ -68,7 +68,7 @@ const GlobalStyle = createGlobalStyle`
     margin-bottom: 12px;
   }
 
-  input {
+  input, textarea {
     font-size: 1rem;
     padding: 10px 24px 10px 10px;
     border: 1px solid var(--color-grey-100);

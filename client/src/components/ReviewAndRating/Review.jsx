@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 import StarRating from './StarRating.jsx';
+import HighlightedText from './HighlightedText.jsx';
 import {MdCheckCircle, MdOutlineClose} from 'react-icons/md'
 import {FcCheckmark} from "react-icons/fc";
 
@@ -26,6 +27,7 @@ export const Image = styled.div`
     background-size: cover;
     background-position: center;
     border: 1px solid #b4b4b4;
+    border-radius: 4px;
   }
 
  &:hover {
@@ -111,14 +113,23 @@ const Segment = styled.span`
 const ReportLink = styled.small`
   & {
     text-decoration: underline;
+    color: #378f1e;
+    cursor: pointer;
   }
   &:hover {
-    color: #FF0000;
     font-weight: 900
   }
 `
-const Reported = styled.small`
-  color: #FF0000;
+
+const Response = styled.div`
+  background-color: #d4d4d4;
+  padding: 15px 20px;
+  margin-bottom: 15px;
+`;
+
+const ResponseTitle = styled.p`
+  margin: 0 0 5px 0;
+  font-weight: 500;
 `;
 
 
@@ -174,7 +185,7 @@ export default class Review extends React.Component{
   }
 
   render() {
-    const {review, voteForReview} = this.props;
+    const {review, voteForReview, search} = this.props;
     const {review_id, reviewer_name, summary, body, date, helpfulness, photos, rating, recommend, response} = review;
     const dateObj = new Date(date);
     var options = {
@@ -183,6 +194,8 @@ export default class Review extends React.Component{
       day: 'numeric'
     };
     var formatedDate = dateObj.toLocaleDateString('en-US', options);
+
+
     return (
       <Container>
         <RatingAndName>
@@ -191,8 +204,8 @@ export default class Review extends React.Component{
         </RatingAndName>
         <h4>{summary}</h4>
         {body.length <= 250 ?
-          <p>{body}</p> :
-          !this.state.showMore ? <p>{body.slice(0, 250)}...<ShowMoreLink onClick={this.handleShowMoreBtnClick}>Show more</ShowMoreLink></p> : <p>{body}</p>
+          <p><HighlightedText text={body} highlight={search} /></p> :
+          !this.state.showMore ? <p><HighlightedText text={body.slice(0, 250)} highlight={search} />...<ShowMoreLink onClick={this.handleShowMoreBtnClick}>Show more</ShowMoreLink></p> : <p><HighlightedText text={body} highlight={search} /></p>
         }
         {photos.length > 0 && photos.map(photo => <Image key={photo.url} url={photo.url} onClick={() => this.handleImageClick(photo.url)} />)}
         {this.state.showModal &&
@@ -201,7 +214,7 @@ export default class Review extends React.Component{
           <ModelImg src={this.state.showModal} />
         </Modal>}
         {recommend? <p><FcCheckmark /> I recommend this product</p> : ''}
-        {response ? <div><h4>Response</h4><p>{response}</p></div>: ''}
+        {response ? <Response><ResponseTitle>Response</ResponseTitle><small>{response}</small></Response>: ''}
         <div>
           <small>Helpful? </small>
           {this.state.helpfulnessVote ?
@@ -216,7 +229,7 @@ export default class Review extends React.Component{
             </>
           }
           <Segment>|</Segment>
-          {this.state.report ? <ReportLink onClick={() => this.handleReportClick(review_id)}>Report</ReportLink> : <Reported>Reported</Reported>}
+          {this.state.report ? <ReportLink onClick={() => this.handleReportClick(review_id)}>Report</ReportLink> : <small>Reported</small>}
         </div>
       </Container>
     )

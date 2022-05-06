@@ -10,17 +10,16 @@ import { Question } from './Question.jsx';
 const Container = styled.div`
     display: flex;
     flex-direction: column;
-    align-items: center;
+    margin: 60px 0;
 `;
 
 const SearchBar = styled.input`
-    width: 50%;
+    width: 100%;
     height: 50px;
 `;
 
 const QABlock = styled.div`
-    width: 50%;
-    margin: 20px;
+    margin: 0 20px;
     padding: 20px;
 `;
 
@@ -37,6 +36,11 @@ const Button = styled.button`
   padding: 15px 30px;
   margin-right: 40px;
 `;
+
+const QuestionAction = styled.span`
+    text-decoration: underline;
+    cursor: pointer;
+`
 
 // By default, on page load up to two questions should be displayed. Therefore, initial showCount is 2
 export class QuestionAnswer extends React.Component {
@@ -68,14 +72,14 @@ export class QuestionAnswer extends React.Component {
 
     // Questions should appear in order of ‘helpfulness’, corresponding to how many users have indicated that the question was helpful.
     getData() {
-        fetch(`/qa/questions?product_id=${this.props.productId}`)
-            .then(response => response.json())
-            .then(data => {
-                data.results.sort((a, b) => {
-                    return b.question_helpfulness - a.question_helpfulness
+            fetch(`/qa/questions?product_id=${this.props.productId}`)
+                .then(response => response.json())
+                .then(data => {
+                    data.results.sort((a, b) => {
+                        return b.question_helpfulness - a.question_helpfulness
+                    });
+                    this.setState({ qas: data.results })
                 });
-                this.setState({ qas: data.results })
-            });
     }
 
     // The remaining questions/answers should be hidden until the user loads them using the “More Answered Questions” button
@@ -123,7 +127,7 @@ export class QuestionAnswer extends React.Component {
 
         return (
             <Container>
-                <h2>Questions and Answers</h2>
+                <h5>QUESTIONS & ANSWERS</h5>
                 <SearchBar type="text" placeholder='HAVE A QUESTION? SEARCH FOR ANSWERS...' onChange={(e) => this.setSearchTerm(e.target.value)}  />
                 {qasToRender.map((qa) => {
                     const answersPrioritizingSeller = Object.values(qa.answers).sort((a, b) => {
@@ -137,7 +141,11 @@ export class QuestionAnswer extends React.Component {
 
                     return (
                     <QABlock key={qa.question_id}>
-                        <Question qa={qa} productId={this.props.productId}/>
+                        <Question qa={qa} productId={this.props.productId}>
+                            <QuestionAction onClick={() => this.openAnswerModal(qa.question_id)}>
+                                Add answer
+                            </QuestionAction>
+                        </Question>
                         <AnswersGroup answers={answersPrioritizingSeller} />
                     </QABlock>);
                 })}
@@ -154,24 +162,17 @@ export class QuestionAnswer extends React.Component {
                     close={() => this.closeQuestionModal()}
                     productId={this.props.productId}
                     overview={this.props.overview}
-                >
-                    Placeholder
-                </ModalQuestion>
-
+                />
                 <ModalAnswer
                     questionId={selectedQuestion}
                     isOpen={modalAnswerOpen}
                     close={() => this.closeAnswerModal()}
                     productId={this.props.productId}
                     overview={this.props.overview}
-                >
-                    Placeholder
-                </ModalAnswer>
-
+                />
             </Container>
         )
     }
 }
 
-// export default QuestionAnswer;
 export default withAnalytics(QuestionAnswer, 'questionAnswer');

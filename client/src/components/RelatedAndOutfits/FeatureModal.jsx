@@ -57,7 +57,7 @@ export default class FeatureModal extends React.Component{
 
   getFeatureValue(targetFeature, featureArr) {
     var value = featureArr.reduce((value, obj) => value = obj.feature === targetFeature ? value + obj.value : value, '');
-    console.log(value);
+    // console.log(value);
     return value;
   }
 

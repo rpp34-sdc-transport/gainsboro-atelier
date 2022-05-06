@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import {Title, ErrMessage} from './AddReview.jsx';
+import {Title, ErrMessage, Input} from './AddReview.jsx';
 import {Image} from './Review.jsx';
 import {MdErrorOutline} from "react-icons/md";
 import {AiOutlineCloseCircle} from "react-icons/ai";
@@ -19,8 +19,8 @@ const CloseCircle = styled(AiOutlineCloseCircle)`
   position: absolute;
   top: -5px;
   right: -10px;
-  color: #F20000;
-  background: white;
+  color: gray;
+  background: beige;
   border-radius: 50%;
 `;
 
@@ -37,7 +37,7 @@ export default class ImageUpload extends React.Component {
       <>
         <Title>Upload your photos</Title>
         <div>
-          <input
+          <Input
             type="file"
             name="photos"
             accept="image/png, image/jpeg, image/jpg"

@@ -9,7 +9,8 @@
     "test-overview-coverage": "jest client/src/components/__tests__/overview --coverage",
     "test-coverage": "jest --coverage",
     "server-dev": "nodemon server/server.js",
-    "react-dev": "webpack  --watch --mode development"
+    "react-dev": "webpack  --watch --mode development",
+    "build": "webpack --mode production"
   },
   "repository": {
     "type": "git",

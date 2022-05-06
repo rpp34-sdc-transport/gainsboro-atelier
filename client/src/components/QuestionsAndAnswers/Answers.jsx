@@ -23,12 +23,15 @@ const Count = styled.span`
 `;
 
 const CheckCircle = styled(MdCheckCircle)`
-  color: #378f1e;s
-`
+  color: #378f1e;
+`;
 
 const Message = styled.span`
-  color: #378f1e;
   margin-left: 5px;
+`;
+
+const ColoredMessage = styled(Message)`
+    color: #378f1e;
 `;
 
 
@@ -97,29 +100,31 @@ class Answer extends React.Component {
             <div key={this.props.body} >
                 <span style={{ fontWeight: 600 }}>A:</span> {this.props.body}
             </div>
-            <div>
-                by {this.props.answerer_name}, {formatedDate} | Helpful? 
-                {this.state.helpfulVoted ? 
-                    <>
-                        <Count>({this.props.helpfulness + 1})</Count>
-                        <CheckCircle />
-                        <Message>Thank you for your feedback.</Message>
-                    </> :
-                    <>
-                        <VoteLink onClick={() => this.saveHelpful()}>Yes</VoteLink>
-                        <Count>({this.props.helpfulness})</Count>
-                    </> 
+            <p>
+                <small>
+                    by {this.props.answerer_name}, {formatedDate} | Helpful? 
+                    {this.state.helpfulVoted ? 
+                        <>
+                            <Count>({this.props.helpfulness + 1})</Count>
+                            <CheckCircle />
+                            <ColoredMessage>Thank you for your feedback.</ColoredMessage>
+                        </> :
+                        <>
+                            <VoteLink onClick={() => this.saveHelpful()}>Yes</VoteLink>
+                            <Count>({this.props.helpfulness})</Count>
+                        </> 
+                    }
+                <span>| </span>
+                {this.state.reported ? 
+                        <>
+                            <Message>Reported</Message>
+                        </> :
+                        <>
+                            <VoteLink onClick={() => this.report()}>Report</VoteLink>
+                        </> 
                 }
-            <span>| </span>
-            {this.state.reported ? 
-                    <>
-                        <VoteLink>Reported</VoteLink>
-                    </> :
-                    <>
-                        <VoteLink onClick={() => this.report()}>Report</VoteLink>
-                    </> 
-            }
-             </div>
+                </small>       
+             </p>
         </>
         )
     }
@@ -144,12 +149,12 @@ export class AnswersGroup extends React.Component {
         const answersToRender = this.state.expanded ? this.props.answers : this.props.answers.slice(0, 2);
 
         return (
-        <>
+        <div>
             {answersToRender.map((ans) => <Answer key={ans.body} {...ans} />)}
             <button onClick={this.flipExpanded}>
                 {this.state.expanded ? 'Show less answers' : 'Load more answers'}
             </button>
-        </>)
+        </div>)
     }
 }
 

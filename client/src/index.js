@@ -6,8 +6,8 @@ import App from './components/App.jsx';
 ReactDOM.render(
   <BrowserRouter>
     <Routes>
-      <Route path="/" element={<App/>}/>
-      <Route path=":productId" element={<App/>} />
+      <Route path="/" element={<App />}/>
+      <Route path=":productId" element={<App />} />
     </Routes>
   </BrowserRouter>,
   document.getElementById('app')
