@@ -113,6 +113,11 @@ export default class AddToCart extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  componentDidMount(){
+    this.setState({
+      addedOutfit: this.props.addedOutfit
+    })
+  }
 
   componentDidUpdate(){
     //handle a style change by updating the sku to reflect the same size
@@ -128,6 +133,7 @@ export default class AddToCart extends React.Component {
       let selectedQuantity = this.state.selectedQuantity > maxQuantity ? 1 : this.state.selectedQuantity;
 
       this.setState({
+        addedOutfit: this.props.addedOutfit,
         selectedQuantity: selectedQuantity,
         selectedSku: newSku,
         maxQuantity: maxQuantity,

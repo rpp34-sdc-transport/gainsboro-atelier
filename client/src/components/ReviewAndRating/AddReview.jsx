@@ -263,7 +263,7 @@ export default class AddReview extends React.Component{
           <Form onSubmit={this.handleFormSubmit}>
             <Container>
               <Section>
-                <Title>Overall rating:</Title>
+                <Title>Overall rating:<Asterisk/></Title>
                 <StarResultDiv>
                   <div>
                     {[1, 2, 3, 4, 5].map(num =>

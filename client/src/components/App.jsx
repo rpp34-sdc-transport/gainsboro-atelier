@@ -17,6 +17,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state= {
+      addedOutfit: false,
       currentStyle: 0,
       overview: {},
       overviewStyle: {},
@@ -39,7 +40,9 @@ class App extends React.Component {
 
   componentDidUpdate(prevProps) {
     if(this.props.params.productId !== prevProps.params.productId) {
+      const addedOutfit = this.state.outfitList.reduce((result, outfit) => result = outfit.id === this.state['product_id'] ? true : result, false);
       this.setState({
+        addedOutfit: addedOutfit,
         product_id: this.props.params.productId
       }, this.fetchDataFromAPI);
     }
@@ -167,6 +170,7 @@ class App extends React.Component {
           productId={this.state.product_id}
           ratings={this.state.meta.ratings}
           removeOutfit={this.handleRemoveOutfitFromListClick}
+          addedOutfit={this.state.addedOutfit}
           />
         }
         <RelatedAndOutfits

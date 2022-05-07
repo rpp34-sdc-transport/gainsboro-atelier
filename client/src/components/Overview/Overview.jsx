@@ -102,7 +102,7 @@ export default class Overview extends React.Component {
 
   render() {
     const {category, default_price, description, features, id, name, slogan, styleData = []} = this.props.data;
-    const { addOutfit, changeStyle, currentStyle, productId, removeOutfit } = this.props;
+    const { addOutfit, addedOutfit, changeStyle, currentStyle, productId, removeOutfit } = this.props;
 
     //Add discounted price if available
     let price = this.state.salePrice === null ?
@@ -140,7 +140,7 @@ export default class Overview extends React.Component {
               changeStylePrice={this.changeStylePrice} currentStyle={currentStyle}
               styles={styleData}
             />
-            <AddToCart addOutfit={addOutfit} productId={productId} removeOutfit={removeOutfit} skus={styleData[currentStyle]['skus']}/>
+            <AddToCart addOutfit={addOutfit} addedOutfit={addedOutfit} productId={productId} removeOutfit={removeOutfit} skus={styleData[currentStyle]['skus']}/>
           </FlexColumn>
         </Flexcontainer>
         <Text>
