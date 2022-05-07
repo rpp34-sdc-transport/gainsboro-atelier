@@ -6,11 +6,14 @@ const GlobalStyle = createGlobalStyle`
     --color-brand-100: #F0F4FF;
     --color-brand-200: #C6D9FE;
     --color-brand-300: #2A66DF;
+    --color-brand-400: #1B50BA;
+    --color-grey-050: #EBEBEB;
     --color-grey-100: #949494;
     --color-grey-200: #707070;
     --color-grey-300: #4D4D4D;
     --color-grey-400: #262626;
     --color-yellow-100: #ffc107;
+    --space-div-xl: 1280px;
   }
 
   * {
@@ -47,6 +50,14 @@ const GlobalStyle = createGlobalStyle`
   h5 {
     font-size: 1.125rem;
     text-transform: uppercase;
+  }
+
+  h6 {
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    margin-top: 0px;
+    margin-bottom: 12px;
   }
 
   p {

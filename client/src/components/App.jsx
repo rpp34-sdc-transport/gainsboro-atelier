@@ -94,6 +94,7 @@ class App extends React.Component {
   }
 
   changeStyle(index){
+    console.log('index is: ', index);
     this.setState({
       currentStyle: index,
     })

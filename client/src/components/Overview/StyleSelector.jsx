@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import styled from 'styled-components';
-import { MdCheck } from "react-icons/md";
+import { MdCheck, MdOutlineHideImage } from "react-icons/md";
 
 const Styles = styled.div`
   display: flex;
@@ -10,19 +10,55 @@ const Styles = styled.div`
   width: 350px;
 `;
 
-const Style = styled.div`
-  width: 64px;
-  margin-right: 16px;
-  margin-bottom: 16px;
-  margin-top: 0px;
-  position: relative;
+const StyleWrapper = styled.div`
+  &{
+    width: 64px;
+    height: 64px;
+    margin-right: 16px;
+    margin-bottom: 16px;
+    margin-top: 0px;
+    position: relative;
+  }
+
+  &:focus {
+    border-radius: 50%;
+    outline: 4px solid var(--color-brand-200);
+  }
 `;
 
-const ThumbnailWrapper = styled.div`
+const ThumbnailEmpty = styled.div`
   border-radius: 50%;
   width: 64px;
   height: 64px;
-  overflow: hidden;
+  margin-right: 16px;
+  margin-bottom: 16px;
+  font-size: 24px;
+  color: var(--color-grey-300);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0px;
+  background-color: var(--color-grey-050);
+`;
+
+const Thumbnail = styled.div`
+  & {
+    border-radius: 50%;
+    width: 64px;
+    height: 64px;
+    overflow: hidden;
+    background-image: url(${props => props.url});
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  &:hover {
+    opacity: ${props => props.selected ? '1' : '0.7'};
+    cursor: ${props => props.selected ? 'default' : 'pointer'}
+  }
+
+  &:active {
+    outline: 4px solid var(--color-brand-200);
   }
 `;
 
@@ -43,47 +79,46 @@ const Selected = styled.div`
   right: 0px
 `;
 
-const P = styled.p`
-  margin-top: 0px;
-`;
-
 export default function StyleSelector ({changeStyle, changeStylePrice, currentStyle, styles}) {
   const [landscapeOrientations, setLandscapeOrientation] = useState([]);
 
-  const styleThumbnails = styles.map((style, index)=> {
-    let selected;
-    let imageUrl = style['photos'][0]['thumbnail_url'];
-    if (index === currentStyle) {
-      selected = <Selected><MdCheck/></Selected>;
-    }
-
-    return (
-      <Style
-        onClick={()=>{changeStyle(index); changeStylePrice(index);}}
-        key={style.style_id}
-      >
-        <ThumbnailWrapper>
-          <Img
-            src={imageUrl}
-            landscapeOrientation={landscapeOrientations[index] || false}
-            onLoad={(e)=>{
-              let landscape = e.target.offsetWidth > e.target.offsetHeight ? true : false;
-              let orientations = [...landscapeOrientations];
-              orientations[index] = landscape;
-              setLandscapeOrientation(orientations);
-            }}
-          />
-          {selected}
-        </ThumbnailWrapper>
-      </Style>
-    )
-  });
+  const styleOptions = styles.map((style, index)=> (
+    <StyleWrapper
+      aria-label={"style option"}
+      role={"style-option"}
+      aria-selected={index === currentStyle ? true : false}
+      key={style.style_id}
+      tabIndex={index === currentStyle ? null : "0"}
+      onKeyPress={(event)=>{
+        if (event.key === 'Enter') {
+          changeStyle(index);
+          changeStylePrice(index);
+        }
+      }}
+      onClick={()=>{changeStyle(index); changeStylePrice(index);}}
+    >
+      {style['photos'][0]['thumbnail_url'] ? (
+        <Thumbnail
+          selected={index === currentStyle ? true : false}
+          alt={`product style ${index}`}
+          url={style['photos'][0]['thumbnail_url']}
+        >
+        </Thumbnail>
+      ):(
+        <ThumbnailEmpty>
+          <MdOutlineHideImage/>
+        </ThumbnailEmpty>
+      )
+      }
+      {index === currentStyle && <Selected aria-label='selected style' role='selected-style'><MdCheck/></Selected>}
+    </StyleWrapper>
+  ));
 
   return (
     <div>
-      <P><strong>Style: </strong>{styles[currentStyle]['name']}</P>
+      <h6><strong>Style: </strong>{styles[currentStyle]['name']}</h6>
       <Styles>
-        {styleThumbnails}
+        {styleOptions}
       </Styles>
     </div>
   )

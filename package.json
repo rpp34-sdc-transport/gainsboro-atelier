@@ -5,6 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "jest",
+    "test-overview": "jest client/src/components/__tests__/overview",
+    "test-overview-coverage": "jest client/src/components/__tests__/overview --coverage",
     "test-coverage": "jest --coverage",
     "server-dev": "nodemon server/server.js",
     "server": "pm2 -f server/server.js",

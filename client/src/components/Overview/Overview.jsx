@@ -6,7 +6,9 @@ import StyleSelector from './StyleSelector.jsx';
 import StarRating from '../ReviewAndRating/StarRating.jsx'
 
 const OverviewContainer = styled.div`
+  margin-top: 64px;
   margin-bottom: 64px;
+  padding-left: 80px;
 `;
 
 const FlexRow = styled.div`
@@ -28,7 +30,19 @@ const Flexcontainer = styled.div`
 `;
 
 const SmallLink = styled.p`
-  text-decoration: underline
+
+  &{
+    margin-bottom: 0px;
+    text-decoration: underline;
+  }
+  &:hover{
+    color: var(--color-brand-300);
+    cursor: pointer
+  }
+
+  &:active{
+    color: var(--color-brand-400);
+  }
 `;
 
 const DiscountedPrice = styled.p`
@@ -59,7 +73,7 @@ const H5 = styled.h5`
 
 const Text = styled.div`
   padding: 0px 80px;
-  margin-top: 32px;
+  margin-top: 48px;
 `;
 
 const Strong = styled.strong`
@@ -113,7 +127,10 @@ export default class Overview extends React.Component {
               <Stars>
                 <StarRating ratings={this.props.ratings} showAve={false}/>
               </Stars>
-              <SmallLink>Read all reviews</SmallLink>
+              <SmallLink tabIndex="0"
+                onClick={()=>{document.getElementById('reviews').scrollIntoView({behavior: "smooth"});}}
+                onKeyPress={()=>{ if (event.key === "Enter") {document.getElementById('reviews').scrollIntoView({behavior: "smooth"});}}}
+              >Read all reviews</SmallLink>
             </FlexRow>
             <H5>{category}</H5>
             <H2>{name}</H2>
