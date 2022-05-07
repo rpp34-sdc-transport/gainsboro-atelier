@@ -2,7 +2,7 @@ const path = require("path")
 const express = require("express");
 const multer = require("multer");
 const axios = require("axios");
-const compression = require('compression');
+const compression = require('compression')
 const bodyParser = require("body-parser");
 const {token} = require("../config.js");
 const uploadImages = require("../imageAPI/imageAPI.js");
@@ -15,6 +15,7 @@ const app = express();
 const PORT = 3000;
 const apiHost = 'https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp';
 
+// compress all requests
 app.use(compression());
 app.use(express.static(path.join(__dirname, "/../client/dist")));
 app.use(bodyParser.json());
