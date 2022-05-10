@@ -67,7 +67,7 @@ export class ModalQuestion extends React.Component {
             },
             body: JSON.stringify({
                 ...this.state,
-                product_id: this.props.productId
+                product_id: parseInt(this.props.productId),
             })
         })
         .then(() => {
