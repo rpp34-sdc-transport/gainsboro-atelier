@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { UploadPhotos } from './UploadPhotos.jsx';
-import { cloudName, uploadPreset } from '../../../../config';
+import { cloudinaryInfo, uploadPreset } from '../../../../config';
 
 const ModalBody = styled.div`
     display: none; /* Hidden by default */
@@ -58,8 +58,8 @@ export class ModalAnswer extends React.Component {
         const data = new FormData();
         data.append("file", image);
         data.append("upload_preset", uploadPreset);
-        data.append("cloud_name", cloudName);
-        return fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+        data.append("cloud_name", cloudinaryInfo.cloud_name);
+        return fetch(`https://api.cloudinary.com/v1_1/${cloudinaryInfo.cloud_name}/image/upload`, {
                 method:"post",
                 body: data
             })
@@ -79,7 +79,7 @@ export class ModalAnswer extends React.Component {
                 },
                 body: JSON.stringify({
                     ...this.state,
-                    product_id: this.props.productId,
+                    product_id: parseInt(this.props.productId),
                     photos: picUrls,
                 })
             })
