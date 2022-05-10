@@ -67,6 +67,12 @@ export class QuestionAnswer extends React.Component {
         this.getData();
     }
 
+    componentDidUpdate(prevProps) {
+        if (this.props.productId !== prevProps.productId) {
+          this.getData();
+        }
+      }
+
     setSearchTerm(searchTerm) {
         this.setState({ searchTerm });
     }
