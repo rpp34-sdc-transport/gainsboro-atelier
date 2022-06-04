@@ -6,3 +6,4 @@ coverage
 awsSetup.txt
 login.sh
 .env
+.DS_Store

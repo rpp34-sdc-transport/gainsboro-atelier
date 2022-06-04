@@ -168,6 +168,7 @@ app.post('/reviews', upload.array("images"), (req, res) => {
         'content-type': 'application/json'
       }
     }
+    console.log("FORM DATA!!",formData)
     return axios.post(`${apiHost}/reviews`, formData, config)
   })
   .then(data => {
