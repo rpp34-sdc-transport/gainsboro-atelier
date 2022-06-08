@@ -3,7 +3,7 @@ const axios = require("axios");
 const {token} = require("../config.js");
 const bodyParser = require("body-parser");
 
-const apiHost = 'https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp';
+const apiHost = 'http://localhost:3001';
 const jsonParser = bodyParser.json();
 
 const qaRouter = express.Router({mergeParams: true});
