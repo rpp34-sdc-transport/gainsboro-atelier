@@ -14,6 +14,7 @@ const jsonParser = bodyParser.json();
 const app = express();
 const PORT = 3000;
 const apiHost = 'https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp';
+const reviewAPIhost = 'http://localhost:3001'
 
 // compress all requests
 app.use(compression());
@@ -119,7 +120,7 @@ app.get('/products/:product_id/related', (req, res) => {
 
 app.get('/reviews', (req, res) => {
   var {product_id, sort, count} = req.query;
-  var url = `${apiHost}/reviews?product_id=${product_id}&sort=${sort}&count=${count}`;
+  var url = `${reviewAPIhost}/reviews?product_id=${product_id}&sort=${sort}&count=${count}`;
   axios.get(url, options)
   .then(data => {
     res.send(data.data.results)
@@ -129,7 +130,7 @@ app.get('/reviews', (req, res) => {
 
 
 app.put('/reviews/:review_id/helpful', (req, res) => {
-  var url = `${apiHost}/reviews/${req.params["review_id"]}/helpful`;
+  var url = `${reviewAPIhost}/reviews/${req.params["review_id"]}/helpful`;
   axios.put(url, {}, options)
   .then(data => {
     res.sendStatus(data.status);
@@ -138,7 +139,7 @@ app.put('/reviews/:review_id/helpful', (req, res) => {
 })
 
 app.get('/reviews/meta/:product_id', (req, res) => {
-  var url = `${apiHost}/reviews/meta?product_id=${req.params.product_id}`;
+  var url = `${reviewAPIhost}/reviews/meta?product_id=${req.params.product_id}`;
   axios.get(url, options)
   .then(data => {
     res.send(data.data)
@@ -169,7 +170,7 @@ app.post('/reviews', upload.array("images"), (req, res) => {
       }
     }
     console.log("FORM DATA!!",formData)
-    return axios.post(`${apiHost}/reviews`, formData, config)
+    return axios.post(`${reviewAPIhost}/reviews`, formData, config)
   })
   .then(data => {
     res.send(data.data)
@@ -180,7 +181,7 @@ app.post('/reviews', upload.array("images"), (req, res) => {
 })
 
 app.put('/reviews/:review_id/report', (req, res) => {
-  var url = `${apiHost}/reviews/${req.params["review_id"]}/report`;
+  var url = `${reviewAPIhost}/reviews/${req.params["review_id"]}/report`;
   axios.put(url, {}, options)
   .then(data => {
     res.sendStatus(data.status);
